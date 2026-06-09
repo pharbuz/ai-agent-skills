@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# AutomatedLab artifacts (should never be committed if someone runs labs here)
+*.iso
+LabSources/
+AutomatedLab-VMs/
