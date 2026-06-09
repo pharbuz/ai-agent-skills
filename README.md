@@ -1,60 +1,94 @@
-# automatedlab-skill
+# ai-agent-skills
 
-An AI-agent **skill** for [AutomatedLab](https://automatedlab.org/en/latest/) —
-the PowerShell framework for building virtual machine labs on Hyper-V and Azure.
+A collection of [agent skills](https://skills.sh) — reusable instruction sets
+that extend AI coding agents (Claude Code, Codex, Cursor, OpenCode, and
+[many more](https://skills.sh)). Each skill is a directory with a `SKILL.md`
+file; this repo bundles several so they can be installed and shared from one
+place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 
-The skill teaches an agent (Claude Code / any skill-aware agent) how to author and
-manage AutomatedLab deployments: the define → deploy → customize → manage
-workflow, the core cmdlets, the role catalogue, networking, Azure, and a set of
-ready-to-run example lab scripts.
+## Skills in this repo
 
-## What's inside
+| Skill | What it does |
+|-------|--------------|
+| [`automatedlab`](skills/automatedlab/) | Build & manage Hyper-V/Azure VM labs with the AutomatedLab PowerShell framework |
+| [`dynatrace-developer`](skills/dynatrace-developer/) | Build Dynatrace apps with the Strato design system — components, design tokens, charts, and patterns |
 
-```
-automatedlab/                  ← the skill (copy this folder into your skills dir)
-├── SKILL.md                   ← entry point: workflow, cheat sheet, recipes
-├── references/
-│   ├── install.md             ← installing AL, LabSources, host setup
-│   ├── cmdlets.md             ← full cmdlet reference by phase
-│   ├── roles.md               ← every role + AD / SQL / PKI tuning
-│   ├── networking.md          ← subnets, internet, DMZ, Azure VNet
-│   ├── customizing.md         ← Invoke-LabCommand, software, features, CredSSP
-│   ├── azure.md               ← Azure and Azure Stack Hub
-│   └── lab-management.md      ← import, modify, snapshots, offline, Remove-Lab
-└── examples/
-    ├── 01-single-server.ps1
-    ├── 02-domain-sql-client.ps1
-    ├── 03-multi-forest.ps1
-    ├── 04-internet-and-software.ps1
-    ├── 05-azure-lab.ps1
-    └── 06-linux-lab.ps1
-```
+## Install
 
-## Installing the skill
-
-Copy the `automatedlab/` folder into the location your agent reads skills from,
-for example:
+Replace `<owner>` with your GitHub account (the repo's `owner/name` is the
+install path on skills.sh).
 
 ```bash
-# Global agent skills
-cp -r automatedlab ~/.agents/skills/
+# Install all skills from this repo (pick your agent when prompted)
+npx skills add <owner>/ai-agent-skills
 
-# or a project-local skills folder
-cp -r automatedlab .agents/skills/
+# List what's inside without installing
+npx skills add <owner>/ai-agent-skills --list
+
+# Install a single skill, globally, for Claude Code
+npx skills add <owner>/ai-agent-skills --skill dynatrace-developer -g -a claude-code
 ```
 
-The agent loads `SKILL.md` automatically and pulls in the `references/` and
-`examples/` files as needed.
+Use a skill once without installing it:
 
-## How the skill is organized
+```bash
+npx skills use <owner>/ai-agent-skills@automatedlab | claude
+```
 
-It follows progressive disclosure: `SKILL.md` is the always-loaded core (the
-4-phase mental model, a cmdlet cheat sheet, and a recipe for generating lab
-scripts on request), and it points to the `references/` files for depth and the
-`examples/` scripts for copy-and-adapt starting points.
+### Manual install (no CLI)
 
-## Source
+Copy a skill folder into your agent's skills directory, e.g. for Claude Code:
 
-All content is derived from the official AutomatedLab documentation at
-<https://automatedlab.org/en/latest/>. AutomatedLab itself is MIT-licensed; this
-skill is provided under the MIT license too (see [LICENSE](LICENSE)).
+```bash
+cp -r skills/dynatrace-developer ~/.claude/skills/    # global
+# or, project-local, for agents that read .agents/skills:
+cp -r skills/dynatrace-developer .agents/skills/
+```
+
+## Repository layout
+
+skills.sh discovers every `skills/<name>/SKILL.md` automatically (the flat
+layout it walks one level deep):
+
+```
+ai-agent-skills/
+├── README.md
+├── LICENSE
+└── skills/
+    ├── automatedlab/
+    │   ├── SKILL.md            ← required: YAML frontmatter (name, description) + body
+    │   ├── references/         ← deep-dive docs loaded on demand
+    │   └── examples/           ← copy-and-adapt scripts
+    └── dynatrace-developer/
+        ├── SKILL.md
+        └── references/
+```
+
+## Adding a new skill
+
+1. Scaffold a folder under `skills/`:
+   ```bash
+   npx skills init skills/my-new-skill      # or create skills/my-new-skill/SKILL.md by hand
+   ```
+2. Give `SKILL.md` YAML frontmatter with a unique `name` and a `description`
+   that says **what it does and when to trigger** (the description is the main
+   thing that makes an agent reach for the skill).
+3. Keep `SKILL.md` lean (< ~500 lines) and push depth into `references/`.
+4. Commit. Once the repo is on GitHub, it's installable via the commands above.
+
+## Publishing to skills.sh
+
+skills.sh indexes public GitHub repos that contain `SKILL.md` files. Push this
+repo to GitHub and it's installable immediately with
+`npx skills add <owner>/ai-agent-skills`. The directory listing on
+<https://skills.sh> is sourced from GitHub — see the
+[skills CLI docs](https://github.com/vercel-labs/skills) for details and the
+`metadata.internal: true` frontmatter flag to keep a work-in-progress skill
+hidden from discovery.
+
+## License
+
+[MIT](LICENSE). Skill content is distilled from each tool's official
+documentation (AutomatedLab — <https://automatedlab.org>; Dynatrace Developer /
+Strato — <https://developer.dynatrace.com>); those projects retain their own
+licenses and trademarks.
