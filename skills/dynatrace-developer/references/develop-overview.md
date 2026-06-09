@@ -1,13 +1,20 @@
-# Develop (platform & SDKs) — overview & map
+# Develop (platform, SDKs, guides) — index
 
-This skill covers the **design system** (components, tokens, charts, icons) in
-depth. The **develop** side — app functions, SDKs, platform services — is mapped
-here with links into the live docs at <https://developer.dynatrace.com/develop/>.
-Fetch the specific page when you need the exact API; these areas change faster
-than the component library.
+The **develop** side of developer.dynatrace.com — how to build, wire up data,
+deploy, and test Dynatrace Platform apps — is captured in full in the
+`develop-*.md` reference files below. This page is the map; open the specific
+file for the scraped page content.
 
-> Want this section scraped into full reference files like the components are?
-> It's ~160 pages — ask and it can be added to the skill.
+| Area | Reference file | Covers |
+|------|----------------|--------|
+| Guides | [`develop-guides.md`](develop-guides.md) | app functions, data access/ingest/storage, navigation & intents, workflows, security, privacy, visualizing data, code optimization, keyboard shortcuts, deploy (53 pages) |
+| SDKs | [`develop-sdks.md`](develop-sdks.md) | every `@dynatrace-sdk/*` module (overview + latest version): query, document, automation, IAM, settings, state, notifications, app-environment, react-hooks, … |
+| Platform services | [`develop-platform-services.md`](develop-platform-services.md) | core concepts (auth, versions, error handling, filtering, locking) + each service (Grail, automation, documents, settings, notifications, …) |
+| Reference | [`develop-reference.md`](develop-reference.md) | APIs (classic/latest), JavaScript runtime, metric units, React style guide, automation-action React components |
+| Extensions | [`develop-extensions.md`](develop-extensions.md) | Extensions 2.0 + the Dynatrace Extensions VS Code add-on |
+| Test & troubleshoot | [`develop-test-troubleshoot.md`](develop-test-troubleshoot.md) | unit/E2E testing, debugging apps & app functions, connectivity |
+
+Live docs: <https://developer.dynatrace.com/develop/>.
 
 ## App development model
 
@@ -22,12 +29,10 @@ npx dt-app deploy     # deploy to your environment
 npx dt-app update     # update all @dynatrace/strato-* packages
 ```
 
-Guides: <https://developer.dynatrace.com/develop/> (app-functions, data,
-deploy-your-app, code-optimization, dynatrace-intelligence, navigation, …).
+## SDKs (`@dynatrace-sdk/*`) — quick map
 
-## SDKs (`@dynatrace-sdk/*`)
-
-The platform SDKs are published under the `@dynatrace-sdk/` npm scope. Highlights:
+The platform SDKs are published under the `@dynatrace-sdk/` npm scope. Full,
+scraped detail is in [`develop-sdks.md`](develop-sdks.md); this is the at-a-glance index:
 
 | Area | SDK / module | Use for |
 |------|--------------|---------|
@@ -36,34 +41,15 @@ The platform SDKs are published under the `@dynatrace-sdk/` npm scope. Highlight
 | Query | `client-query` | run DQL / Grail queries from an app |
 | Documents | `client-document` | store/read app documents |
 | Automation | `client-automation`, `automation-utils` | workflows & automation |
-| Settings | `client-app-settings`, `client-app-settings-v2`, `client-state` | app settings & state |
+| Settings / state | `client-app-settings`, `client-app-settings-v2`, `client-state` | app settings & state |
 | IAM | `client-iam` | identity & access |
 | Notifications | `client-notification`, `client-notification-v2` | send notifications |
 | Buckets / storage | `client-bucket-management`, `client-resource-store` | data retention & resources |
 | Classic env | `client-classic-environment-v1`/`v2` | call classic Dynatrace APIs |
 | Other | `client-hub`, `client-davis-analyzers`, `client-filter-segment-management`, `client-platform-management-service`, `client-app-engine-registry`, `client-app-engine-edge-connect` | hub, Davis AI, segments, platform mgmt, edge connect |
 
-SDK reference: <https://developer.dynatrace.com/develop/sdks/>.
-
-## Platform services
-
-Core concepts and the catalog of platform services:
-<https://developer.dynatrace.com/develop/platform-services/> (core-concepts,
-services).
-
-## Reference
-
-- **APIs**: <https://developer.dynatrace.com/develop/reference/apis/>
-- **JavaScript runtime**: <https://developer.dynatrace.com/develop/reference/javascript-runtime/>
-- **React style guide**: <https://developer.dynatrace.com/develop/reference/react-style-guide/>
-- **Metric units**: <https://developer.dynatrace.com/develop/reference/metric-units/>
-
-## Extensions & testing
-
-- **Extensions**: <https://developer.dynatrace.com/extend/> and the develop
-  extensions guides — build Dynatrace Extensions (EF 2.0).
-- **Test & troubleshoot**: <https://developer.dynatrace.com/develop/test-and-troubleshoot/>
-  — testing apps and debugging common issues.
+> For calling the Dynatrace REST API from **async Python** (outside an app — e.g.
+> a backend service), see the separate `dt-async` skill in this repo.
 
 ## Quickstart & release notes
 

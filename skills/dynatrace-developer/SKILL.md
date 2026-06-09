@@ -166,5 +166,10 @@ Breakpoints, Animations. Details and the named scales →
   `typography.md`, `layouts.md`, `overlays.md`, `navigation.md`, `filters.md`,
   `notifications.md`, `editors.md` — component groups (import + overview + props)
 - `references/charts.md`, `geo-maps.md` — data visualizations
-- `references/develop-overview.md` — the platform/SDK side (guides, SDKs,
-  platform services) with links into the live docs
+- `references/develop-overview.md` — index/map of the platform/SDK side, fanning
+  out to the full develop references below
+- `references/develop-guides.md`, `develop-sdks.md`,
+  `develop-platform-services.md`, `develop-reference.md`,
+  `develop-extensions.md`, `develop-test-troubleshoot.md` — the complete
+  **develop** docs (app functions, data, SDKs, platform services, APIs,
+  extensions, testing)
