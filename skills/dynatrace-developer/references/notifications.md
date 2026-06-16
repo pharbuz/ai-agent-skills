@@ -29,6 +29,39 @@ refer to the notification sdk.
 
 #### Use resource notifications
 
+```tsx
+import { NotificationSettings } from '@dynatrace/strato-components/notifications';
+
+const BasicResource = () => {
+  return (
+    <NotificationSettings
+      type="resource"
+      config={{
+        resourceId: '996d8d4b-a7c8-4471-bbc0-88ffdd31b030',
+        notificationType: 'event-query',
+      }}
+    />
+  );
+};
+```
+
+```tsx
+import { NotificationSettings } from '@dynatrace/strato-components/notifications';
+
+const BasicResource = () => {
+  return (
+    <NotificationSettings
+      type="resource"
+      config={{
+        resourceId: '996d8d4b-a7c8-4471-bbc0-88ffdd31b030',
+        notificationType: 'event-query',
+      }}
+    />
+  );
+};
+```
+
+
 #### Customize the message content
 
 Use the children slot of the `NotificationSettings` component to customize the
@@ -168,6 +201,95 @@ the same toast `id`.
 You can display multiple toasts simultaneously. A maximum of five toasts can be
 displayed on the page at once. Additional toasts will be queued and appear when
 one of the first five toasts is closed.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  ToastContainer,
+  showToast,
+  type ToastOptions,
+} from '@dynatrace/strato-components/notifications';
+
+const MultipleToasts = () => {
+  const handleMultipleToast = () => {
+    const options: Record<number, ToastOptions> = {
+      0: { type: 'info', title: 'Info' },
+      1: { type: 'warning', title: 'Warning!' },
+      2: { type: 'critical', title: 'Error!' },
+    };
+
+    showToast({
+      ...options[0],
+      lifespan: 4000,
+      message: 'This is a place to add an optional detail text to the Toast.',
+    });
+    showToast({
+      ...options[1],
+      lifespan: 4000,
+      message: 'This is a place to add an optional detail text to the Toast.',
+    });
+    showToast({
+      ...options[2],
+      lifespan: 4000,
+      message: 'This is a place to add an optional detail text to the Toast.',
+    });
+  };
+
+  return (
+    <>
+      <ToastContainer />
+      <Button onClick={handleMultipleToast} variant="emphasized">
+        Show multiple toasts
+      </Button>
+    </>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  ToastContainer,
+  showToast,
+  type ToastOptions,
+} from '@dynatrace/strato-components/notifications';
+
+const MultipleToasts = () => {
+  const handleMultipleToast = () => {
+    const options: Record<number, ToastOptions> = {
+      0: { type: 'info', title: 'Info' },
+      1: { type: 'warning', title: 'Warning!' },
+      2: { type: 'critical', title: 'Error!' },
+    };
+
+    showToast({
+      ...options[0],
+      lifespan: 4000,
+      message: 'This is a place to add an optional detail text to the Toast.',
+    });
+    showToast({
+      ...options[1],
+      lifespan: 4000,
+      message: 'This is a place to add an optional detail text to the Toast.',
+    });
+    showToast({
+      ...options[2],
+      lifespan: 4000,
+      message: 'This is a place to add an optional detail text to the Toast.',
+    });
+  };
+
+  return (
+    <>
+      <ToastContainer />
+      <Button onClick={handleMultipleToast} variant="emphasized">
+        Show multiple toasts
+      </Button>
+    </>
+  );
+};
+```
+
 
 #### Add actions inside the toast
 

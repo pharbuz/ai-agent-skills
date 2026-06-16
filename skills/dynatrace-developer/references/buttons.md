@@ -23,6 +23,39 @@ import { Button } from '@dynatrace/strato-components/buttons';
 
 ### Demo
 
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+
+const Basic = () => {
+  return (
+    <Button
+      onClick={() => {
+        /* Trigger logic goes here */
+      }}
+    >
+      Basic Button
+    </Button>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+
+const Basic = () => {
+  return (
+    <Button
+      onClick={() => {
+        /* Trigger logic goes here */
+      }}
+    >
+      Basic Button
+    </Button>
+  );
+};
+```
+
+
 ### Add label and icons
 
 Buttons can consist of a label, a prefix icon, and a suffix icon. Buttons should
@@ -34,15 +67,244 @@ It's advised to only use the `aria-label` if the button has no readable content,
 like when it only has an icon. In that case, the `aria-label` needs to be used
 to make the item accessible.
 
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  AccountIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from '@dynatrace/strato-icons';
+
+const PrefixSuffixLabel = () => {
+  return (
+    <Flex>
+      <Button variant="emphasized">
+        <Button.Prefix>
+          <ChevronLeftIcon />
+        </Button.Prefix>
+        With Prefix
+      </Button>
+      <Button variant="emphasized">
+        <Button.Suffix>
+          <ChevronRightIcon />
+        </Button.Suffix>
+        With Suffix
+      </Button>
+      <Button variant="emphasized">Label only</Button>
+      <Button variant="emphasized" aria-label="Enter your account area.">
+        <Button.Prefix>
+          <AccountIcon />
+        </Button.Prefix>
+      </Button>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  AccountIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from '@dynatrace/strato-icons';
+
+const PrefixSuffixLabel = () => {
+  return (
+    <Flex>
+      <Button variant="emphasized">
+        <Button.Prefix>
+          <ChevronLeftIcon />
+        </Button.Prefix>
+        With Prefix
+      </Button>
+      <Button variant="emphasized">
+        <Button.Suffix>
+          <ChevronRightIcon />
+        </Button.Suffix>
+        With Suffix
+      </Button>
+      <Button variant="emphasized">Label only</Button>
+      <Button variant="emphasized" aria-label="Enter your account area.">
+        <Button.Prefix>
+          <AccountIcon />
+        </Button.Prefix>
+      </Button>
+    </Flex>
+  );
+};
+```
+
+
 ### Change variant
 
 Use the `variant` prop to create the different contextual button variants. When
 no `variant` is specified, it's set to `default`.
 
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex>
+      <Button variant="accent">Accent</Button>
+      <Button variant="emphasized">Emphasized</Button>
+      <Button variant="default">Default</Button>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex>
+      <Button variant="accent">Accent</Button>
+      <Button variant="emphasized">Emphasized</Button>
+      <Button variant="default">Default</Button>
+    </Flex>
+  );
+};
+```
+
+
 ### Change color
 
 By default, the button has the color `neutral`. You should always consider the
 meaning behind the colors when changing this.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Colors = () => {
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Flex>
+        <Button color="neutral" variant="accent">
+          Neutral
+        </Button>
+        <Button color="primary" variant="accent">
+          Primary
+        </Button>
+        <Button color="success" variant="accent">
+          Success
+        </Button>
+        <Button color="warning" variant="accent">
+          Warning
+        </Button>
+        <Button color="critical" variant="accent">
+          Critical
+        </Button>
+      </Flex>
+      <Flex>
+        <Button color="neutral" variant="emphasized">
+          Neutral
+        </Button>
+        <Button color="primary" variant="emphasized">
+          Primary
+        </Button>
+        <Button color="success" variant="emphasized">
+          Success
+        </Button>
+        <Button color="warning" variant="emphasized">
+          Warning
+        </Button>
+        <Button color="critical" variant="emphasized">
+          Critical
+        </Button>
+      </Flex>
+      <Flex>
+        <Button color="neutral" variant="default">
+          Neutral
+        </Button>
+        <Button color="primary" variant="default">
+          Primary
+        </Button>
+        <Button color="success" variant="default">
+          Success
+        </Button>
+        <Button color="warning" variant="default">
+          Warning
+        </Button>
+        <Button color="critical" variant="default">
+          Critical
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Colors = () => {
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Flex>
+        <Button color="neutral" variant="accent">
+          Neutral
+        </Button>
+        <Button color="primary" variant="accent">
+          Primary
+        </Button>
+        <Button color="success" variant="accent">
+          Success
+        </Button>
+        <Button color="warning" variant="accent">
+          Warning
+        </Button>
+        <Button color="critical" variant="accent">
+          Critical
+        </Button>
+      </Flex>
+      <Flex>
+        <Button color="neutral" variant="emphasized">
+          Neutral
+        </Button>
+        <Button color="primary" variant="emphasized">
+          Primary
+        </Button>
+        <Button color="success" variant="emphasized">
+          Success
+        </Button>
+        <Button color="warning" variant="emphasized">
+          Warning
+        </Button>
+        <Button color="critical" variant="emphasized">
+          Critical
+        </Button>
+      </Flex>
+      <Flex>
+        <Button color="neutral" variant="default">
+          Neutral
+        </Button>
+        <Button color="primary" variant="default">
+          Primary
+        </Button>
+        <Button color="success" variant="default">
+          Success
+        </Button>
+        <Button color="warning" variant="default">
+          Warning
+        </Button>
+        <Button color="critical" variant="default">
+          Critical
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
 
 ### Disable
 
@@ -71,22 +333,222 @@ To provide a visual indicator of why the button is disabled, we recommend adding
 additional content next to the button, as in the example above, but you can also
 use a tooltip.
 
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Disabled = () => {
+  return (
+    <Flex alignItems="center" gap={8}>
+      <Button disabled variant="accent">
+        Accent
+      </Button>
+      <Button disabled variant="emphasized">
+        Emphasized
+      </Button>
+      <Button disabled variant="default">
+        Default
+      </Button>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Disabled = () => {
+  return (
+    <Flex alignItems="center" gap={8}>
+      <Button disabled variant="accent">
+        Accent
+      </Button>
+      <Button disabled variant="emphasized">
+        Emphasized
+      </Button>
+      <Button disabled variant="default">
+        Default
+      </Button>
+    </Flex>
+  );
+};
+```
+
+
 ### Change width
 
 The button is as wide as its content by default. When the prop is set to `full`,
 it takes the width of its parent container. The `width` prop also supports any
 CSS width value.
 
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Width = () => {
+  return (
+    <Flex flexDirection="column">
+      <Button variant="emphasized" width="content">
+        Width: content
+      </Button>
+      <Button variant="emphasized" width="full">
+        Width: full
+      </Button>
+      <Button variant="emphasized" width="300px">
+        Width: 300px
+      </Button>
+      <Button variant="emphasized" width="50%">
+        Width: 50%
+      </Button>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Width = () => {
+  return (
+    <Flex flexDirection="column">
+      <Button variant="emphasized" width="content">
+        Width: content
+      </Button>
+      <Button variant="emphasized" width="full">
+        Width: full
+      </Button>
+      <Button variant="emphasized" width="300px">
+        Width: 300px
+      </Button>
+      <Button variant="emphasized" width="50%">
+        Width: 50%
+      </Button>
+    </Flex>
+  );
+};
+```
+
+
 ### Change size
 
 The size of the button can be changed with the `size` prop. It supports two
 different sizes, `default` and `condensed`.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Size = () => {
+  return (
+    <Flex>
+      <Button variant="emphasized" size="default">
+        Default
+      </Button>
+      <Button variant="emphasized" size="condensed">
+        Condensed
+      </Button>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Size = () => {
+  return (
+    <Flex>
+      <Button variant="emphasized" size="default">
+        Default
+      </Button>
+      <Button variant="emphasized" size="condensed">
+        Condensed
+      </Button>
+    </Flex>
+  );
+};
+```
+
 
 ### Change text alignment
 
 By default, the text content is centered inside a button. The alignment can be
 changed by setting the `textAlign` prop to `start`. This only affects the button
 if its width is set to any value bigger than the button content.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { ChevronDownIcon, PlusIcon } from '@dynatrace/strato-icons';
+
+const TextAlign = () => {
+  return (
+    <Flex flexDirection="column">
+      <Flex>
+        <Button variant="emphasized" width="full" textAlign="center">
+          <Button.Prefix>
+            <PlusIcon />
+          </Button.Prefix>
+          TextAlign center
+          <Button.Suffix>
+            <ChevronDownIcon />
+          </Button.Suffix>
+        </Button>
+      </Flex>
+      <Flex>
+        <Button variant="emphasized" width="full" textAlign="start">
+          <Button.Prefix>
+            <PlusIcon />
+          </Button.Prefix>
+          TextAlign start
+          <Button.Suffix>
+            <ChevronDownIcon />
+          </Button.Suffix>
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { ChevronDownIcon, PlusIcon } from '@dynatrace/strato-icons';
+
+const TextAlign = () => {
+  return (
+    <Flex flexDirection="column">
+      <Flex>
+        <Button variant="emphasized" width="full" textAlign="center">
+          <Button.Prefix>
+            <PlusIcon />
+          </Button.Prefix>
+          TextAlign center
+          <Button.Suffix>
+            <ChevronDownIcon />
+          </Button.Suffix>
+        </Button>
+      </Flex>
+      <Flex>
+        <Button variant="emphasized" width="full" textAlign="start">
+          <Button.Prefix>
+            <PlusIcon />
+          </Button.Prefix>
+          TextAlign start
+          <Button.Suffix>
+            <ChevronDownIcon />
+          </Button.Suffix>
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
 
 ### Set loading state
 
@@ -107,6 +569,79 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Change size
 - Change text alignment
 - Set loading state
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Loading = () => {
+  return (
+    <Flex flexDirection="column">
+      <Flex>
+        <Flex alignItems="center">Accent variant:</Flex>
+        <Button variant="accent" loading>
+          Loading
+        </Button>
+      </Flex>
+      <Flex>
+        <Flex alignItems="center">Emphasized variant:</Flex>
+        <Button variant="emphasized" loading>
+          Loading
+        </Button>
+      </Flex>
+      <Flex>
+        <Flex alignItems="center">Default variant:</Flex>
+        <Button variant="default" loading>
+          Loading
+        </Button>
+      </Flex>
+      <Flex>
+        <Flex alignItems="center">Primary color:</Flex>
+        <Button color="primary" variant="emphasized" loading>
+          Loading
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Loading = () => {
+  return (
+    <Flex flexDirection="column">
+      <Flex>
+        <Flex alignItems="center">Accent variant:</Flex>
+        <Button variant="accent" loading>
+          Loading
+        </Button>
+      </Flex>
+      <Flex>
+        <Flex alignItems="center">Emphasized variant:</Flex>
+        <Button variant="emphasized" loading>
+          Loading
+        </Button>
+      </Flex>
+      <Flex>
+        <Flex alignItems="center">Default variant:</Flex>
+        <Button variant="default" loading>
+          Loading
+        </Button>
+      </Flex>
+      <Flex>
+        <Flex alignItems="center">Primary color:</Flex>
+        <Button color="primary" variant="emphasized" loading>
+          Loading
+        </Button>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
 
 ### Props
 
@@ -197,6 +732,89 @@ Use the `IntentButton.Item` compound component to automatically display
 additional intents in a menu. The main intent is the primary action on the root
 component, the , itself.
 
+```tsx
+import { IntentButton } from '@dynatrace/strato-components/buttons';
+import { IntentPayload } from '@dynatrace-sdk/navigation';
+
+const IntentItem = () => {
+  const intentPayload: IntentPayload = {
+    'dt.query': 'fetch logs',
+  };
+
+  return (
+    <IntentButton
+      payload={intentPayload}
+      options={{
+        recommendedAppId: 'dynatrace.notebooks',
+        recommendedIntentId: 'view-query',
+      }}
+    >
+      Edit in Notebooks
+      <IntentButton.Item
+        payload={intentPayload}
+        options={{
+          recommendedAppId: 'dynatrace.dashboards',
+          recommendedIntentId: 'pin',
+        }}
+      >
+        Pin to dashboard
+      </IntentButton.Item>
+      <IntentButton.Item
+        payload={intentPayload}
+        options={{
+          recommendedAppId: 'dynatrace.logs',
+          recommendedIntentId: 'view-query',
+        }}
+      >
+        Investigate logs
+      </IntentButton.Item>
+    </IntentButton>
+  );
+};
+```
+
+```tsx
+import { IntentButton } from '@dynatrace/strato-components/buttons';
+import { IntentPayload } from '@dynatrace-sdk/navigation';
+
+const IntentItem = () => {
+  const intentPayload: IntentPayload = {
+    'dt.query': 'fetch logs',
+  };
+
+  return (
+    <IntentButton
+      payload={intentPayload}
+      options={{
+        recommendedAppId: 'dynatrace.notebooks',
+        recommendedIntentId: 'view-query',
+      }}
+    >
+      Edit in Notebooks
+      <IntentButton.Item
+        payload={intentPayload}
+        options={{
+          recommendedAppId: 'dynatrace.dashboards',
+          recommendedIntentId: 'pin',
+        }}
+      >
+        Pin to dashboard
+      </IntentButton.Item>
+      <IntentButton.Item
+        payload={intentPayload}
+        options={{
+          recommendedAppId: 'dynatrace.logs',
+          recommendedIntentId: 'view-query',
+        }}
+      >
+        Investigate logs
+      </IntentButton.Item>
+    </IntentButton>
+  );
+};
+```
+
+
 ### Add payload to "Open with..."
 
 The `IntentButton` include an "Open with..." menu item as a default. "Open
@@ -204,6 +822,55 @@ with..." opens an overlay listing suitable apps for users to choose from. To
 customize the `payload` prop (information that you want to share with the apps)
 use the `IntentButton.OpenWith` compound component. The label and icon for the
 "Open with..." menu item cannot be changed.
+
+```tsx
+import { IntentButton } from '@dynatrace/strato-components/buttons';
+import { IntentPayload } from '@dynatrace-sdk/navigation';
+
+const OpenWith = () => {
+  const intentPayload: IntentPayload = {
+    'dt.query': 'fetch logs',
+  };
+
+  return (
+    <IntentButton
+      payload={intentPayload}
+      options={{
+        recommendedAppId: 'dynatrace.notebooks',
+        recommendedIntentId: 'view-query',
+      }}
+    >
+      Edit in Notebooks
+      <IntentButton.OpenWith payload={intentPayload} />
+    </IntentButton>
+  );
+};
+```
+
+```tsx
+import { IntentButton } from '@dynatrace/strato-components/buttons';
+import { IntentPayload } from '@dynatrace-sdk/navigation';
+
+const OpenWith = () => {
+  const intentPayload: IntentPayload = {
+    'dt.query': 'fetch logs',
+  };
+
+  return (
+    <IntentButton
+      payload={intentPayload}
+      options={{
+        recommendedAppId: 'dynatrace.notebooks',
+        recommendedIntentId: 'view-query',
+      }}
+    >
+      Edit in Notebooks
+      <IntentButton.OpenWith payload={intentPayload} />
+    </IntentButton>
+  );
+};
+```
+
 
 ### Intent with response
 
@@ -334,6 +1001,39 @@ import { NotifyButton } from '@dynatrace/strato-components/buttons';
 
 #### Use resource notifications
 
+```tsx
+import { NotifyButton } from '@dynatrace/strato-components/buttons';
+
+const BasicResource = () => {
+  return (
+    <NotifyButton
+      type="resource"
+      config={{
+        resourceId: '996d8d4b-a7c8-4471-bbc0-88ffdd31b030',
+        notificationType: 'event-query',
+      }}
+    />
+  );
+};
+```
+
+```tsx
+import { NotifyButton } from '@dynatrace/strato-components/buttons';
+
+const BasicResource = () => {
+  return (
+    <NotifyButton
+      type="resource"
+      config={{
+        resourceId: '996d8d4b-a7c8-4471-bbc0-88ffdd31b030',
+        notificationType: 'event-query',
+      }}
+    />
+  );
+};
+```
+
+
 #### Change the variant
 
 Use the `variant` prop to create the different contextual button variants. When
@@ -353,6 +1053,53 @@ overlay. The button is still focusable.
 
 Use the `showLabel` prop to show the "Notifications" translated text next to the
 `NotifyButton` icon.
+
+```tsx
+import { NotifyButton } from '@dynatrace/strato-components/buttons';
+
+const ShowLabel = () => {
+  return (
+    <NotifyButton
+      showLabel
+      type="event"
+      config={{
+        resourceId: '996d8d4b-a7c8-4471-bbc0-88ffdd31b030',
+        notificationType: 'event-query',
+        triggerConfiguration: {
+          type: 'davis-problem',
+          value: {
+            categories: { availability: true },
+          },
+        },
+      }}
+    />
+  );
+};
+```
+
+```tsx
+import { NotifyButton } from '@dynatrace/strato-components/buttons';
+
+const ShowLabel = () => {
+  return (
+    <NotifyButton
+      showLabel
+      type="event"
+      config={{
+        resourceId: '996d8d4b-a7c8-4471-bbc0-88ffdd31b030',
+        notificationType: 'event-query',
+        triggerConfiguration: {
+          type: 'davis-problem',
+          value: {
+            categories: { availability: true },
+          },
+        },
+      }}
+    />
+  );
+};
+```
+
 
 #### Customize the overlay content
 

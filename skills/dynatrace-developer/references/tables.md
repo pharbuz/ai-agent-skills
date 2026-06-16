@@ -26,6 +26,115 @@ import { DataTable } from '@dynatrace/strato-components/tables';
 Data and column memoizationMake sure to memoize the `data` and `columns` props passed to the `DataTable`
 and use the `useMemo` hook so the props don't change on each render cycle.
 
+```tsx
+import {
+  seed,
+  randEmail,
+  randPastDate,
+  randFirstName,
+  randLastName,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(8).fill(0).map((_, index) => {
+  const firstName = randFirstName();
+  const lastName = randLastName();
+
+  return {
+    index,
+    firstName: firstName,
+    lastName: lastName,
+    email: randEmail({ firstName, lastName }),
+    timestamp: randPastDate(),
+  };
+});
+
+const Demo = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        columns: [
+          {
+            header: 'First Name',
+            accessor: 'firstName',
+            id: 'firstName',
+          },
+          {
+            header: 'Last Name',
+            accessor: 'lastName',
+            id: 'lastName',
+          },
+        ],
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 150,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        columnType: 'datetime',
+        width: 200,
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      sortable
+      resizable
+      columnOrdering
+      fullWidth
+    >
+      <DataTable.Toolbar>
+        <DataTable.DownloadData />
+        <DataTable.LineWrap />
+        <DataTable.ColumnOrderSettings />
+        <DataTable.VisibilitySettings />
+      </DataTable.Toolbar>
+
+      <DataTable.ColumnActions>
+        {() => (
+          <TableActionsMenu>
+            <TableActionsMenu.ColumnOrder />
+            <TableActionsMenu.HideColumn />
+            <TableActionsMenu.LineWrap />
+          </TableActionsMenu>
+        )}
+      </DataTable.ColumnActions>
+
+      <DataTable.CellActions>
+        {({ cellValue }) => (
+          <TableActionsMenu>
+            <TableActionsMenu.CopyItem
+              value={(cellValue as string) ?? 'Value not available.'}
+            />
+          </TableActionsMenu>
+        )}
+      </DataTable.CellActions>
+    </DataTable>
+  );
+};
+```
+
+
 ### Columns
 
 Table size limitThe `DataTable` supports a maximum of 10,000 columns (including built-in
@@ -60,11 +169,207 @@ when the input includes sub-second time information, such as
 fractional seconds. In all other cases, the precision is limited to milliseconds
 due to the constraints of the JavaScript `Date` type.
 
+```tsx
+import { seed, randDomainName, randFloat, randPastDate } from '@ngneat/falso';
+import { type PropsWithChildren, useMemo } from 'react';
+
+import { type Components } from '@dynatrace/strato-components/core';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const ColumnTypesFormatting = () => {
+  const getMarkdownByIndex = (index: number) => {
+    switch (index) {
+      case 0:
+        return `**Ordered List**
+1. Element 1
+1. Element 2
+1. Element 3`;
+      case 1:
+        return `**Unordered List**
+* Element 1
+* Element 2
+* Element 3`;
+      case 2:
+        return `**Code Block**
+\`\`\`
+code block
+\`\`\``;
+      case 3:
+        return "![placeholder image 150x150 px](https://dt-cdn.net/images/placeholder-150-150-79230043aa.png 'Placeholder Image')";
+      case 4:
+        return '## Custom markdown rendering';
+      default:
+        return '';
+    }
+  };
+
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map((el, index) => ({
+        index,
+        host: `host-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 1000000 }),
+        price: randFloat({ min: 50, max: 950 }),
+        memoryTotal: randFloat({ min: 1000, max: 1000000 }),
+        timestamp: randPastDate(),
+        markdown: getMarkdownByIndex(index),
+        log: '2024-05-25 15:55:04.127 ERROR [QueryExecutionMonitor] [73c4146f-2285-41d4-8bf2-c0bbb645e824] {"notificationType":8,"notificationText":"Query: Unexpected error."}',
+      })),
+    []
+  );
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    const customMappings: Components = {
+      h2: ({ children }: PropsWithChildren) => (
+        <i>
+          <h2>{children}</h2>
+        </i>
+      ),
+    };
+
+    return [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+        columnType: 'text',
+        width: 'content',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+        columnType: 'number',
+        width: 'content',
+      },
+      {
+        header: 'Price',
+        accessor: 'price',
+        id: 'price',
+        columnType: 'currency',
+        formatter: { currency: 'USD' },
+        width: 'content',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+        columnType: 'bit',
+        width: 'content',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        columnType: 'datetime',
+        width: 'content',
+      },
+      {
+        header: 'Markdown',
+        accessor: 'markdown',
+        id: 'markdown',
+        columnType: 'markdown',
+        width: 220,
+        config: { customComponentMappings: customMappings },
+      },
+      {
+        header: 'Log',
+        accessor: 'log',
+        id: 'log',
+        columnType: 'log-content',
+        width: 350,
+        config: { truncationLimit: 100 },
+      },
+    ];
+  }, []);
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      variant={{ verticalDividers: true }}
+    />
+  );
+};
+```
+
+
 #### Column sizing
 
 To set default column widths, use `defaultColumnSizing` as a `DataTable` prop.
 This property requires an object that maps column IDs to their respective widths
 in pixels.
+
+```tsx
+import {
+  seed,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  memoryTotal: randNumber({ min: 20000000, max: 5000000000 }),
+}));
+
+const ColumnSizingUncontrolled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ];
+  }, []);
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      resizable
+      defaultColumnSizing={{ host: 350, traffic: 350 }}
+      variant={{ verticalDividers: true }}
+    />
+  );
+};
+```
+
 
 #### Control column sizing
 
@@ -81,6 +386,87 @@ resized, it reverts to a default width of 300px.
 
 NoteAs soon as a resizing event starts, all columns with a fraction width or no
 defined width will be locked to their current width.
+
+```tsx
+import {
+  seed,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { Paragraph } from '@dynatrace/strato-components/typography';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  memoryTotal: randNumber({ min: 20000000, max: 5000000000 }),
+}));
+
+const ColumnResizing = () => {
+  const [resizedColumns, setResizedColumns] = useState({});
+  const handleResize = (newColumnSizes: { [columnId: string]: number }) => {
+    setResizedColumns({ ...newColumnSizes, email: 300 });
+  };
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ];
+  }, []);
+
+  return (
+    <>
+      <DataTable
+        columns={columns}
+        data={data}
+        resizable
+        columnSizing={resizedColumns}
+        onColumnSizingChange={handleResize}
+        variant={{ verticalDividers: true }}
+      />
+      <div style={{ marginTop: 20 }}>
+        <Paragraph>New column widths:</Paragraph>
+        <CodeSnippet language="json">
+          {JSON.stringify(resizedColumns, null, 2)}
+        </CodeSnippet>
+      </div>
+    </>
+  );
+};
+```
+
 
 #### Control column width behavior
 
@@ -122,6 +508,46 @@ previous two options by configuring it like this:
 `{type: 'auto' | 'content', maxWidth: 100}`. Here, `maxWidth` specifies the
 maximum width in pixels.
 
+```tsx
+const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+  return [
+    {
+      header: 'Host',
+      id: 'host',
+      accessor: 'host',
+      width: 350,
+    },
+    {
+      header: 'Traffic',
+      id: 'traffic',
+      accessor: 'traffic',
+      width: 'content',
+    },
+    {
+      id: 'memoryTotal',
+      header: 'Memory Total',
+      accessor: 'memoryTotal',
+      columnType: 'bit',
+      width: { type: 'auto', maxWidth: 100 },
+    },
+    {
+      header: 'Timestamp',
+      id: 'Timestamp',
+      accessor: 'timestamp',
+      columnType: 'datetime',
+      width: 'auto',
+    },
+    {
+      header: 'Price',
+      id: 'price',
+      accessor: 'price',
+      width: '1fr',
+    },
+  ];
+}, []);
+```
+
+
 ##### Allow specific columns to occupy remaining space
 
 Your `DataTable` may have columns that are more important than others. Between
@@ -138,11 +564,135 @@ property key contains a dot, you can escape an accessor by enclosing the string
 in square brackets. It is also possible to specify an accessor function that
 returns the value you want to extract. See the code below for examples of each.
 
+```tsx
+import { randDomainName, randNumber, randPastDate, seed } from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  'dt.data.host': `et-demo-${randDomainName()}`,
+  'dt.data.memoryTotal': randNumber({ min: 5000000000, max: 10000000000 }),
+  other: {
+    sub: {
+      timestamp: randPastDate(),
+    },
+  },
+}));
+
+const Accessors = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        id: 'host',
+        header: 'Host (escaped)',
+        accessor: "['dt.data.host']", // accessor with dots, escaped
+      },
+      {
+        id: 'memory_total',
+        header: 'Memory Total (function)',
+        accessor: (value) => value['dt.data.memoryTotal'], // accessor function
+        columnType: 'bit',
+      },
+      {
+        id: 'timestamp',
+        header: 'Timestamp (standard)',
+        accessor: 'other.sub.timestamp', // standard usage of dots, not escaped, corresponding to data structure
+        width: '1fr',
+      },
+    ],
+    []
+  );
+
+  return <DataTable data={data} columns={columns} />;
+};
+```
+
+
 #### Define header groups
 
 It is possible to define header groups by providing a nested array of columns
 via the `columns` property in the column definition. Currently, a header group
 can only contain columns and not another nested header group.
+
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const sampleData = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  memoryTotal: randNumber({ min: 2000000, max: 500000000 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  price: randNumber({ min: 20, max: 150 }),
+}));
+
+const NestedHeader = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof sampleData)[number]>[]>(
+    () => [
+      {
+        header: 'Host Information',
+        id: 'hostInfo',
+        accessor: 'hostInfo',
+        columns: [
+          {
+            header: 'Host',
+            accessor: 'host',
+            id: 'host',
+            minWidth: 150,
+          },
+          {
+            header: 'Timestamp',
+            accessor: 'timestamp',
+            id: 'timestamp',
+            minWidth: 200,
+          },
+        ],
+      },
+      {
+        header: 'Performance Information',
+        id: 'performanceInfo',
+        accessor: 'performanceInfo',
+        columns: [
+          {
+            header: 'Traffic',
+            accessor: 'traffic',
+            id: 'traffic',
+          },
+          {
+            header: 'Memory Total',
+            accessor: 'memoryTotal',
+            id: 'memoryTotal',
+          },
+        ],
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={sampleData} />;
+};
+```
+
 
 #### Customize column header
 
@@ -164,6 +714,84 @@ actions are already configured for the same column. Since a column header with
 column actions already includes a button element, adding additional interactive
 elements inside may result in unexpected behavior.
 
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { ClockIcon, HostsIcon } from '@dynatrace/strato-icons';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  price: randNumber({ min: 20, max: 150 }),
+}));
+
+const CustomHeaderRendering = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: () => (
+          <DataTable.DefaultCell style={{ alignItems: 'center' }}>
+            <HostsIcon size="small" /> &nbsp; Host
+          </DataTable.DefaultCell>
+        ),
+        accessor: 'host',
+        id: 'host',
+        label: 'Host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+      },
+      {
+        header: () => (
+          <DataTable.DefaultCell>
+            <Button size="condensed" variant="accent">
+              Calculate Price
+            </Button>
+          </DataTable.DefaultCell>
+        ),
+        accessor: 'price',
+        id: 'price',
+        label: 'Calculated Price',
+      },
+      {
+        header: () => (
+          <DataTable.DefaultCell style={{ alignItems: 'center' }}>
+            <ClockIcon size="small" /> &nbsp; Timestamp
+          </DataTable.DefaultCell>
+        ),
+        accessor: 'timestamp',
+        id: 'timestamp',
+        label: 'Timestamp',
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data} />;
+};
+```
+
+
 #### Configure column visibility
 
 The column visibility feature allows you to specify which columns should be
@@ -172,6 +800,71 @@ define the column visibility state. Provide an object with the respective column
 IDs as keys and boolean values indicating their visibility. A value of `true`
 means the column is visible, while `false` means it is hidden. By default, all
 columns are visible.
+
+```tsx
+import {
+  seed,
+  randUserName,
+  randDomainName,
+  randEmail,
+  randPastDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const ColumnVisibilityUncontrolled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        width: 250,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 250,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      defaultColumnVisibility={{ domainName: false }}
+    />
+  );
+};
+```
+
 
 #### Column visibility UI elements
 
@@ -189,11 +882,177 @@ prop to `true` in the column definition. For header groups, the group itself
 cannot be hidden if at least one of its child columns has `disableColumnHiding`
 prop set to `true`.
 
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const ColumnVisibilityUI = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        disableColumnHiding: true,
+        width: 200,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 200,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 200,
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable columns={columns} data={data} fullWidth>
+      <DataTable.Toolbar>
+        <DataTable.VisibilitySettings />
+      </DataTable.Toolbar>
+      <DataTable.ColumnActions>
+        <TableActionsMenu>
+          <TableActionsMenu.HideColumn />
+        </TableActionsMenu>
+      </DataTable.ColumnActions>
+    </DataTable>
+  );
+};
+```
+
+
 #### Control column visibility
 
 To control column visibility, use the `columnVisibility` prop to provide the
 visibility state, along with the `onColumnVisibilityChange` callback which
 allows you to react to visibility changes.
+
+```tsx
+import {
+  seed,
+  randUserName,
+  randDomainName,
+  randEmail,
+  randPastDate,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+  type DataTableProps,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const ColumnVisibilityControlled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        width: 200,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 200,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 200,
+      },
+    ],
+    []
+  );
+
+  const [columnVisibility, setColumnVisibility] = useState<
+    DataTableProps['columnVisibility']
+  >({ age: false });
+  const numberOfHiddenColumns = Object.keys(
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    columnVisibility!
+  ).length.toString();
+
+  return (
+    <Flex flexDirection="column" gap={4}>
+      <Button onClick={() => setColumnVisibility({})} variant="emphasized">
+        Show all columns ({numberOfHiddenColumns} hidden)
+      </Button>
+      <DataTable
+        columns={columns}
+        data={data}
+        columnVisibility={columnVisibility}
+        onColumnVisibilityChange={setColumnVisibility}
+        fullWidth
+      >
+        <DataTable.ColumnActions>
+          <TableActionsMenu>
+            <TableActionsMenu.HideColumn />
+          </TableActionsMenu>
+        </DataTable.ColumnActions>
+      </DataTable>
+    </Flex>
+  );
+};
+```
+
 
 #### Reset column visibility
 
@@ -206,6 +1065,95 @@ state if present or original visibility state. This ensures that the columns can
 be easily reverted to their default visibility state whenever needed. Reset
 button is disabled when the current state is the same as the default state.
 
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnVisibilityState,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const ColumnVisibilityReset = () => {
+  const [columnVisibility, setColumnVisibility] =
+    useState<DataTableColumnVisibilityState>({
+      name: true,
+      domainName: true,
+      email: true,
+      timestamp: true,
+    }); // This is the state that will be used to control the visibility of the columns
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        disableColumnHiding: true,
+        width: 200,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 200,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 200,
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      columnVisibility={columnVisibility}
+      onColumnVisibilityChange={setColumnVisibility}
+      fullWidth
+    >
+      <DataTable.Toolbar>
+        <DataTable.VisibilitySettings
+          resetColumnVisibility={{
+            name: true,
+            domainName: true,
+            timestamp: true,
+            email: false,
+          }}
+        />
+      </DataTable.Toolbar>
+    </DataTable>
+  );
+};
+```
+
+
 #### Open column settings programmatically
 
 You can open the column settings programmatically using the
@@ -214,6 +1162,114 @@ the same options (column visibility, column order and/or column pinning
 settings) as specified in the `DataTable.Toolbar`. However, you can override
 these options via the function's parameters. This is particularly useful if the
 data table is used without its built-in toolbar.
+
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useRef } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+  type DataTableRef,
+} from '@dynatrace/strato-components/tables';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const OpenColumnSettingProgrammatically = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        disableColumnHiding: true,
+        width: 200,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 200,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 200,
+      },
+    ],
+    []
+  );
+
+  const tableRef = useRef<DataTableRef>(null);
+
+  function openColumnSettingsModal() {
+    tableRef.current?.openColumnSettings({
+      columnVisibility: {
+        resetColumnVisibility: {
+          name: true,
+          domainName: true,
+          email: false,
+          timestamp: true,
+        },
+      },
+      columnOrder: false,
+      columnPinning: true,
+    });
+  }
+
+  return (
+    <Flex flexDirection="column">
+      <DataTable
+        ref={tableRef}
+        columns={columns}
+        data={data}
+        fullWidth
+        columnOrdering
+        columnPinning
+      >
+        <DataTable.Toolbar>
+          <DataTable.ColumnOrderSettings />
+        </DataTable.Toolbar>
+      </DataTable>
+      <Button
+        onClick={openColumnSettingsModal}
+        color="primary"
+        variant="emphasized"
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        Open column settings
+      </Button>
+    </Flex>
+  );
+};
+```
+
 
 #### Configure column order
 
@@ -242,6 +1298,35 @@ column to another position hold down the mouse on the column header and then
 release it when you have moved it to its destination. This is also possible
 using touch (press, hold and release).
 
+```tsx
+const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+  () => [
+    {
+      header: 'Name',
+      accessor: 'name',
+      id: 'name',
+    },
+    {
+      header: 'Domain Name',
+      accessor: 'domainName',
+      id: 'domainName',
+    },
+    {
+      header: 'Email',
+      accessor: 'email',
+      id: 'email',
+    },
+    {
+      header: 'Timestamp',
+      accessor: 'timestamp',
+      id: 'timestamp',
+    },
+  ],
+  []
+);
+```
+
+
 #### Column order UI elements
 
 In addition to drag and drop, the column order can be adjusted using
@@ -253,11 +1338,118 @@ trigger for the column settings and enable the column order settings. To allow
 users to move a column via the column actions, include the
 `TableActionsMenu.ColumnOrder` as a menu item.
 
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const ColumnOrderUI = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  const [columnOrder, setColumnOrder] = useState([
+    'domainName',
+    'name',
+    'timestamp',
+    'email',
+  ]);
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      columnOrder={columnOrder}
+      onColumnOrderChange={setColumnOrder}
+      columnOrdering
+    >
+      <DataTable.Toolbar>
+        <DataTable.ColumnOrderSettings />
+      </DataTable.Toolbar>
+      <DataTable.ColumnActions>
+        <TableActionsMenu>
+          <TableActionsMenu.ColumnOrder />
+        </TableActionsMenu>
+      </DataTable.ColumnActions>
+    </DataTable>
+  );
+};
+```
+
+
 #### Control column order
 
 To control column order, use the `columnOrder` prop to provide the desired
 order, along with the `onColumnOrderChange` callback which allows you to react
 to changes in the column order.
+
+```tsx
+<Flex flexDirection="column" gap={4}>
+  <Button
+    onClick={() => setColumnOrder(['domainName', 'email', 'name', 'timestamp'])}
+    variant="emphasized"
+  >
+    Order columns alphabetically
+  </Button>
+  <DataTable
+    columns={columns}
+    data={data}
+    columnOrder={columnOrder}
+    onColumnOrderChange={setColumnOrder}
+    columnOrdering
+  >
+    <DataTable.ColumnActions>
+      <TableActionsMenu>
+        <TableActionsMenu.ColumnOrder />
+      </TableActionsMenu>
+    </DataTable.ColumnActions>
+  </DataTable>
+</Flex>
+```
+
 
 #### Reset column order
 
@@ -269,6 +1461,84 @@ uncontrolled, the column order resets to `defaultColumnOrder` prop value if
 present or original order. This ensures that the columns can be easily reverted
 to their default order whenever needed. Reset button is disabled when the
 current state is the same as the default state.
+
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const ColumnOrderReset = () => {
+  const [columnOrder, setColumnOrder] = useState([
+    'domainName',
+    'name',
+    'timestamp',
+    'email',
+  ]);
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      columnOrder={columnOrder}
+      onColumnOrderChange={setColumnOrder}
+      columnOrdering
+    >
+      <DataTable.Toolbar>
+        <DataTable.ColumnOrderSettings
+          resetColumnOrder={['domainName', 'name', 'email', 'timestamp']}
+        />
+      </DataTable.Toolbar>
+    </DataTable>
+  );
+};
+```
+
 
 #### Configure pinned columns
 
@@ -291,6 +1561,133 @@ pinned state. This prop accepts an object with two optional properties:
 LimitationsWhile ordering is supported for unpinned columns,
 pinned columns cannot be re-ordered.
 
+```tsx
+import {
+  randBoolean,
+  randCity,
+  randDomainName,
+  randEmail,
+  randJobTitle,
+  randPastDate,
+  randRecentDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import { Menu } from '@dynatrace/strato-components/navigation';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { EditIcon } from '@dynatrace/strato-icons';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((_, index) => ({
+  index,
+  user: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+  status: randBoolean() ? 'Active' : 'Inactive',
+  role: randJobTitle(),
+  location: randCity(),
+  lastLogin: randRecentDate(),
+}));
+
+const ColumnPinningUncontrolled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'User',
+        accessor: 'user',
+        id: 'user',
+        width: 180,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 250,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 500,
+      },
+      {
+        header: 'Status',
+        accessor: 'status',
+        id: 'status',
+        width: 100,
+      },
+      {
+        header: 'Role',
+        accessor: 'role',
+        id: 'role',
+        width: 200,
+      },
+      {
+        header: 'Location',
+        accessor: 'location',
+        id: 'location',
+        width: 180,
+      },
+      {
+        header: 'Last Login',
+        accessor: 'lastLogin',
+        id: 'lastLogin',
+        width: 500,
+      },
+    ],
+    []
+  );
+
+  const defaultPinned = useMemo(
+    () => ({
+      left: ['user', 'email'],
+      right: ['status'],
+    }),
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      fullWidth
+      selectableRows
+      columnPinning
+      defaultPinnedColumns={defaultPinned}
+    >
+      <DataTable.RowActions>
+        {(row) => (
+          <Menu>
+            <Menu.Content>
+              <Menu.Item onSelect={() => console.log('Row', row)}>
+                <Menu.Prefix>
+                  <EditIcon />
+                </Menu.Prefix>
+                Edit item
+              </Menu.Item>
+            </Menu.Content>
+          </Menu>
+        )}
+      </DataTable.RowActions>
+    </DataTable>
+  );
+};
+```
+
+
 #### Column pinning UI elements
 
 Column pinning can be configured through the table's UI. To enable users to pin
@@ -301,12 +1698,195 @@ To render a trigger for the column settings and enable column pinning settings,
 use the `DataTable.ColumnPinningSettings` component inside the
 `DataTable.Toolbar`.
 
+```tsx
+<DataTable
+  columns={columns}
+  data={data}
+  fullWidth
+  selectableRows
+  columnPinning
+  defaultPinnedColumns={defaultPinned}
+>
+  <DataTable.ColumnActions>
+    <TableActionsMenu>
+      <TableActionsMenu.ColumnPinning />
+    </TableActionsMenu>
+  </DataTable.ColumnActions>
+  <DataTable.Toolbar>
+    <DataTable.ColumnPinningSettings />
+  </DataTable.Toolbar>
+  <DataTable.RowActions>
+    {(row) => (
+      <Menu>
+        <Menu.Content>
+          <Menu.Item onSelect={() => console.log('Row', row)}>
+            <Menu.Prefix>
+              <EditIcon />
+            </Menu.Prefix>
+            Edit item
+          </Menu.Item>
+        </Menu.Content>
+      </Menu>
+    )}
+  </DataTable.RowActions>
+</DataTable>
+```
+
+
 #### Control column pinning
 
 To control column pinning, use the `pinnedColumns` prop to specify which columns
 should be pinned to the left or right. To handle updates, provide an
 `onPinnedColumnsChange` callback to respond to changes in the pinned column
 state.
+
+```tsx
+import {
+  randBoolean,
+  randCity,
+  randDomainName,
+  randEmail,
+  randJobTitle,
+  randPastDate,
+  randRecentDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Menu } from '@dynatrace/strato-components/navigation';
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+  type DataTablePinnedColumnState,
+} from '@dynatrace/strato-components/tables';
+import { EditIcon } from '@dynatrace/strato-icons';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((_, index) => ({
+  index,
+  user: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+  status: randBoolean() ? 'Active' : 'Inactive',
+  role: randJobTitle(),
+  location: randCity(),
+  lastLogin: randRecentDate(),
+}));
+
+const ColumnPinningControlled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'User',
+        accessor: 'user',
+        id: 'user',
+        width: 180,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 250,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 500,
+      },
+      {
+        header: 'Status',
+        accessor: 'status',
+        id: 'status',
+        width: 100,
+      },
+      {
+        header: 'Role',
+        accessor: 'role',
+        id: 'role',
+        width: 200,
+      },
+      {
+        header: 'Location',
+        accessor: 'location',
+        id: 'location',
+        width: 180,
+      },
+      {
+        header: 'Last Login',
+        accessor: 'lastLogin',
+        id: 'lastLogin',
+        width: 500,
+      },
+    ],
+    []
+  );
+
+  const [pinnedColumns, setPinnedColumns] =
+    useState<DataTablePinnedColumnState>(() => ({
+      left: ['user', 'email'],
+      right: ['status'],
+    }));
+
+  return (
+    <Flex flexDirection="column" gap={4}>
+      <Button
+        onClick={() =>
+          setPinnedColumns({
+            left: ['domainName'],
+            right: [],
+          })
+        }
+        variant="emphasized"
+      >
+        Left pin Domain Name
+      </Button>
+      <DataTable
+        columns={columns}
+        data={data}
+        fullWidth
+        selectableRows
+        columnPinning
+        pinnedColumns={pinnedColumns}
+        onPinnedColumnsChange={setPinnedColumns}
+      >
+        <DataTable.ColumnActions>
+          <TableActionsMenu>
+            <TableActionsMenu.ColumnPinning />
+          </TableActionsMenu>
+        </DataTable.ColumnActions>
+        <DataTable.RowActions>
+          {(row) => (
+            <Menu>
+              <Menu.Content>
+                <Menu.Item onSelect={() => console.log('Row', row)}>
+                  <Menu.Prefix>
+                    <EditIcon />
+                  </Menu.Prefix>
+                  Edit item
+                </Menu.Item>
+              </Menu.Content>
+            </Menu>
+          )}
+        </DataTable.RowActions>
+      </DataTable>
+    </Flex>
+  );
+};
+```
+
 
 #### Customize the label of the column settings trigger
 
@@ -315,6 +1895,82 @@ Adding the `DataTable.ColumnSettingsTrigger` component inside
 `DataTable.ColumnOrderSettings`, or `DataTable.ColumnPinningSettings` allows you
 to configure a custom text that will be displayed as the trigger label for the
 column settings.
+
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const CustomColumnSettingsTrigger = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+        disableColumnHiding: true,
+        width: 200,
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+        width: 200,
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 200,
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 200,
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable columns={columns} data={data} columnOrdering fullWidth>
+      <DataTable.Toolbar>
+        <DataTable.ColumnSettingsTrigger>
+          {({ hiddenColumnCount, totalColumnCount, defaultLabel }) =>
+            hiddenColumnCount === 0
+              ? 'Open column settings'
+              : `${hiddenColumnCount} out of ${totalColumnCount} columns hidden`
+          }
+        </DataTable.ColumnSettingsTrigger>
+        <DataTable.VisibilitySettings />
+        <DataTable.ColumnOrderSettings />
+      </DataTable.Toolbar>
+    </DataTable>
+  );
+};
+```
+
 
 ### Rows
 
@@ -325,6 +1981,48 @@ To activate interactive rows in `DataTable`, you must configure the
 and selectable by the user. A row can be activated either by clicking on it or
 focusing it.
 
+```tsx
+const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+  return [
+    {
+      id: 'Host',
+      header: 'Host',
+      accessor: 'host',
+    },
+    {
+      id: 'Traffic',
+      header: 'Traffic',
+      accessor: 'traffic',
+    },
+    {
+      id: 'Memory Total',
+      header: 'Memory Total',
+      accessor: 'memoryTotal',
+    },
+    {
+      id: 'Timestamp',
+      header: 'Timestamp',
+      accessor: 'timestamp',
+    },
+  ];
+}, []);
+
+const data = useMemo(
+  () =>
+    new Array(5).fill(0).map(() => ({
+      host: `et-demo-${randDomainName()}`,
+      traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+      memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+      timestamp: randBetweenDate({
+        from: '2022-09-26T12:45:07Z',
+        to: '2022-09-28T10:22:56Z',
+      }),
+    })),
+  []
+);
+```
+
+
 ##### Disable auto-activation for interactive rows
 
 By default, interactive rows are automatically activated when they are focused
@@ -332,12 +2030,105 @@ using the keyboard. However, if you want to disable automatic activation, you
 can do so by setting `interactiveRows={{ autoActivate: false }}`. This allows
 you to activate a specific row by pressing the `Enter` key.
 
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const InteractiveRowsAutoActivation = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'Memory Total',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'Timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ];
+  }, []);
+
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const [
+    enableInteractiveRowsAutoActivate,
+    setEnableInteractiveRowsAutoActivate,
+  ] = useState<boolean>(true);
+
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Button
+        onClick={() => setEnableInteractiveRowsAutoActivate((prev) => !prev)}
+        variant="emphasized"
+      >
+        {enableInteractiveRowsAutoActivate
+          ? 'Disable auto-activation'
+          : 'Enable auto-activation'}
+      </Button>
+      <DataTable
+        data={data}
+        columns={columns}
+        interactiveRows={{ autoActivate: enableInteractiveRowsAutoActivate }}
+      />
+    </Flex>
+  );
+};
+```
+
+
 ##### Configure links for interactive rows
 
 To enable navigation from interactive rows, use the `link` prop within the
 `interactiveRows` prop. `link` accepts a function that receives the row's data
 and returns a URL. When a row is clicked or activated via the `Enter` key, the
 user will be directed to the specified URL.
+
+```tsx
+<DataTable
+  data={data}
+  columns={columns}
+  interactiveRows={{
+    link: (row) => 'https://www.dynatrace.com/',
+  }}
+/>
+```
+
 
 #### Control interactive rows
 
@@ -352,6 +2143,88 @@ NoteIn addition to the `interactiveRows` prop, it is advised to debounce the row
 activation when auto-activation is enabled. This allows you to specify by how
 many milliseconds the activation of a row should be delayed for better
 performance. By default, the row is immediately activated.
+
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { debounce } from 'lodash-es';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+  type DataTableProps,
+} from '@dynatrace/strato-components/tables';
+
+const InteractiveRowsControlled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'Memory Total',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'Timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ];
+  }, []);
+
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const [activeRow, setActiveRow] = useState<DataTableProps['activeRow']>('3');
+
+  const ACTIVE_ROW_DEBOUNCE_MS = 10;
+  const debouncedOnActiveRowChangeHandler = useMemo(
+    () =>
+      debounce((activeRow) => {
+        setActiveRow(activeRow);
+      }, ACTIVE_ROW_DEBOUNCE_MS),
+    []
+  );
+
+  return (
+    <DataTable
+      data={data}
+      columns={columns}
+      interactiveRows
+      activeRow={activeRow}
+      onActiveRowChange={(activeRow) => {
+        debouncedOnActiveRowChangeHandler(activeRow);
+      }}
+    />
+  );
+};
+```
+
 
 #### Provide sub-rows
 
@@ -378,6 +2251,102 @@ row IDs, reference the control row IDs section.
 
 NoteThe column containing the sub-row indicator should always be left aligned.
 
+```tsx
+import {
+  randEmail,
+  randFirstName,
+  randLastName,
+  randNumber,
+  randTextRange,
+  seed,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+function createRow() {
+  const firstName = randFirstName();
+  const lastName = randLastName();
+
+  return {
+    firstname: firstName,
+    lastname: lastName,
+    email: randEmail({ firstName, lastName }),
+    age: randNumber({ min: 18, max: 99, fraction: 0 }),
+    wrapping: randTextRange({ min: 255, max: 500 }),
+  };
+}
+
+function createNestedRow(
+  row: ReturnType<typeof createRow> | undefined,
+  level: number,
+  limit: number
+): ReturnType<typeof createRow> & { subRows: ReturnType<typeof createRow>[] } {
+  const currentRow = row ?? createRow();
+
+  const subRows = new Array(1).fill(0).map(createRow);
+
+  if (level < limit) {
+    for (let i = 0; i < subRows.length; i += 1) {
+      subRows[i] = createNestedRow(subRows[i], level + 1, limit);
+    }
+  }
+
+  return {
+    ...currentRow,
+    subRows,
+  };
+}
+
+const data = new Array(2)
+  .fill(0)
+  .map(createRow)
+  .map((row) => createNestedRow(row, 0, 10));
+
+seed('1234');
+
+const SubRowsUncontrolled = () => {
+  const columns: DataTableColumnDef<(typeof data)[number]>[] = useMemo(
+    () => [
+      {
+        header: 'Firstname',
+        accessor: 'firstname',
+        id: 'firstname',
+        width: 'content',
+      },
+      {
+        header: 'Lastname',
+        accessor: 'lastname',
+        id: 'lastname',
+        width: 'content',
+      },
+      {
+        header: 'Age',
+        accessor: 'age',
+        id: 'age',
+        alignment: 'right',
+        width: 'content',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 'content',
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data} fullWidth subRows />;
+};
+```
+
+
 #### Configure sub-rows
 
 To further configure sub-rows, you can pass a configuration object to the
@@ -392,10 +2361,227 @@ sub-row indicator. By default, this is the first visible column.
 `disableSubRow`—Accepts a function that evaluates whether or not to
 disable the sub-row trigger for a given row.
 
+```tsx
+import {
+  randEmail,
+  randFirstName,
+  randLastName,
+  randNumber,
+  seed,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+function createRow() {
+  const firstName = randFirstName();
+  const lastName = randLastName();
+
+  return {
+    firstname: firstName,
+    lastname: lastName,
+    email: randEmail({ firstName, lastName }),
+    age: randNumber({ min: 18, max: 99, fraction: 0 }),
+  };
+}
+
+const data = [
+  {
+    ...createRow(),
+    myCustomSubRows: [
+      {
+        ...createRow(),
+        myCustomSubRows: [{ ...createRow() }, { ...createRow() }],
+      },
+      { ...createRow() },
+    ],
+  },
+  {
+    ...createRow(),
+    myCustomSubRows: [
+      {
+        ...createRow(),
+        myCustomSubRows: [{ ...createRow() }, { ...createRow() }],
+      },
+    ],
+  },
+];
+
+const SubRowsConfigured = () => {
+  const columns: DataTableColumnDef<(typeof data)[number]>[] = useMemo(
+    () => [
+      {
+        header: 'Firstname',
+        accessor: 'firstname',
+        id: 'firstname',
+        width: 'content',
+      },
+      {
+        header: 'Lastname',
+        accessor: 'lastname',
+        id: 'lastname',
+        width: 'content',
+      },
+      {
+        header: 'Age',
+        accessor: 'age',
+        id: 'age',
+        alignment: 'right',
+        width: 'content',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 'content',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      fullWidth
+      selectableRows
+      subRows={{
+        accessor: 'myCustomSubRows',
+        subRowColumnId: 'lastname',
+        disableSubRow: (row) => row.lastname === 'Sani',
+      }}
+      defaultOpenSubRows={{
+        '0': true,
+        '1': true,
+      }}
+    />
+  );
+};
+```
+
+
 #### Control sub-rows
 
 To control the state of the open sub-rows, provide the desired rows using the
 `openSubRows` prop along with a handler for the `onOpenSubRowsChange` callback.
+
+```tsx
+import {
+  randEmail,
+  randFirstName,
+  randLastName,
+  randNumber,
+  randTextRange,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+  type DataTableProps,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+function createRow() {
+  const firstName = randFirstName();
+  const lastName = randLastName();
+
+  return {
+    firstname: firstName,
+    lastname: lastName,
+    email: randEmail({ firstName, lastName }),
+    age: randNumber({ min: 18, max: 99, fraction: 0 }),
+    wrapping: randTextRange({ min: 255, max: 500 }),
+  };
+}
+
+function createNestedRow(
+  row: ReturnType<typeof createRow> | undefined,
+  level: number,
+  limit: number
+): ReturnType<typeof createRow> & { subRows: ReturnType<typeof createRow>[] } {
+  const currentRow = row ?? createRow();
+
+  const subRows = new Array(1).fill(0).map(createRow);
+
+  if (level < limit) {
+    for (let i = 0; i < subRows.length; i += 1) {
+      subRows[i] = createNestedRow(subRows[i], level + 1, limit);
+    }
+  }
+
+  return {
+    ...currentRow,
+    subRows,
+  };
+}
+
+const data = new Array(2)
+  .fill(0)
+  .map(createRow)
+  .map((row) => createNestedRow(row, 0, 10));
+
+seed('1234');
+
+const SubRowsControlled = () => {
+  const columns: DataTableColumnDef<(typeof data)[number]>[] = useMemo(
+    () => [
+      {
+        header: 'Firstname',
+        accessor: 'firstname',
+        id: 'firstname',
+        width: 'content',
+      },
+      {
+        header: 'Lastname',
+        accessor: 'lastname',
+        id: 'lastname',
+        width: 'content',
+      },
+      {
+        header: 'Age',
+        accessor: 'age',
+        id: 'age',
+        alignment: 'right',
+        width: 'content',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 'content',
+      },
+    ],
+    []
+  );
+
+  const [openSubRows, setOpenSubRows] = useState<DataTableProps['openSubRows']>(
+    {
+      '0': true,
+      '0.0': true,
+    }
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      subRows
+      openSubRows={openSubRows}
+      onOpenSubRowsChange={setOpenSubRows}
+      fullWidth
+    />
+  );
+};
+```
+
 
 #### Enable expandable rows
 
@@ -408,6 +2594,78 @@ lifetime of the table use the `expandedRows` property and the
 `onExpandedRowsChange` callback.
 
 In this example, every second row is disabled for demo purposes.
+
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+  seed,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { Paragraph } from '@dynatrace/strato-components/typography';
+import { format, formatDate, units } from '@dynatrace-sdk/units';
+
+seed('1234');
+
+const RowDetails = () => {
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map((_, index) => ({
+        index,
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+    ];
+  }, []);
+
+  return (
+    <DataTable fullWidth columns={columns} data={data}>
+      <DataTable.ExpandableRow
+        defaultExpandedRows={{ '3': true }}
+        disableExpand={(row: (typeof data)[number]) => row.index % 2 === 0}
+      >
+        {({ row }: { row: (typeof data)[number] }) => (
+          <DataTable.ExpandableRowWrapper>
+            <Paragraph>
+              Memory consumption:{' '}
+              {format(row.memoryTotal, { input: units.data.byte })}
+            </Paragraph>
+            <Paragraph>Timestamp: {formatDate(row.timestamp)}</Paragraph>
+          </DataTable.ExpandableRowWrapper>
+        )}
+      </DataTable.ExpandableRow>
+    </DataTable>
+  );
+};
+```
+
 
 #### Enable row selection
 
@@ -463,6 +2721,78 @@ function receives information about the new set of selected rows. By using
 these two together, you can maintain the selection state outside of the
 component, giving you full control over the behavior of the selection.
 
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const SelectableRowsControlled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'Memory Total',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'Timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ];
+  }, []);
+
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const [selectedRows, setSelectedRows] = useState<Record<string, boolean>>({
+    '0': true,
+    '3': true,
+  });
+
+  return (
+    <DataTable
+      data={data}
+      columns={columns}
+      selectableRows
+      selectedRows={selectedRows}
+      onRowSelectionChange={setSelectedRows}
+    />
+  );
+};
+```
+
+
 #### Control row IDs
 
 Features like row selection, sub-rows and row interactivity by default use a row
@@ -471,6 +2801,18 @@ you want to persist any of the states while the data itself changes. For this
 usecase you are able to change how rows are identified by providing a `rowId`
 function on the `DataTable`. When providing a custom row id function, for sub
 row identification, the row IDs will be separated by `↳` character.
+
+```tsx
+<DataTable
+  data={data}
+  columns={columns}
+  selectableRows
+  selectedRows={selectedRows}
+  rowId={(row) => row.host}
+  onRowSelectionChange={setSelectedRows}
+/>
+```
+
 
 #### Configure row order
 
@@ -509,12 +2851,40 @@ should set `autoResetPageIndex` to `false` to prevent the pagination jumping
 back to the first page. If you are only modifying the `rowOrder` then there is
 no need.
 
+```tsx
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  id: `${index}`,
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+```
+
+
 #### Control row ordering
 
 For controlled, the `rowOrder` prop holds the order of the rows. This is an
 ordered set of string IDs of the rows. It's up to you to use the
 `onRowOrderChange` event to update row order and optionally update the original
 data as you see fit.
+
+```tsx
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  id: `${index + 1}`,
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+```
+
 
 ##### Order rows with disabled drag and drop
 
@@ -534,6 +2904,98 @@ grouped. Use `'start'` to position the rows at the start of the table and
 `'end'` to group them at the end. By default, the rows are positioned at the
 start.
 
+```tsx
+import {
+  randDomainName,
+  randEmail,
+  randPastDate,
+  randUserName,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  useLockedRowOrder,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  id: `${index}`,
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+
+const initialRowOrder = data.map((row) => row.id);
+const lockedRows = ['1', '3'];
+
+const RowOrderLockedRows = () => {
+  const [position, setPosition] = useState<'start' | 'end'>('start');
+  const { rowOrdering, rowOrder, setRowOrder } = useLockedRowOrder({
+    initialRowOrder,
+    lockedRows,
+    position,
+  });
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Name',
+        accessor: 'name',
+        id: 'name',
+      },
+      {
+        header: 'Domain Name',
+        accessor: 'domainName',
+        id: 'domainName',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Flex justifyContent="start">
+        <ToggleButtonGroup
+          value={position}
+          onChange={(value) => setPosition(value as 'start' | 'end')}
+        >
+          <ToggleButtonGroup.Item value="start">start</ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="end">end</ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </Flex>
+      <DataTable
+        columns={columns}
+        data={data}
+        rowOrdering={rowOrdering}
+        rowOrder={rowOrder}
+        onRowOrderChange={setRowOrder}
+        rowId={(row) => row.id}
+        fullWidth
+      />
+    </Flex>
+  );
+};
+```
+
+
 #### Highlight rows
 
 You have the option to highlight an entire row. The thresholds for row
@@ -552,6 +3014,122 @@ The `type` determines how the highlighted row will be visually marked. The
 `hightlight` type accepts `color` and `backgroundColor` and changes the
 textcolor and background color of all cells in a row.
 
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+
+/**
+ * Showcasing row thresholds via table definitions.
+ */
+const RowThresholds = () => {
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => [
+      {
+        id: 'host',
+        header: 'Host',
+        accessor: 'host.name',
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'memoryTotal',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  const data = [
+    {
+      host: { prefix: 'et-demo-win', name: 'win4' },
+      traffic: 213.4,
+      memoryTotal: 5830000000,
+      timestamp: '2022-09-26T12:45:07Z',
+      price: 290,
+    },
+    {
+      host: { prefix: 'et-demo-win', name: 'Host3' },
+      traffic: 374,
+      memoryTotal: 3520000000,
+      timestamp: '2022-09-27T14:10:02Z',
+      price: 324,
+    },
+    {
+      host: { prefix: 'et-demo-win', name: 'Host1' },
+      traffic: 625,
+      memoryTotal: 4670000000,
+      timestamp: '2022-09-27T13:10:02Z',
+      price: 343,
+    },
+    {
+      host: { prefix: 'et-demo-win', name: 'Host8' },
+      traffic: 98.7,
+      memoryTotal: 5820000000,
+      timestamp: '2022-09-28T11:29:10Z',
+      price: 289,
+    },
+    {
+      host: { prefix: 'et-demo-mac', name: 'Host-01' },
+      traffic: 164.6,
+      memoryTotal: 3460000000,
+      timestamp: '2022-09-28T10:22:56Z',
+      price: 193,
+    },
+  ];
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      fullWidth
+      rowThresholds={[
+        {
+          // multiple threshold rules
+          rules: [
+            {
+              accessor: 'memoryTotal',
+              value: 3500000000,
+              comparator: 'greater-than',
+            },
+            {
+              accessor: 'memoryTotal',
+              value: 4000000000,
+              comparator: 'less-than',
+            },
+          ],
+          color: Colors.Text.Neutral.Default,
+          backgroundColor: Colors.Background.Container.Critical.Emphasized, // background color for the row
+          type: 'highlight',
+        },
+        {
+          // single threshold rule
+          accessor: 'host.prefix',
+          value: 'et-demo-mac',
+          comparator: 'equal-to',
+          color: Colors.Background.Container.Warning.Accent,
+          type: 'pill',
+        },
+      ]}
+    />
+  );
+};
+```
+
+
 #### Define custom comparator
 
 You can define a custom `comparator` function to evaluate the `threshold` using
@@ -560,6 +3138,119 @@ the `threshold` is applied; if `false`, it's not. The function receives the row
 data as input. Please note that this custom `comparator` function will not be
 serialized for sharing via
 intents.
+
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+
+// simple function to check if the row is a windows host
+function isWindows(hostname: string): boolean {
+  return hostname.includes('et-demo-win');
+}
+
+// simple function to check if the row is a mac host
+function isMac(hostname: string): boolean {
+  return hostname.includes('et-demo-mac');
+}
+
+/**
+ * Showcasing custom comparator.
+ */
+const CustomComparator = () => {
+  const data = [
+    {
+      host: 'et-demo-win-win4',
+      traffic: 213.4,
+      memoryTotal: 5830000000,
+      timestamp: '2022-09-26T12:45:07Z',
+      price: 290,
+    },
+    {
+      host: 'et-demo-win-Host3',
+      traffic: 374,
+      memoryTotal: 3520000000,
+      timestamp: '2022-09-27T14:10:02Z',
+      price: 324,
+    },
+    {
+      host: 'et-demo-win-Host1',
+      traffic: 625,
+      memoryTotal: 4670000000,
+      timestamp: '2022-09-27T13:10:02Z',
+      price: 343,
+    },
+    {
+      host: 'et-demo-win-Host8',
+      traffic: 98.7,
+      memoryTotal: 5820000000,
+      timestamp: '2022-09-28T11:29:10Z',
+      price: 289,
+    },
+    {
+      host: 'et-demo-mac-Host-01',
+      traffic: 164.6,
+      memoryTotal: 3460000000,
+      timestamp: '2022-09-28T10:22:56Z',
+      price: 193,
+    },
+  ];
+
+  const thresholdColumns = useMemo<
+    DataTableColumnDef<(typeof data)[number]>[]
+  >(() => {
+    return [
+      {
+        id: 'host',
+        header: 'Host',
+        accessor: 'host',
+        thresholds: [
+          {
+            accessor: 'host',
+            comparator: (row) => isWindows(row.host),
+            backgroundColor: Colors.Background.Container.Neutral.Default,
+          },
+        ],
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'memoryTotal',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ];
+  }, []);
+
+  return (
+    <DataTable
+      columns={thresholdColumns}
+      data={data}
+      rowThresholds={[
+        {
+          comparator: (row) => isMac(row.host),
+          backgroundColor: Colors.Background.Container.Warning.Accent,
+          type: 'highlight',
+        },
+      ]}
+      fullWidth
+    />
+  );
+};
+```
+
 
 ### Cells
 
@@ -573,6 +3264,87 @@ for dates, and `DataTableCellFormatterCurrencyOptions` for currencies.
 Datetime columns also accept the shorthands `date`, `time`, or `datetime` as a
 `formatter` value to conveniently show only the date portion, only the time
 portion, or both.
+
+```tsx
+import {
+  randDomainName,
+  randFloat,
+  randNumber,
+  randPastDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { units } from '@dynatrace-sdk/units';
+
+const data = new Array(5).fill(0).map((el, index) => ({
+  index,
+  host: `host-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 1000000 }),
+  memoryTotal: randNumber({ min: 2000000, max: 50000000 }),
+  timestamp: randPastDate(),
+  price: randNumber({ min: 1_000, max: 10_000 }),
+}));
+
+const FormatColumnCell = () => {
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => [
+      {
+        id: 'host',
+        header: 'Host',
+        accessor: 'host',
+        columnType: 'text',
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+        columnType: 'number',
+        formatter: { input: units.datarate.MBps },
+      },
+      {
+        id: 'memoryTotal',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        columnType: 'number',
+        formatter: { input: units.data.bit },
+      },
+      {
+        id: 'date',
+        header: 'Date',
+        accessor: 'timestamp',
+        columnType: 'datetime',
+        formatter: 'date',
+      },
+      {
+        id: 'time',
+        header: 'Time',
+        accessor: 'timestamp',
+        columnType: 'datetime',
+        formatter: 'time',
+      },
+      {
+        id: 'price',
+        header: 'Price',
+        accessor: 'price',
+        columnType: 'currency',
+        formatter: {
+          currency: 'EUR',
+          abbreviate: true,
+          maximumFractionDigits: 1,
+        },
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data} fullWidth />;
+};
+```
+
 
 #### Customize cell rendering
 
@@ -598,6 +3370,102 @@ columnType).
 
 - `detectLinks` - Automatically detects links in the given text and renders them
 as such using the `ExternalLink` component.
+
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { Highlight } from '@dynatrace/strato-components/typography';
+import { units } from '@dynatrace-sdk/units';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randNumber({ min: 100, max: 300 }),
+  memoryTotal: randNumber({ min: 2000000000, max: 8000000000 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+}));
+
+/**
+ * Showcasing how to customize the cell rendering via column definitions.
+ */
+const CustomCellRendering = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+        cell: ({ value, rowIndex }) => (
+          <DataTable.DefaultCell>
+            {rowIndex}) {value}
+          </DataTable.DefaultCell>
+        ),
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+        cell: ({ value, rowData }) => {
+          if (rowData.traffic === 228) {
+            return (
+              <DataTable.DefaultCell>
+                <Highlight term={`${value}`}>{value}</Highlight>
+              </DataTable.DefaultCell>
+            );
+          }
+          return <DataTable.DefaultCell>{value}</DataTable.DefaultCell>;
+        },
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+        cell: ({ value, rowData, format }) => {
+          if (rowData.memoryTotal > 5000000000) {
+            return (
+              <DataTable.DefaultCell style={{ color: 'red' }}>
+                {format(value)}
+              </DataTable.DefaultCell>
+            );
+          }
+          return (
+            <DataTable.DefaultCell style={{ color: 'green' }}>
+              {format(value)}
+            </DataTable.DefaultCell>
+          );
+        },
+        formatter: {
+          input: units.data.bit,
+          output: units.data.megabyte,
+        },
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data}></DataTable>;
+};
+```
+
 
 #### Highlight cells
 
@@ -633,6 +3501,110 @@ NoteWhen multiple thresholds are applicable (evaluate to true) the final valid
 threshold has priority. Also, if both row and column thresholds apply to a cell,
 the column threshold takes precedence over the row threshold.
 
+```tsx
+const thresholdColumns = useMemo<DataTableColumnDef<unknown>[]>(
+  () => [
+    {
+      id: 'host',
+      header: 'Host',
+      accessor: 'host.name',
+      thresholds: [
+        {
+          accessor: 'host.prefix',
+          value: 'et-demo-win',
+          comparator: 'equal-to',
+          color: Colors.Text.Critical.Default,
+        },
+        {
+          accessor: 'host.prefix',
+          value: 'et-demo-mac',
+          comparator: 'equal-to',
+          color: Colors.Text.Success.Default,
+        },
+      ],
+    },
+    {
+      id: 'traffic',
+      header: 'Traffic',
+      accessor: 'traffic',
+    },
+    {
+      id: 'memoryTotal',
+      header: 'Memory Total',
+      accessor: 'memoryTotal',
+      thresholds: [
+        {
+          rules: [
+            {
+              accessor: 'memoryTotal',
+              value: 4670000000,
+              comparator: 'greater-than',
+            },
+          ],
+          color: Colors.Text.Neutral.Default,
+          backgroundColor: Colors.Background.Container.Warning.Accent,
+        },
+        {
+          rules: [
+            {
+              accessor: 'memoryTotal',
+              value: 4670000001,
+              comparator: 'less-than',
+            },
+          ],
+          color: Colors.Text.Critical.Default,
+        },
+      ],
+    },
+    {
+      id: 'timestamp',
+      header: 'Timestamp',
+      accessor: 'timestamp',
+    },
+  ],
+  []
+);
+
+const data = [
+  {
+    host: { prefix: 'et-demo-win', name: 'win4' },
+    traffic: 213.4,
+    memoryTotal: 5830000000,
+    timestamp: '2022-09-26T12:45:07Z',
+    price: 290,
+  },
+  {
+    host: { prefix: 'et-demo-win', name: 'Host3' },
+    traffic: 374,
+    memoryTotal: 3520000000,
+    timestamp: '2022-09-27T14:10:02Z',
+    price: 324,
+  },
+  {
+    host: { prefix: 'et-demo-win', name: 'Host1' },
+    traffic: 625,
+    memoryTotal: 4670000000,
+    timestamp: '2022-09-27T13:10:02Z',
+    price: 343,
+  },
+  {
+    host: { prefix: 'et-demo-win', name: 'Host8' },
+    traffic: 98.7,
+    memoryTotal: 5820000000,
+    timestamp: '2022-09-28T11:29:10Z',
+    price: 289,
+  },
+  {
+    host: { prefix: 'et-demo-mac', name: 'Host-01' },
+    traffic: 164.6,
+    memoryTotal: 3460000000,
+    timestamp: '2022-09-28T10:22:56Z',
+    price: 193,
+  },
+];
+```
+
+
 ### Layout and format
 
 #### Customize visual representation
@@ -647,12 +3619,134 @@ default, `rowDensity` is set to `default`, which represents a medium spacing. If
 the option is set to `condensed`, the spacing becomes minimal while
 `comfortable` represents the maximum spacing.
 
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const VisualConfigurationRowDensity = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        id: 'host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'memoryTotal',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const [rowDensity, setRowDensity] = useState('default');
+
+  const rowDensityValue = useMemo(
+    () => rowDensity as 'default' | 'condensed' | 'comfortable',
+    [rowDensity]
+  );
+
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Flex justifyContent="start">
+        <ToggleButtonGroup value={rowDensity} onChange={setRowDensity}>
+          <ToggleButtonGroup.Item value="default">
+            Default
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="condensed">
+            Condensed
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="comfortable">
+            Comfortable
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </Flex>
+      <DataTable
+        columns={columns}
+        data={data}
+        variant={{
+          rowDensity: rowDensityValue,
+          rowSeparation: 'zebraStripes',
+          verticalDividers: true,
+          contained: true,
+        }}
+      />
+    </Flex>
+  );
+};
+```
+
+
 ##### Row separation
 
 The `rowSeparation` option determines how rows should be separated visually. By
 default, `rowSeparation` is set to `horizontalDividers` which adds lines between
 the rows. `zebraStripes` additionally provides alternate row coloring. By
 setting `rowSeparation` to `none`, the rows are not separated visually.
+
+```tsx
+<Flex gap={8} flexDirection="column">
+  <Flex justifyContent="start">
+    <ToggleButtonGroup value={rowSeparation} onChange={setRowSeparation}>
+      <ToggleButtonGroup.Item value="horizontalDividers">
+        Horizontal Dividers
+      </ToggleButtonGroup.Item>
+      <ToggleButtonGroup.Item value="zebraStripes">
+        Zebra Stripes
+      </ToggleButtonGroup.Item>
+      <ToggleButtonGroup.Item value="none">None</ToggleButtonGroup.Item>
+    </ToggleButtonGroup>
+  </Flex>
+  <DataTable
+    columns={columns}
+    data={data}
+    variant={{
+      rowDensity: 'default',
+      rowSeparation: rowSeparationValue,
+      verticalDividers: true,
+      contained: true,
+    }}
+  />
+</Flex>
+```
+
 
 ##### Vertical dividers
 
@@ -661,11 +3755,119 @@ visually. By default, `false` is set which does not separate the columns within
 a `DataTable`. If `verticalDividers` is set to `true`, lines are added between
 the columns.
 
+```tsx
+<Flex gap={8} flexDirection="column">
+  <Button
+    onClick={() => setVerticalDividers((prev) => !prev)}
+    variant="emphasized"
+  >
+    Vertical dividers toggle
+  </Button>
+  <DataTable
+    columns={columns}
+    data={data}
+    variant={{
+      rowDensity: 'default',
+      rowSeparation: 'zebraStripes',
+      verticalDividers,
+      contained: true,
+    }}
+  />
+</Flex>
+```
+
+
 ##### Borders
 
 The `contained` option provides a border for the `DataTable`. By default,
 `contained` is set to `true` to display the border. If `false` is set, no border
 is added.
+
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const VisualConfigurationContained = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        id: 'host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'memoryTotal',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const [contained, setContained] = useState<boolean>(true);
+
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Button
+        onClick={() => setContained((prev) => !prev)}
+        variant="emphasized"
+      >
+        Contained toggle
+      </Button>
+      <DataTable
+        columns={columns}
+        data={data}
+        variant={{
+          rowDensity: 'default',
+          rowSeparation: 'zebraStripes',
+          verticalDividers: true,
+          contained,
+        }}
+      />
+    </Flex>
+  );
+};
+```
+
 
 ##### Hide header
 
@@ -676,12 +3878,188 @@ If you choose to hide the header, please note that the ability to sort columns
 by header, as well as any actions that could be triggered with column headers,
 won't be available.
 
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const sampleData = [
+  {
+    host: 'et-demo-2-win4',
+    traffic: 213.4,
+    memoryTotal: 5830000000,
+    timestamp: '2022-09-26T12:45:07Z',
+  },
+  {
+    host: 'et-demo-2-win3',
+    traffic: 374,
+    memoryTotal: 3520000000,
+    timestamp: '2022-09-27T14:10:02Z',
+  },
+  {
+    host: 'et-demo-2-win1',
+    traffic: 625,
+    memoryTotal: 4670000000,
+    timestamp: '2022-09-27T13:10:02Z',
+  },
+  {
+    host: 'et-demo-2-win8',
+    traffic: 98.7,
+    memoryTotal: 5820000000,
+    timestamp: '2022-09-28T11:29:10Z',
+  },
+  {
+    host: 'dev-demo-5-macOS',
+    traffic: 164.6,
+    memoryTotal: 3460000000,
+    timestamp: '2022-09-28T10:22:56Z',
+  },
+];
+
+const HiddenHeader = () => {
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => [
+      {
+        id: 'host',
+        header: 'Host',
+        accessor: 'host',
+        columnType: 'text',
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+        columnType: 'number',
+      },
+      {
+        id: 'memoryTotal',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        columnType: 'number',
+      },
+      {
+        id: 'timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        columnType: 'datetime',
+      },
+    ],
+    []
+  );
+  const data = useMemo(() => sampleData, []);
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      variant={{ headers: 'hidden' }}
+      fullWidth
+    />
+  );
+};
+```
+
+
 ##### Vertical alignment
 
 Use the `verticalAlignment` option to configure the vertical alignment of the
 cell content. The alignment options are `top`, `center`, and `bottom`. It is
 also possible to configure the vertical alignment for header and body cells
 separately. By default, all cell content is top-aligned.
+
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const data = [
+  {
+    host: 'et-demo-set',
+    timestamp: '2022-09-26T12:45:07Z',
+    traffic: 213.4,
+    content:
+      'Created environment configuration for extension: com.dynatrace.extension.disk-devices',
+  },
+  {
+    host: 'et-demo-fugit.name',
+    timestamp: '2022-09-27T14:53:02Z',
+    traffic: 374,
+    content:
+      'Successfully stored assets in version 1.0.1 for extension com.dynatrace.extension.disk-devices',
+  },
+  {
+    host: 'et-demo-tenetur.dev',
+    timestamp: '2022-09-27T13:10:24Z',
+    traffic: 625,
+    content: 'Failed to assign monitoring configuration to ActiveGate',
+  },
+  {
+    host: 'et-demo-numquam.name',
+    timestamp: '2022-09-28T11:29:10Z',
+    traffic: 98.7,
+    content: 'FSUtil.ProcessUtil - process started successfully',
+  },
+  {
+    host: 'et-demo-consequatur.biz',
+    timestamp: '2022-09-26T13:07:17Z',
+    traffic: 303,
+    content:
+      'Monitoring configuration requires ActiveGate version 1.230.0 or later that supports data source prometheus.',
+  },
+];
+
+const VerticalAlignment = () => {
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => [
+      {
+        header: 'Host information',
+        id: 'host information',
+        columns: [
+          {
+            id: 'host',
+            header: 'Host',
+            accessor: 'host',
+          },
+          {
+            id: 'timestamp',
+            header: 'Timestamp',
+            accessor: 'timestamp',
+            columnType: 'datetime',
+          },
+        ],
+      },
+      {
+        id: 'traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'content',
+        header: 'content',
+        accessor: 'content',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      lineWrap={true}
+      variant={{ verticalAlignment: { header: 'bottom', body: 'center' } }}
+      fullWidth
+    />
+  );
+};
+```
+
 
 #### Enable full width
 
@@ -693,6 +4071,72 @@ table maintains full width, you can include the `fullWidth` prop when using the
 
 When this value is not set, it will grow as needed based on the number of
 columns and their width.
+
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  price: randNumber({ min: 20, max: 150 }),
+}));
+
+const FullWidthEnabled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+        alignment: 'right',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        alignment: 'left',
+      },
+    ],
+    []
+  );
+
+  return (
+    <Flex>
+      <DataTable
+        columns={columns}
+        data={data}
+        variant={{ verticalDividers: true }}
+        fullWidth
+      />
+    </Flex>
+  );
+};
+```
+
 
 #### Enable full height
 
@@ -708,17 +4152,138 @@ NoteKeep in mind that the `fullHeight` prop should be applied carefully. Setting
 height of the page can lead to serious performance issues. It is therefore
 advisable to use the prop in combination with a well-defined container height.
 
+```tsx
+const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+  return [
+    {
+      header: 'Host',
+      id: 'host',
+      accessor: 'host',
+    },
+    {
+      header: 'Traffic',
+      id: 'traffic',
+      accessor: 'traffic',
+    },
+    {
+      header: 'Timestamp',
+      id: 'timestamp',
+      accessor: 'timestamp',
+    },
+    {
+      header: 'Price',
+      id: 'price',
+      accessor: 'price',
+    },
+  ];
+}, []);
+```
+
+
 #### Fonts
 
 The `DataTable` allows for the customization of font styles across the entire
 table or within individual columns. This can be achieved by configuring it in
 the table variant options or the column definition.
 
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  memoryTotal: randNumber({ min: 2000000, max: 500000000 }),
+}));
+
+const FontStyle = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'Memory Total',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        columnType: 'bit',
+      },
+      {
+        id: 'Timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ];
+  }, []);
+
+  return (
+    <DataTable columns={columns} data={data} variant={{ fontStyle: 'code' }} />
+  );
+};
+```
+
+
 #### Text alignment
 
 If no column type is set, text within the cell is left-aligned by default. To
 explicitly change the default alignment, use the `alignment` property in the
 column definition.
+
+```tsx
+const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+  () => [
+    {
+      header: 'Host',
+      accessor: 'host',
+      id: 'host',
+      alignment: 'left',
+    },
+    {
+      header: 'Traffic',
+      accessor: 'traffic',
+      id: 'traffic',
+      alignment: 'right',
+    },
+    {
+      header: 'Price',
+      accessor: 'price',
+      id: 'price',
+      alignment: 'center',
+    },
+    {
+      header: 'Timestamp',
+      accessor: 'timestamp',
+      id: 'timestamp',
+    },
+  ],
+  []
+);
+```
+
 
 #### Enable line wrap
 
@@ -773,6 +4338,139 @@ configuration is subsequently modified. It is recommended to ensure that you
 apply all your required configurations to the `DataTable` before calling this
 function.
 
+```tsx
+import { useMemo, useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+  type DataTableRef,
+} from '@dynatrace/strato-components/tables';
+import { Heading } from '@dynatrace/strato-components/typography';
+
+const sampleColumns: DataTableColumnDef<unknown>[] = [
+  {
+    id: 'host',
+    header: 'Host',
+    accessor: 'host',
+  },
+  {
+    id: 'traffic',
+    header: 'Traffic',
+    accessor: 'traffic',
+  },
+  {
+    id: 'memoryTotal',
+    header: 'Memory Total',
+    accessor: 'memoryTotal',
+  },
+  {
+    id: 'timestamp',
+    header: 'Timestamp',
+    accessor: 'timestamp',
+  },
+];
+const sampleData = [
+  {
+    host: 'et-demo-2-win4',
+    traffic: 213.4,
+    memoryTotal: 5830000000,
+    timestamp: '2022-09-26T12:45:07Z',
+    price: 290,
+  },
+  {
+    host: 'et-demo-2-win3',
+    traffic: 374,
+    memoryTotal: 3520000000,
+    timestamp: '2022-09-27T14:10:02Z',
+    price: 324,
+  },
+  {
+    host: 'et-demo-2-win1',
+    traffic: 625,
+    memoryTotal: 4670000000,
+    timestamp: '2022-09-27T13:10:02Z',
+    price: 343,
+  },
+  {
+    host: 'et-demo-2-win8',
+    traffic: 98.7,
+    memoryTotal: 5820000000,
+    timestamp: '2022-09-28T11:29:10Z',
+    price: 289,
+  },
+  {
+    host: 'dev-demo-5-macOS',
+    traffic: 164.6,
+    memoryTotal: 3460000000,
+    timestamp: '2022-09-28T10:22:56Z',
+    price: 193,
+  },
+];
+
+const ConfigViewer = ({ serializedConfig }: { serializedConfig: string }) => {
+  return (
+    serializedConfig && (
+      <>
+        <Heading level={5}>Output config:</Heading>
+        <pre>{serializedConfig}</pre>
+      </>
+    )
+  );
+};
+
+const ConfigExport = () => {
+  const dataTableRef = useRef<DataTableRef>(null);
+  const [dataTableConfig, setDataTableConfig] = useState<string>('');
+  function handleShowConfig() {
+    const config = dataTableRef.current?.getConfig();
+    const toString =
+      typeof config === 'string' ? config : JSON.stringify(config, null, 2);
+    setDataTableConfig(toString);
+  }
+  function handleHideConfig() {
+    setDataTableConfig('');
+  }
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => sampleColumns,
+    []
+  );
+  const data = useMemo(() => sampleData, []);
+
+  return (
+    <Flex gap={8} flexDirection="column">
+      {dataTableConfig ? (
+        <Button onClick={handleHideConfig} variant="emphasized">
+          Hide table config
+        </Button>
+      ) : (
+        <Button onClick={handleShowConfig} variant="emphasized">
+          Show table config
+        </Button>
+      )}
+      <Flex>
+        <DataTable
+          ref={dataTableRef}
+          columns={columns}
+          data={data}
+          variant={{
+            rowDensity: 'default',
+            contained: true,
+            rowSeparation: 'horizontalDividers',
+            verticalDividers: false,
+          }}
+          fullWidth
+        />
+      </Flex>
+      <ConfigViewer serializedConfig={dataTableConfig} />
+    </Flex>
+  );
+};
+```
+
+
 #### Import configuration
 
 The configuration provider for the `DataTable` accepts a JSON object and also
@@ -794,11 +4492,256 @@ NoteDue to potential version mismatches in `DataTable` packages used in differen
 applications, importing a configuration from another application may produce an
 unintended outcome and not result in a perfect match.
 
+```tsx
+import { useMemo, useState } from 'react';
+
+import { TextArea } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  DataTableConfigProvider,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const sampleColumns: DataTableColumnDef<unknown>[] = [
+  {
+    id: 'host',
+    header: 'Host',
+    accessor: 'host',
+  },
+  {
+    id: 'traffic',
+    header: 'Traffic',
+    accessor: 'traffic',
+  },
+  {
+    id: 'memoryTotal',
+    header: 'Memory Total',
+    accessor: 'memoryTotal',
+  },
+  {
+    id: 'timestamp',
+    header: 'Timestamp',
+    accessor: 'timestamp',
+  },
+];
+
+const sampleDataLong = [
+  {
+    host: 'et-demo-2-win4',
+    traffic: 213.4,
+    memoryTotal: 5830000000,
+    timestamp: '2022-09-26T12:45:07Z',
+  },
+  {
+    host: 'et-demo-2-win3',
+    traffic: 374,
+    memoryTotal: 3520000000,
+    timestamp: '2022-09-27T14:10:12Z',
+  },
+  {
+    host: 'et-demo-2-win1',
+    traffic: 625,
+    memoryTotal: 4670000000,
+    timestamp: '2022-09-27T13:10:36Z',
+  },
+  {
+    host: 'et-demo-2-win8',
+    traffic: 98.7,
+    memoryTotal: 5820000000,
+    timestamp: '2022-09-28T11:29:04Z',
+  },
+  {
+    host: 'dev-demo-5-macOS',
+    traffic: 164.6,
+    memoryTotal: 3460000000,
+    timestamp: '2022-09-28T10:22:56Z',
+  },
+  {
+    host: 'docker-host2',
+    traffic: 286,
+    memoryTotal: 4290000000,
+    timestamp: '2022-09-29T16:09:21Z',
+  },
+  {
+    host: 'et-demo-1-win1',
+    traffic: 105.6,
+    memoryTotal: 6150000000,
+    timestamp: '2022-09-29T15:48:38Z',
+  },
+  {
+    host: 'et-demo-2-win5',
+    traffic: 179,
+    memoryTotal: 3230000000,
+    timestamp: '2022-09-25T10:24:17Z',
+  },
+  {
+    host: 'dev-demo-3-macOS',
+    traffic: 245.7,
+    memoryTotal: 5760000000,
+    timestamp: '2022-09-25T12:44:29Z',
+  },
+  {
+    host: 'dev-demo-1-macOS',
+    traffic: 305,
+    memoryTotal: 3550000000,
+    timestamp: '2022-09-26T13:42:16Z',
+  },
+  {
+    host: 'et-demo-3-win5',
+    traffic: 229,
+    memoryTotal: 4450000000,
+    timestamp: '2022-09-27T11:48:18Z',
+  },
+  {
+    host: 'dev-demo-3-macOS',
+    traffic: 135.2,
+    memoryTotal: 56360000000,
+    timestamp: '2022-09-22T14:34:21Z',
+  },
+  {
+    host: 'dev-demo-2-macOS',
+    traffic: 367,
+    memoryTotal: 3820000000,
+    timestamp: '2022-09-26T16:37:11Z',
+  },
+  {
+    host: 'docker-host-4',
+    traffic: 249,
+    memoryTotal: 4260000000,
+    timestamp: '2022-09-28T17:19:21Z',
+  },
+  {
+    host: 'docker-host-3',
+    traffic: 132.4,
+    memoryTotal: 5680000000,
+    timestamp: '2022-09-25T15:28:28Z',
+  },
+];
+
+const DATATABLE_IMPORT_CONFIG_STRING = `{
+  "pagination": {"defaultPageIndex": 1, "defaultPageSize": 10},
+  "columnVisibility": {},
+  "fullWidth": false,
+  "lineWrap": false,
+  "resizable": false,
+  "selectableRows": true,
+  "sortable": false,
+  "variant": {
+    "rowDensity": "default",
+    "contained": true,
+    "rowSeparation": "horizontalDividers",
+    "verticalDividers": false
+  }
+}`;
+
+const ConfigImport = () => {
+  const [serializedConfig, setSerializedConfig] = useState<string>(
+    DATATABLE_IMPORT_CONFIG_STRING
+  );
+  const dataTableConfigChange = (changedConfig: string) => {
+    setSerializedConfig(changedConfig);
+  };
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => sampleColumns,
+    []
+  );
+  const data = useMemo(() => sampleDataLong, []);
+
+  return (
+    <Flex gap={8} flexDirection="column">
+      <TextArea
+        cols={20}
+        rows={10}
+        value={serializedConfig}
+        onChange={dataTableConfigChange}
+      />
+      <Flex>
+        <DataTableConfigProvider value={serializedConfig}>
+          <DataTable columns={columns} data={data} fullWidth />
+        </DataTableConfigProvider>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+
 ### Navigation
 
 #### Enable pagination
 
 To enable pagination add the `DataTable.Pagination` component to your table.
+
+```tsx
+import {
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { units } from '@dynatrace-sdk/units';
+
+const PaginationUncontrolled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+        columnType: 'number',
+      },
+      {
+        id: 'Memory Total',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        columnType: 'number',
+        formatter: { input: units.data.bit },
+      },
+      {
+        id: 'Timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        columnType: 'datetime',
+      },
+    ];
+  }, []);
+
+  const data = useMemo(
+    () =>
+      new Array(300).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  return (
+    <div style={{ height: 500 }}>
+      <DataTable columns={columns} data={data} fullHeight fullWidth>
+        <DataTable.Pagination defaultPageIndex={1} />
+      </DataTable>
+    </div>
+  );
+};
+```
+
 
 #### Change page size
 
@@ -808,11 +4751,100 @@ pass the desired page sizes as an array. Please ensure that the passed (default)
 page size aligns with the defined options. The table will not sanitize page
 sizes that do not exist in the options.
 
+```tsx
+seed('1234');
+
+const data = new Array(300).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  price: randNumber({ min: 20, max: 150 }),
+}));
+```
+
+
 #### Control pagination
 
 It is also possible to control the page size and the page index using the
 `pageSize` and the `pageIndex` props together with the `onPageSizeChange` and
 the `onPageIndexChange` callbacks.
+
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const PaginationControlled = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        id: 'Host',
+        header: 'Host',
+        accessor: 'host',
+      },
+      {
+        id: 'Traffic',
+        header: 'Traffic',
+        accessor: 'traffic',
+      },
+      {
+        id: 'Memory Total',
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+      },
+      {
+        id: 'Timestamp',
+        header: 'Timestamp',
+        accessor: 'timestamp',
+      },
+    ];
+  }, []);
+
+  const data = useMemo(
+    () =>
+      new Array(300).fill(0).map(() => ({
+        host: `et-demo-${randDomainName()}`,
+        traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+        memoryTotal: randNumber({ min: 3520000000, max: 6150000000 }),
+        timestamp: randBetweenDate({
+          from: '2022-09-26T12:45:07Z',
+          to: '2022-09-28T10:22:56Z',
+        }),
+      })),
+    []
+  );
+
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
+
+  return (
+    <DataTable columns={columns} data={data}>
+      <DataTable.Pagination
+        pageSize={pageSize}
+        onPageSizeChange={setPageSize}
+        pageIndex={pageIndex}
+        onPageIndexChange={setPageIndex}
+      />
+    </DataTable>
+  );
+};
+```
+
 
 #### Use server-side pagination
 
@@ -830,6 +4862,21 @@ in the bottom right corner. This is because the total number of rows is unknown
 since only the data for the respective page is passed. However, adding the
 `totalRowsCount` prop enables this information to be displayed as well.
 
+```tsx
+<DataTable columns={columns} data={paginatedData}>
+  <DataTable.Pagination
+    pageIndex={pageIndex}
+    onPageIndexChange={setPageIndex}
+    pageSize={pageSize}
+    onPageSizeChange={setPageSize}
+    enableNextPage={enableNextPage}
+    enablePreviousPage={enablePrevPage}
+    totalRowsCount={data.length}
+  />
+</DataTable>
+```
+
+
 #### Scroll to a given row
 
 The `DataTableRef` provides the `scrollToRow` method, which enables programmatic
@@ -844,6 +4891,138 @@ alignment is `start`.
 If the target row is a sub-row, the parent row must be expanded beforehand.
 Otherwise, the sub-row will not be accessible for scrolling.
 
+```tsx
+import {
+  randEmail,
+  randFirstName,
+  randLastName,
+  randNumber,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  DataTable,
+  type DataTableColumnDef,
+  type DataTableRef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+function createRow() {
+  const firstName = randFirstName();
+  const lastName = randLastName();
+
+  return {
+    firstname: firstName,
+    lastname: lastName,
+    email: randEmail({ firstName, lastName }),
+    age: randNumber({ min: 18, max: 99, fraction: 0 }),
+  };
+}
+
+const data = Array.from({ length: 100 }, () => ({
+  ...createRow(),
+  subRows: [
+    {
+      ...createRow(),
+      subRows: [{ ...createRow() }, { ...createRow() }],
+    },
+    { ...createRow() },
+  ],
+}));
+
+const scrollToRowButtons = [
+  {
+    expandSubRowIds: [],
+    scrollToId: '15',
+  },
+  {
+    expandSubRowIds: ['30'],
+    scrollToId: '30.0',
+  },
+  {
+    expandSubRowIds: ['90', '90.0'],
+    scrollToId: '90.0.0',
+  },
+];
+
+const ScrollToRow = () => {
+  const columns: DataTableColumnDef<(typeof data)[number]>[] = useMemo(
+    () => [
+      {
+        header: 'Firstname',
+        accessor: 'firstname',
+        id: 'firstname',
+        width: 'content',
+      },
+      {
+        header: 'Lastname',
+        accessor: 'lastname',
+        id: 'lastname',
+        width: 'content',
+      },
+      {
+        header: 'Age',
+        accessor: 'age',
+        id: 'age',
+        alignment: 'right',
+        width: 'content',
+      },
+      {
+        header: 'Email',
+        accessor: 'email',
+        id: 'email',
+        width: 'content',
+      },
+    ],
+    []
+  );
+
+  const ref = useRef<DataTableRef>(null);
+  const [openSubRows, setOpenSubRows] = useState<Record<string, boolean>>({});
+
+  return (
+    <div style={{ height: 300 }}>
+      <DataTable
+        ref={ref}
+        columns={columns}
+        data={data}
+        fullWidth
+        subRows
+        openSubRows={openSubRows}
+        onOpenSubRowsChange={setOpenSubRows}
+      >
+        <DataTable.TableActions>
+          {scrollToRowButtons.map(({ expandSubRowIds, scrollToId }) => (
+            <Button
+              key={scrollToId}
+              onClick={() => {
+                // expand the subRows before scrolling
+                setOpenSubRows(
+                  Object.fromEntries(
+                    expandSubRowIds.map((id) => [id, true] as const)
+                  )
+                );
+
+                // give some time to expand the rows and recalculate heights
+                requestAnimationFrame(() => {
+                  ref.current?.scrollToRow?.(scrollToId);
+                });
+              }}
+            >
+              Scroll to rowId {scrollToId}
+            </Button>
+          ))}
+        </DataTable.TableActions>
+      </DataTable>
+    </div>
+  );
+};
+```
+
+
 ### States
 
 #### Loading state
@@ -856,12 +5035,255 @@ are already loaded.
 
 ##### Initial table load
 
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  price: randNumber({ min: 20, max: 150 }),
+}));
+
+const LoadingStateInitial = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        header: 'Host',
+        id: 'host',
+        accessor: 'host',
+      },
+      {
+        header: 'Traffic',
+        id: 'traffic',
+        accessor: 'traffic',
+      },
+      {
+        header: 'Timestamp',
+        id: 'timestamp',
+        accessor: 'timestamp',
+      },
+      {
+        header: 'Price',
+        id: 'price',
+        accessor: 'price',
+      },
+    ];
+  }, []);
+
+  const [initialLoad, setInitialLoad] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [tableColumns, setTableColumns] = useState(columns);
+  const [tableData, setTableData] = useState(data);
+
+  return (
+    <Flex flexDirection="column">
+      <Button
+        data-testid="load-table"
+        onClick={() => {
+          setInitialLoad(true);
+          setTableColumns([]);
+          setTableData([]);
+          setLoading(true);
+
+          setTimeout(() => {
+            setTableColumns(columns);
+            setTableData(data);
+            setLoading(false);
+          }, 2000);
+        }}
+        variant="emphasized"
+      >
+        Load Table
+      </Button>
+
+      {initialLoad && (
+        <DataTable loading={loading} columns={tableColumns} data={tableData} />
+      )}
+    </Flex>
+  ); //#endregion
+};
+```
+
+
 ##### Load data
+
+```tsx
+import {
+  seed,
+  randNumber,
+  randDomainName,
+  randFloat,
+  randBetweenDate,
+} from '@ngneat/falso';
+import { useCallback, useMemo, useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+type Data = {
+  host: string;
+  traffic: number;
+  timestamp: Date;
+  price: number;
+};
+
+seed('1234');
+
+const data = new Array(15).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+  price: randNumber({ min: 20, max: 150 }),
+}));
+
+const LoadingStateData = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        header: 'Host',
+        id: 'host',
+        accessor: 'host',
+      },
+      {
+        header: 'Traffic',
+        id: 'traffic',
+        accessor: 'traffic',
+      },
+      {
+        header: 'Timestamp',
+        id: 'timestamp',
+        accessor: 'timestamp',
+      },
+      {
+        header: 'Price',
+        id: 'price',
+        accessor: 'price',
+      },
+    ];
+  }, []);
+
+  const [loadingData, setLoadingData] = useState(false);
+  const [pageSize, setPageSize] = useState(10);
+  const [pageIndex, setPageIndex] = useState(0);
+  const [pageData, setPageData] = useState<Data[]>([]);
+  const [enablePrevPage, setEnablePrevPage] = useState(true);
+  const [enableNextPage, setEnableNextPage] = useState(true);
+  const fetchIdRef = useRef(0);
+  const fetchAPIData = useCallback((pageSize: number, pageIndex: number) => {
+    const startRow = pageSize * pageIndex;
+    const endRow = startRow + pageSize;
+    setLoadingData(true);
+    setTimeout(() => {
+      setLoadingData(false);
+      setPageData(data.slice(startRow, endRow));
+      setEnablePrevPage(pageIndex > 0);
+      setEnableNextPage(pageIndex + 1 < Math.ceil(data.length / pageSize));
+    }, 2000);
+  }, []);
+  const fetchData = useCallback(
+    (pageSize: number, pageIndex: number) => {
+      console.log('fetch', pageIndex);
+
+      // This will get called when the table needs new data
+      // Give this fetch an ID
+      const fetchId = ++fetchIdRef.current;
+      if (fetchId === fetchIdRef.current) {
+        console.log('fetch');
+        fetchAPIData(pageSize, pageIndex);
+      }
+    },
+    [fetchAPIData]
+  );
+
+  return (
+    <Flex flexDirection="column">
+      <Button
+        variant="emphasized"
+        disabled={pageData.length !== 0}
+        onClick={() => fetchData(pageSize, pageIndex)}
+      >
+        Load Data
+      </Button>
+      <DataTable loading={loadingData} columns={columns} data={pageData}>
+        <DataTable.Pagination
+          pageSize={pageSize}
+          onPageSizeChange={(pageSize) => {
+            setPageSize(pageSize);
+            fetchData(pageSize, pageIndex);
+          }}
+          pageIndex={pageIndex}
+          onPageIndexChange={(pageIndex) => {
+            setPageIndex(pageIndex);
+            fetchData(pageSize, pageIndex);
+          }}
+          enablePreviousPage={enablePrevPage}
+          enableNextPage={enableNextPage}
+        />
+      </DataTable>
+    </Flex>
+  );
+};
+```
+
 
 #### Customize empty state
 
 The `DataTable.EmptyState` component allows you to configure a custom empty
 state that will be displayed if no data or no columns are available.
+
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const EmptyState = () => {
+  const columns = useMemo<DataTableColumnDef<unknown>[]>(
+    () => [
+      { header: 'First Name', accessor: 'firstName', id: 'firstName' },
+      { header: 'Last Name', accessor: 'lastName', id: 'lastName' },
+      { header: 'Email', accessor: 'email', id: 'email' },
+    ],
+    []
+  );
+
+  return (
+    <DataTable columns={columns} data={[]}>
+      <DataTable.EmptyState>There is no data to be shown.</DataTable.EmptyState>
+    </DataTable>
+  );
+};
+```
+
 
 ### Actions and intents
 
@@ -911,6 +5333,154 @@ To configure actions for a particular column, its ID must be provided to the
 `column` property. Omit the `DataTable.ColumnActions` column ID to make default
 actions apply to any columns without explicitly configured column actions.
 
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { ActionIcon } from '@dynatrace/strato-icons';
+
+const ColumnActions = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Content',
+        accessor: 'content',
+        id: 'content',
+        width: 400,
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+        width: 'content',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+        width: 'content',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 'content',
+      },
+    ],
+    []
+  );
+  const data = useMemo(
+    () => [
+      {
+        content:
+          'Created environment configuration for extension: com.dynatrace.extension.disk-devices',
+        traffic: 213.4,
+        memoryTotal: 5830000000,
+        timestamp: '2022-09-26T12:45:07Z',
+      },
+      {
+        content:
+          'Successfully stored assets in version 1.0.1 for extension com.dynatrace.extension.disk-devices',
+        traffic: 374,
+        memoryTotal: 3520000000,
+        timestamp: '2022-09-27T14:53:02Z',
+      },
+      {
+        content: 'Failed to assign monitoring configuration to ActiveGate',
+        traffic: 625,
+        memoryTotal: 4670000000,
+        timestamp: '2022-09-27T13:10:24Z',
+      },
+      {
+        content: 'FSUtil.ProcessUtil - process started successfully',
+        traffic: 98.7,
+        memoryTotal: 5040000000,
+        timestamp: '2022-09-28T11:29:10Z',
+      },
+      {
+        content: 'FSUtil.ProcessUtil - process started successfully',
+        traffic: 258.4,
+        memoryTotal: 6000000000,
+        timestamp: '2022-09-25T12:45:09Z',
+      },
+      {
+        content:
+          'Monitoring configuration requires ActiveGate version 1.230.0 or later that supports data source prometheus.',
+        traffic: 303,
+        memoryTotal: 3280000000,
+        timestamp: '2022-09-26T13:07:17Z',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable columns={columns} data={data} sortable fullWidth>
+      <DataTable.ColumnActions>
+        {(column) => (
+          <TableActionsMenu>
+            <TableActionsMenu.Group>
+              <TableActionsMenu.CopyItem
+                onSelect={() => {
+                  console.log('Copied value to clipboard.');
+                }}
+                value={column.id}
+              />
+            </TableActionsMenu.Group>
+            <TableActionsMenu.Item
+              onSelect={() => {
+                /* trigger custom action */
+              }}
+            >
+              <TableActionsMenu.Prefix>
+                <ActionIcon />
+              </TableActionsMenu.Prefix>
+              Custom Action
+            </TableActionsMenu.Item>
+            <TableActionsMenu.Group>
+              <TableActionsMenu.Label aria-label="sub-actions">
+                Sub-Actions
+              </TableActionsMenu.Label>
+              <TableActionsMenu.Item
+                onSelect={() => {
+                  console.log('sub-action 1');
+                }}
+              >
+                Action 1
+                <TableActionsMenu.Suffix>
+                  <ActionIcon />
+                </TableActionsMenu.Suffix>
+              </TableActionsMenu.Item>
+              <TableActionsMenu.Item
+                onSelect={() => {
+                  console.log('sub-action 2');
+                }}
+              >
+                Action 2
+              </TableActionsMenu.Item>
+            </TableActionsMenu.Group>
+          </TableActionsMenu>
+        )}
+      </DataTable.ColumnActions>
+      <DataTable.ColumnActions column="content">
+        {() => (
+          <TableActionsMenu>
+            <TableActionsMenu.LineWrap
+              onSelect={() => console.log('Toggled line-wrap')}
+            />
+          </TableActionsMenu>
+        )}
+      </DataTable.ColumnActions>
+    </DataTable>
+  );
+};
+```
+
+
 #### Configure row actions
 
 Configuring row actions in a `DataTable` involves adding an action column to the
@@ -925,6 +5495,75 @@ data for that specific row. The function needs to return a `ReactNode` that
 defines the user actions for the row. Most likely you want to add some primary
 actions as buttons and secondary actions into a menu.
 
+```tsx
+import { useMemo } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Menu } from '@dynatrace/strato-components/navigation';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { EditIcon } from '@dynatrace/strato-icons';
+
+const RowActionsBasic = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      { accessor: 'cpu', id: 'cpu', header: 'CPU' },
+      { accessor: 'gpu', id: 'gpu', header: 'GPU' },
+    ],
+    []
+  );
+  const data = useMemo(
+    () => [
+      { cpu: 'Intel Core i5-12600K', gpu: 'GeForce RTX 4090' },
+      { cpu: 'AMD Ryzen 5 7600', gpu: 'Radeon RX 7900 XTX' },
+      { cpu: 'AMD Ryzen 5 5500', gpu: 'GeForce RTX 4070 Ti' },
+      { cpu: 'Intel Core i9-13900K', gpu: 'Radeon RX 7900 XT' },
+      { cpu: 'AMD Ryzen 7 5700X', gpu: 'GeForce RTX 4070' },
+      { cpu: 'Intel Core i7-13700K', gpu: 'Radeon RX 6800 XT' },
+      { cpu: 'AMD Ryzen 9 7900', gpu: 'Intel Arc A750' },
+      { cpu: 'Intel Core i5-10400', gpu: 'Radeon RX 6600' },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      variant={{ verticalDividers: true }}
+      fullWidth
+    >
+      <DataTable.RowActions>
+        {(row, { rowDensity }) => (
+          <>
+            <Button
+              size={rowDensity !== 'comfortable' ? rowDensity : 'default'}
+              color="primary"
+            >
+              Primary action
+            </Button>
+
+            <Menu>
+              <Menu.Content>
+                <Menu.Item onSelect={() => console.log('Row', row)}>
+                  <Menu.Prefix>
+                    <EditIcon />
+                  </Menu.Prefix>
+                  Edit item
+                </Menu.Item>
+              </Menu.Content>
+            </Menu>
+          </>
+        )}
+      </DataTable.RowActions>
+    </DataTable>
+  );
+};
+```
+
+
 #### Configure selected row actions
 
 The `DataTable.SelectedRowsActions` component provides an additional slot where
@@ -932,6 +5571,19 @@ you can perform actions simultaneously on one or more selected rows. Actions
 passed to this slot are placed right above the table header and are shown only
 when at least one row is selected. If table actions exist, they are hidden when
 the selected rows actions menu is active.
+
+```tsx
+seed('1234');
+
+const sampleData = new Array(5).fill(0).map((el, index) => ({
+  index,
+  name: randUserName(),
+  domainName: randDomainName(),
+  email: randEmail(),
+  timestamp: randPastDate(),
+}));
+```
+
 
 #### Configure cell actions
 
@@ -976,11 +5628,171 @@ property within the `DataTable.CellActions` configuration. It tells the
 `DataTable` which column to associate the actions with. Omit the column ID to
 have default actions apply to any columns without explicitly configured actions.
 
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import { ActionIcon, LinkIcon } from '@dynatrace/strato-icons';
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+  memoryTotal: randNumber({ min: 2_000_000, max: 50_000_000 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+}));
+
+const CellActions = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+        columnType: 'bit',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable columns={columns} data={data}>
+      <DataTable.CellActions>
+        {({ cellValue }) => (
+          <TableActionsMenu>
+            <TableActionsMenu.CopyItem
+              onSelect={() => {
+                console.log('Copied value to clipboard.');
+              }}
+              value={(cellValue as string) ?? 'Value not available.'}
+            />
+          </TableActionsMenu>
+        )}
+      </DataTable.CellActions>
+      <DataTable.CellActions column={(id) => id !== 'host'}>
+        <TableActionsMenu>
+          <TableActionsMenu.Item
+            onSelect={() => {
+              /* trigger custom action */
+              console.log('Selected global cell action');
+            }}
+          >
+            <TableActionsMenu.Prefix>
+              <ActionIcon />
+            </TableActionsMenu.Prefix>
+            Custom Action
+          </TableActionsMenu.Item>
+          <TableActionsMenu.Group>
+            <TableActionsMenu.Label aria-label="sub-actions">
+              Sub-Actions
+            </TableActionsMenu.Label>
+            <TableActionsMenu.Item
+              onSelect={() => {
+                console.log('sub-action 1');
+              }}
+            >
+              Action 1
+            </TableActionsMenu.Item>
+            <TableActionsMenu.Item
+              onSelect={() => {
+                console.log('sub-action 2');
+              }}
+            >
+              Action 2
+              <TableActionsMenu.Suffix>
+                <ActionIcon />
+              </TableActionsMenu.Suffix>
+            </TableActionsMenu.Item>
+          </TableActionsMenu.Group>
+        </TableActionsMenu>
+      </DataTable.CellActions>
+      <DataTable.CellActions column="host">
+        {({ rowId }) => (
+          <TableActionsMenu>
+            <TableActionsMenu.Item
+              onSelect={() => {
+                /* trigger custom action */
+                console.log(
+                  `Selected cell action for host column in row ${rowId}`
+                );
+              }}
+            >
+              <TableActionsMenu.Prefix>
+                <LinkIcon />
+              </TableActionsMenu.Prefix>
+              Navigate to host
+            </TableActionsMenu.Item>
+          </TableActionsMenu>
+        )}
+      </DataTable.CellActions>
+    </DataTable>
+  );
+};
+```
+
+
 #### Configure table actions
 
 The `DataTable.TableActions` component provides an additional slot where you can
 place custom actions that affect the entire table. Actions passed to this slot
 are placed right above the table header.
+
+```tsx
+const [zebraStripes, setZebraStripes] = useState(false);
+const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+  () => [
+    {
+      header: 'Name',
+      accessor: 'name',
+      id: 'name',
+    },
+    {
+      header: 'Domain Name',
+      accessor: 'domainName',
+      id: 'domainName',
+    },
+    {
+      header: 'Email',
+      accessor: 'email',
+      id: 'email',
+    },
+    {
+      header: 'Timestamp',
+      accessor: 'timestamp',
+      id: 'timestamp',
+    },
+  ],
+  []
+);
+```
+
 
 #### Download data
 
@@ -1025,6 +5837,177 @@ programmatically calls `downloadData()` with one of the parameters `'all'`,
 `'page'`, or `'selected'`. You can also exclude specific columns by providing an
 array of column IDs to the `excludeColumns` parameter.
 
+```tsx
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const sampleDataLong = [
+  {
+    host: 'et-demo-2-win4',
+    traffic: 213.4,
+    memoryTotal: 5830000000,
+    timestamp: '2022-09-26T12:45:07Z',
+    datacenter: 'DT-1',
+  },
+  {
+    host: 'et-demo-2-win3',
+    traffic: 374,
+    memoryTotal: 3520000000,
+    timestamp: '2022-09-27T14:10:12Z',
+    datacenter: 'DT-2',
+  },
+  {
+    host: 'et-demo-2-win1',
+    traffic: 625,
+    memoryTotal: 4670000000,
+    timestamp: '2022-09-27T13:10:36Z',
+    datacenter: 'DT-1',
+  },
+  {
+    host: 'et-demo-2-win8',
+    traffic: 98.7,
+    memoryTotal: 5820000000,
+    timestamp: '2022-09-28T11:29:04Z',
+    datacenter: 'DT-3',
+  },
+  {
+    host: 'dev-demo-5-macOS',
+    traffic: 164.6,
+    memoryTotal: 3460000000,
+    timestamp: '2022-09-28T10:22:56Z',
+    datacenter: 'DT-2',
+  },
+  {
+    host: 'docker-host2',
+    traffic: 286,
+    memoryTotal: 4290000000,
+    timestamp: '2022-09-29T16:09:21Z',
+    datacenter: 'DT-3',
+  },
+  {
+    host: 'et-demo-1-win1',
+    traffic: 105.6,
+    memoryTotal: 6150000000,
+    timestamp: '2022-09-29T15:48:38Z',
+    datacenter: 'DT-1',
+  },
+  {
+    host: 'et-demo-2-win5',
+    traffic: 179,
+    memoryTotal: 3230000000,
+    timestamp: '2022-09-25T10:24:17Z',
+    datacenter: 'DT-2',
+  },
+  {
+    host: 'dev-demo-3-macOS',
+    traffic: 245.7,
+    memoryTotal: 5760000000,
+    timestamp: '2022-09-25T12:44:29Z',
+    datacenter: 'DT-1',
+  },
+  {
+    host: 'dev-demo-1-macOS',
+    traffic: 305,
+    memoryTotal: 3550000000,
+    timestamp: '2022-09-26T13:42:16Z',
+    datacenter: 'DT-3',
+  },
+  {
+    host: 'et-demo-3-win5',
+    traffic: 229,
+    memoryTotal: 4450000000,
+    timestamp: '2022-09-27T11:48:18Z',
+    datacenter: 'DT-2',
+  },
+  {
+    host: 'dev-demo-3-macOS',
+    traffic: 135.2,
+    memoryTotal: 56360000000,
+    timestamp: '2022-09-22T14:34:21Z',
+    datacenter: 'DT-1',
+  },
+  {
+    host: 'dev-demo-2-macOS',
+    traffic: 367,
+    memoryTotal: 3820000000,
+    timestamp: '2022-09-26T16:37:11Z',
+    datacenter: 'DT-3',
+  },
+  {
+    host: 'docker-host-4',
+    traffic: 249,
+    memoryTotal: 4260000000,
+    timestamp: '2022-09-28T17:19:21Z',
+    datacenter: 'DT-2',
+  },
+  {
+    host: 'docker-host-3',
+    traffic: 132.4,
+    memoryTotal: 5680000000,
+    timestamp: '2022-09-25T15:28:28Z',
+    datacenter: 'DT-1',
+  },
+];
+
+const DownloadData = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+      {
+        header: 'Datacenter',
+        accessor: 'datacenter',
+        id: 'datacenter',
+      },
+    ],
+    []
+  );
+  const data = useMemo(() => sampleDataLong, []);
+
+  return (
+    <DataTable columns={columns} data={data} selectableRows fullWidth>
+      <DataTable.Toolbar>
+        <DataTable.DownloadData
+          excludeColumns={['datacenter']}
+          onDownloadData={(subset, excludedColumns) =>
+            console.log(
+              `Downloaded ${subset} data. Excluded columns: ${JSON.stringify(
+                excludedColumns
+              )}`
+            )
+          }
+        />
+      </DataTable.Toolbar>
+
+      <DataTable.Pagination />
+    </DataTable>
+  );
+};
+```
+
+
 #### Enable sorting
 
 By using the `sortable` flag, you can enable sorting for the entire table.
@@ -1056,6 +6039,21 @@ column showing a `1`, the secondary sorting column showing a `2`, and so on.
 Sorting controls are also available in the column actions menu for any column
 with sorting enabled.
 
+```tsx
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  price: randNumber({ min: 20, max: 150 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+}));
+```
+
+
 #### Sort programmatically
 
 Control sorting programmatically by setting the `sortBy` prop, passing an array
@@ -1066,12 +6064,108 @@ sorting by setting `sortable={{ manualSorting: true }}`. This is particularly
 useful for server-side sorting. To initially sort tables without controlling
 their state, use `defaultSortBy`.
 
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+  seed,
+} from '@ngneat/falso';
+import { useMemo, useState } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+  type DataTableColumnSort,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300 }),
+  price: randNumber({ min: 20, max: 150 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+}));
+
+const SortingControlled = () => {
+  const [sortBy, setSortBy] = useState([{ id: 'host', desc: true }]);
+  const handleSortingChange = (sort: DataTableColumnSort[]) => {
+    setSortBy(sort);
+  };
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+        columnType: 'number',
+        formatter: {
+          maximumFractionDigits: 2,
+        },
+      },
+      {
+        header: 'Price',
+        accessor: 'price',
+        id: 'price',
+        columnType: 'number',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      sortable
+      sortBy={sortBy}
+      onSortByChange={handleSortingChange}
+    />
+  );
+};
+```
+
+
 #### Define sortAccessor
 
 Define a custom `sortAccessor` in the column definition to sort by a different
 value than the one returned by the accessor. For example, if the accessor
 returns an object, you can set the sortAccessor to return a number or string
 field within the object.
+
+```tsx
+seed('1234');
+
+const data = new Array(5).fill(0).map(() => ({
+  host: {
+    prefix: 'et-demo-',
+    name: randDomainName(),
+  },
+  traffic: randFloat({ min: 100, max: 300 }).toString(),
+  price: randNumber({ min: 20, max: 150 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+}));
+```
+
 
 #### Define custom sortType
 
@@ -1087,6 +6181,75 @@ Define a sortAccessor.
 In the example below, a column displays both CPU usage (as a percentage) and
 memory usage (in GB). The custom sorting function prioritizes higher CPU usage
 and resolves ties by considering higher memory usage.
+
+```tsx
+import { randDomainName, seed } from '@ngneat/falso';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const data = Array.from(
+  [
+    { cpuUsage: 10, memoryUsage: 42 },
+    { cpuUsage: 12, memoryUsage: 32 },
+    { cpuUsage: 10, memoryUsage: 12 },
+    { cpuUsage: 33, memoryUsage: 11 },
+    { cpuUsage: 47, memoryUsage: 11 },
+  ],
+  (entry) => ({
+    ...entry,
+    host: {
+      prefix: 'et-demo-',
+      name: randDomainName(),
+    },
+  })
+);
+
+type DataEntry = (typeof data)[number];
+
+// Custom sorting for compound data: prioritize higher CPU usage, break ties with higher memory usage
+const compoundSort = (rowA: DataEntry, rowB: DataEntry) => {
+  if (rowA.cpuUsage !== rowB.cpuUsage) {
+    return rowB.cpuUsage - rowA.cpuUsage;
+  }
+
+  return rowB.memoryUsage - rowA.memoryUsage;
+};
+
+const columns: DataTableColumnDef<DataEntry>[] = [
+  {
+    header: 'Host',
+    id: 'host',
+    sortType: 'text',
+    sortAccessor: (row: DataEntry) => row.host.name, // Pass just host.name for builtin text sorting
+    accessor: 'host',
+    cell: ({ value }: { value: DataEntry['host'] }) => {
+      return (
+        <DataTable.DefaultCell>
+          {value.prefix + value.name}
+        </DataTable.DefaultCell>
+      );
+    },
+  },
+  {
+    header: 'CPU & Memory Usage',
+    id: 'compound',
+    sortAccessor: (row: DataEntry) => row, // Pass entire row for compound sorting
+    sortType: compoundSort,
+    accessor: (row: DataEntry) =>
+      `${row.cpuUsage.toFixed(1)}% | ${row.memoryUsage.toFixed(1)} GB`,
+  },
+];
+
+const CustomSortType = () => {
+  return <DataTable columns={columns} data={data} fullWidth sortable />;
+};
+```
+
 
 #### Configure intents
 
@@ -1129,12 +6292,267 @@ the intent.
 - `onResponse`: Optional callback function that is called when a response is
 received from the target app.
 
+```tsx
+import {
+  randBetweenDate,
+  randDomainName,
+  randFloat,
+  randNumber,
+} from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import { Menu } from '@dynatrace/strato-components/navigation';
+import {
+  DataTable,
+  TableActionsMenu,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+const data = new Array(5).fill(0).map(() => ({
+  host: `et-demo-${randDomainName()}`,
+  traffic: randFloat({ min: 100, max: 300, precision: 2 }),
+  memoryTotal: randNumber({ min: 2_000_000, max: 50_000_000 }),
+  timestamp: randBetweenDate({
+    from: '2022-09-26T12:45:07Z',
+    to: '2022-09-28T10:22:56Z',
+  }),
+}));
+
+const Intents = () => {
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Host',
+        accessor: 'host',
+        id: 'host',
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+      },
+      {
+        header: 'Memory Total',
+        accessor: 'memoryTotal',
+        id: 'memoryTotal',
+        columnType: 'bit',
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+      },
+    ],
+    []
+  );
+
+  return (
+    <DataTable columns={columns} data={data} fullWidth>
+      <DataTable.CellActions>
+        {({ rowId }) => (
+          <TableActionsMenu>
+            <TableActionsMenu.Group>
+              <TableActionsMenu.Item
+                onSelect={() => {
+                  /* trigger custom action */
+                  console.log(`Selected ${rowId}`);
+                }}
+              >
+                Custom Action
+              </TableActionsMenu.Item>
+            </TableActionsMenu.Group>
+            <TableActionsMenu.Group>
+              <TableActionsMenu.Intent
+                payload={{ 'dt.query': 'fetch logs' }}
+                options={{
+                  recommendedAppId: 'dynatrace.notebooks',
+                  recommendedIntentId: 'view-query',
+                }}
+              >
+                Edit in notebook
+              </TableActionsMenu.Intent>
+              <TableActionsMenu.Intent
+                payload={{ 'dt.query': 'fetch logs' }}
+                options={{
+                  recommendedAppId: 'dynatrace.dashboards',
+                  recommendedIntentId: 'view-query',
+                }}
+              >
+                Pin to dashboard
+              </TableActionsMenu.Intent>
+            </TableActionsMenu.Group>
+            <TableActionsMenu.Intent
+              payload={{ 'dt.query': 'fetch logs' }}
+              options={{
+                keyProperties: [],
+              }}
+            >
+              Open with…
+            </TableActionsMenu.Intent>
+          </TableActionsMenu>
+        )}
+      </DataTable.CellActions>
+
+      <DataTable.ColumnActions>
+        {(column) => (
+          <TableActionsMenu>
+            <TableActionsMenu.Group>
+              <TableActionsMenu.Item
+                onSelect={() => {
+                  /* trigger custom action */
+                }}
+              >
+                Custom Action
+              </TableActionsMenu.Item>
+            </TableActionsMenu.Group>
+            <TableActionsMenu.Group>
+              <TableActionsMenu.Intent
+                payload={{ 'dt.query': 'fetch logs' }}
+                options={{
+                  recommendedAppId: 'dynatrace.notebooks',
+                  recommendedIntentId: 'view-query',
+                }}
+              >
+                Edit in notebook
+              </TableActionsMenu.Intent>
+              <TableActionsMenu.Intent
+                payload={{ 'dt.query': 'fetch logs' }}
+                options={{
+                  recommendedAppId: 'dynatrace.dashboards',
+                  recommendedIntentId: 'view-query',
+                }}
+              >
+                Pin to dashboard
+              </TableActionsMenu.Intent>
+            </TableActionsMenu.Group>
+            <TableActionsMenu.Intent
+              payload={{ 'dt.query': 'fetch logs' }}
+              options={{
+                keyProperties: [],
+              }}
+            >
+              Open with…
+            </TableActionsMenu.Intent>
+          </TableActionsMenu>
+        )}
+      </DataTable.ColumnActions>
+
+      <DataTable.RowActions>
+        {(row, { rowDensity }) => (
+          <Menu>
+            <Menu.Content>
+              <Menu.Group>
+                <Menu.Item onSelect={() => console.log('Row', row)}>
+                  Custom row action
+                </Menu.Item>
+              </Menu.Group>
+              <Menu.Group>
+                <Menu.Intent
+                  payload={{ 'dt.query': 'fetch logs' }}
+                  options={{
+                    recommendedAppId: 'dynatrace.notebooks',
+                    recommendedIntentId: 'view-query',
+                  }}
+                >
+                  Edit in notebook
+                </Menu.Intent>
+                <Menu.Intent
+                  payload={{ 'dt.query': 'fetch logs' }}
+                  options={{
+                    recommendedAppId: 'dynatrace.dashboards',
+                    recommendedIntentId: 'view-query',
+                  }}
+                >
+                  Pin to dashboard
+                </Menu.Intent>
+              </Menu.Group>
+              <Menu.Intent
+                payload={{ 'dt.query': 'fetch logs' }}
+                options={{
+                  keyProperties: [],
+                }}
+              >
+                Open with…
+              </Menu.Intent>
+            </Menu.Content>
+          </Menu>
+        )}
+      </DataTable.RowActions>
+
+      <DataTable.Toolbar>
+        <DataTable.Intent
+          payload={{ 'dt.query': 'fetch logs' }}
+          options={{
+            recommendedAppId: 'dynatrace.notebooks',
+            recommendedIntentId: 'view-query',
+          }}
+        >
+          Edit in notebook
+        </DataTable.Intent>
+        <DataTable.Intent
+          payload={{ 'dt.query': 'fetch logs' }}
+          options={{
+            recommendedAppId: 'dynatrace.dashboards',
+            recommendedIntentId: 'view-query',
+          }}
+        >
+          Pin to dashboard
+        </DataTable.Intent>
+        <DataTable.Intent
+          payload={{ 'dt.query': 'fetch logs' }}
+          options={{
+            keyProperties: [],
+          }}
+        >
+          Open with…
+        </DataTable.Intent>
+      </DataTable.Toolbar>
+    </DataTable>
+  );
+};
+```
+
+
 #### Configure intents in toolbar
 
 The `DataTable.Toolbar` accepts `DataTable.Intent` slot components, offering a
 menu with the specified intents for cross-app navigation. See the
 Configure intents section to learn more about the
 configuration of intents in the `DataTable`.
+
+```tsx
+<DataTable columns={columns} data={data} fullWidth>
+  <DataTable.Toolbar>
+    <DataTable.Intent
+      payload={{ 'dt.query': 'fetch logs' }}
+      options={{
+        recommendedAppId: 'dynatrace.notebooks',
+        recommendedIntentId: 'view-query',
+      }}
+    >
+      Edit in notebook
+    </DataTable.Intent>
+    <DataTable.Intent
+      payload={{ 'dt.query': 'fetch logs' }}
+      options={{
+        recommendedAppId: 'dynatrace.dashboards',
+        recommendedIntentId: 'view-query',
+      }}
+    >
+      Pin to dashboard
+    </DataTable.Intent>
+    <DataTable.Intent
+      payload={{ 'dt.query': 'fetch logs' }}
+      options={{
+        keyProperties: [],
+      }}
+    >
+      Open with…
+    </DataTable.Intent>
+  </DataTable.Toolbar>
+</DataTable>
+```
+
 
 ### Charts in tables
 
@@ -1232,6 +6650,191 @@ the header. Default behavior.
 
 - `never`: Indicators are never shown.
 
+```tsx
+import { seed } from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import type { GanttAnnotationsTrackConfig } from '@dynatrace/strato-components/charts';
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import { units } from '@dynatrace-sdk/units';
+
+seed('1234');
+
+const annotationsTracks: GanttAnnotationsTrackConfig[] = [
+  {
+    color: Colors.Charts.Status.Neutral.Default,
+    markers: [
+      {
+        title: 'FID',
+        description: 'First Input Delay',
+        start: 40,
+      },
+      {
+        title: 'LCP',
+        description: 'Largest Contentful Paint',
+        start: 1200,
+      },
+      {
+        title: 'CLS',
+        description: 'Cumulative Layout Shift',
+        start: 3000,
+      },
+    ],
+  },
+  {
+    markers: [
+      {
+        title: 'tcp.connect',
+        description: 'TCP Connection establishment',
+        color: 'rgb(176, 93, 166)',
+        start: 1200,
+        end: 2100,
+      },
+    ],
+  },
+];
+
+const ColumnTypeGantt = () => {
+  const data = useMemo(() => {
+    return [
+      {
+        resource: 'GET /conversion-rate/:from_code/:to_code',
+        gantt: {
+          name: 'GET /conversion-rate/:from_code/:to_code',
+          color: 'Item 1',
+          start: 0,
+          end: 4390,
+        },
+        subRows: [
+          {
+            resource: 'middleware - query',
+            gantt: {
+              name: 'middleware - query',
+              color: 'Item 1 SubItem',
+              start: 0,
+              end: 56,
+            },
+          },
+          {
+            resource: 'middleware - jsonParser',
+            gantt: {
+              name: 'middleware - jsonParser',
+              color: 'Item 1 SubItem',
+              start: 0,
+              end: 54,
+            },
+          },
+          {
+            resource: 'request handler',
+            gantt: {
+              name: 'request handler',
+              color: 'Item 1 SubItem',
+              start: 0,
+              end: 40,
+            },
+          },
+          {
+            resource: 'middleware - corsMiddleware',
+            gantt: {
+              name: 'middleware - corsMiddleware',
+              color: 'Item 1 SubItem',
+              start: 0,
+              end: 50,
+            },
+          },
+          {
+            resource: 'middleware - expressInit',
+            gantt: {
+              name: 'middleware - expressInit',
+              color: 'Item 1 SubItem',
+              start: 0,
+              end: 92,
+            },
+          },
+        ],
+      },
+      {
+        resource: 'HTTP GET',
+        gantt: {
+          name: 'HTTP GET',
+          color: 'Item 2',
+          start: 1000,
+          end: 3100,
+        },
+        subRows: [
+          {
+            resource: 'tcp.connect',
+            gantt: {
+              name: 'tcp.connect',
+              color: 'Item 2 SubItem',
+              start: 1000,
+              end: 2100,
+            },
+          },
+        ],
+      },
+    ];
+  }, []);
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(() => {
+    return [
+      {
+        header: 'Resource name',
+        accessor: 'resource',
+        id: 'resource',
+        width: 320,
+      },
+      {
+        header: 'Gantt',
+        id: 'gantt',
+        columnType: 'gantt',
+        accessor: 'gantt',
+        width: '1fr',
+        minWidth: 600,
+        config: {
+          min: 'data-min',
+          max: 'auto',
+          xAxisType: 'numerical',
+          showBackground: true,
+          nameAccessor: 'name',
+          colorAccessor: 'color',
+          colorPalette: {
+            'Item 1': 'rgb(40, 79, 186)',
+            'Item 1 SubItem': 'rgb(62, 124, 212)',
+            'Item 2': 'rgb(153, 60, 147)',
+            'Item 2 SubItem': 'rgb(176, 93, 166)',
+          },
+          formatter: {
+            input: units.time.millisecond,
+            output: units.time.second,
+            maximumFractionDigits: 2,
+          },
+          annotationsHeader: {
+            tracks: annotationsTracks,
+          },
+        },
+      },
+    ];
+  }, []);
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data}
+      fullWidth
+      subRows
+      defaultOpenSubRows={{ '0': true, '1': true }}
+      variant={{ verticalDividers: true }}
+    />
+  );
+};
+```
+
+
 #### MeterBarChart
 
 You can visualize numerical data within the `DataTable` by using the
@@ -1261,6 +6864,90 @@ in the tooltip.
 `{name: string, value: number, color: string, showIndicator?: boolean}`):
 Defines threshold values and associated colors.
 
+```tsx
+import { seed, randIp, randFloat } from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+
+seed('1234');
+
+const ColumnTypeMeterbar = () => {
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map((el, index) => ({
+        index,
+        hostname: `demo-server-${index}`,
+        ip: randIp(),
+        datacenter: `DT-${index + 2}`,
+
+        meterbar: randFloat({ min: 15, max: 80, precision: 2 }),
+      })),
+    []
+  );
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Hostname',
+        accessor: 'hostname',
+        id: 'hostname',
+        width: 125,
+      },
+      {
+        header: 'IP',
+        accessor: 'ip',
+        id: 'ip',
+        width: 125,
+      },
+      {
+        header: 'Datacenter',
+        accessor: 'datacenter',
+        id: 'datacenter',
+        width: 100,
+      },
+      {
+        header: 'Memory',
+        accessor: 'meterbar',
+        columnType: 'meterbar',
+        id: 'meterbar',
+        config: {
+          color: Colors.Charts.Categorical.Color15.Default,
+          showTooltip: true,
+          formatter: (value) => `${Math.round(value)} GB used`,
+          thresholds: [
+            {
+              value: 25,
+              color: Colors.Charts.Threshold.Good.Default,
+              name: 'Good',
+            },
+            {
+              value: 50,
+              color: Colors.Charts.Threshold.Warning.Default,
+              name: 'Warning',
+              showIndicator: true,
+            },
+            {
+              value: 75,
+              color: Colors.Charts.Threshold.Bad.Default,
+              name: 'Bad',
+            },
+          ],
+        },
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data} fullWidth />;
+};
+```
+
+
 #### MultiMeterBarChart
 
 To add a
@@ -1280,6 +6967,79 @@ pattern.
 
 When data is provided as value array objects, the `color` and `thresholds` props
 in `config` are ignored.
+
+```tsx
+import { seed, randIp, randNumber } from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const ColumnTypeMultiMeterbar = () => {
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map((el, index) => ({
+        index,
+        hostname: `demo-server-${index}`,
+        ip: randIp(),
+        datacenter: `DT-${index + 2}`,
+
+        meterbar: [
+          { name: 'totalGB', value: randNumber({ min: 2, max: 50 }) },
+          { name: 'usedGB', value: randNumber({ min: 2, max: 50 }) },
+          { name: 'freeGB', value: randNumber({ min: 2, max: 50 }) },
+          {
+            name: 'usagePercentage',
+            value: randNumber({ min: 2, max: 50 }),
+            color: 'red',
+          },
+        ],
+      })),
+    []
+  );
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Hostname',
+        accessor: 'hostname',
+        id: 'hostname',
+        width: 125,
+      },
+      {
+        header: 'IP',
+        accessor: 'ip',
+        id: 'ip',
+        width: 125,
+      },
+      {
+        header: 'Datacenter',
+        accessor: 'datacenter',
+        id: 'datacenter',
+        width: 100,
+      },
+      {
+        header: 'Memory',
+        accessor: 'meterbar',
+        columnType: 'meterbar',
+        id: 'meterbar',
+        config: {
+          colorPalette: 'categorical',
+          showTooltip: true,
+        },
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data} fullWidth />;
+};
+```
+
 
 #### Sparkline chart
 
@@ -1377,6 +7137,79 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - MeterBarChart
 - MultiMeterBarChart
 - Sparkline chart
+
+```tsx
+import { seed, randFloat, randPastDate } from '@ngneat/falso';
+import { useMemo } from 'react';
+
+import {
+  DataTable,
+  type DataTableColumnDef,
+} from '@dynatrace/strato-components/tables';
+
+seed('1234');
+
+const ColumnTypeSparkline = () => {
+  const data = useMemo(
+    () =>
+      new Array(5).fill(0).map((_, index) => ({
+        index,
+        hostname: `et-demo-${index + 1}-win${index + 3}`,
+        traffic: randFloat({ min: 14, max: 230, precision: 2 }),
+        sparkline: [
+          {
+            unit: 'percent',
+            datapoints: new Array(10).fill(0).map((_, idx) => ({
+              start: new Date(
+                `2022-03-${String(1 + idx).padStart(2, '0')}T12:00:00Z`
+              ),
+              value: randFloat({ min: -2, max: 10 }),
+            })),
+          },
+        ],
+        timestamp: randPastDate().toUTCString(),
+      })),
+    []
+  );
+
+  const columns = useMemo<DataTableColumnDef<(typeof data)[number]>[]>(
+    () => [
+      {
+        header: 'Hostname',
+        accessor: 'hostname',
+        id: 'hostname',
+        width: 100,
+      },
+      {
+        header: 'Traffic',
+        accessor: 'traffic',
+        id: 'traffic',
+        alignment: 'right',
+        width: 100,
+      },
+      {
+        header: 'Disk usage',
+        accessor: 'sparkline',
+        id: 'sparkline',
+        columnType: 'sparkline',
+        config: {
+          color: '#7442c8',
+        },
+      },
+      {
+        header: 'Timestamp',
+        accessor: 'timestamp',
+        id: 'timestamp',
+        width: 250,
+      },
+    ],
+    []
+  );
+
+  return <DataTable columns={columns} data={data} fullWidth />;
+};
+```
+
 
 ### Props
 

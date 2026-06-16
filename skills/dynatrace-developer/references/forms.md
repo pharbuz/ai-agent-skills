@@ -27,6 +27,85 @@ import { Checkbox } from '@dynatrace/strato-components/forms';
 The checkbox can be in either of the following states: `checked`, `unchecked`,
 or `indeterminate`, shown in this example.
 
+```tsx
+import { Checkbox } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Flex gap={8}>
+        <Checkbox name="uncontrolled-unchecked">Unchecked</Checkbox>
+        <Checkbox name="uncontrolled-checked" defaultValue>
+          Checked
+        </Checkbox>
+        <Checkbox
+          name="uncontrolled-indeterminate"
+          defaultValue="indeterminate"
+        >
+          Indeterminate
+        </Checkbox>
+      </Flex>
+      <Flex gap={8}>
+        <Checkbox name="uncontrolled-unchecked" disabled>
+          Unchecked
+        </Checkbox>
+        <Checkbox name="uncontrolled-checked" defaultValue disabled>
+          Checked
+        </Checkbox>
+        <Checkbox
+          name="uncontrolled-indeterminate"
+          defaultValue="indeterminate"
+          disabled
+        >
+          Indeterminate
+        </Checkbox>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Checkbox } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex gap={8} flexDirection="column">
+      <Flex gap={8}>
+        <Checkbox name="uncontrolled-unchecked">Unchecked</Checkbox>
+        <Checkbox name="uncontrolled-checked" defaultValue>
+          Checked
+        </Checkbox>
+        <Checkbox
+          name="uncontrolled-indeterminate"
+          defaultValue="indeterminate"
+        >
+          Indeterminate
+        </Checkbox>
+      </Flex>
+      <Flex gap={8}>
+        <Checkbox name="uncontrolled-unchecked" disabled>
+          Unchecked
+        </Checkbox>
+        <Checkbox name="uncontrolled-checked" defaultValue disabled>
+          Checked
+        </Checkbox>
+        <Checkbox
+          name="uncontrolled-indeterminate"
+          defaultValue="indeterminate"
+          disabled
+        >
+          Indeterminate
+        </Checkbox>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+
 #### Control the state
 
 The checkbox can also be controlled, meaning that you can handle the state. To
@@ -50,6 +129,143 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Variants
 - Control the state
 - Validate
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Checkbox, FieldSet } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    'T&C': boolean;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <FieldSet>
+            <FieldSet.Legend>Terms and conditions:</FieldSet.Legend>
+            <Controller
+              name="T&C"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Terms and conditions are required',
+                },
+              }}
+              render={({ field, fieldState: { error } }) => (
+                <Checkbox
+                  formValue="checked"
+                  required
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                >
+                  I agree to the terms and conditions
+                </Checkbox>
+              )}
+            />
+          </FieldSet>
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Checkbox, FieldSet } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    'T&C': boolean;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <FieldSet>
+            <FieldSet.Legend>Terms and conditions:</FieldSet.Legend>
+            <Controller
+              name="T&C"
+              control={control}
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Terms and conditions are required',
+                },
+              }}
+              render={({ field, fieldState: { error } }) => (
+                <Checkbox
+                  formValue="checked"
+                  required
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                >
+                  I agree to the terms and conditions
+                </Checkbox>
+              )}
+            />
+          </FieldSet>
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
 
 ### Props
 
@@ -85,6 +301,23 @@ import { DateTimePicker } from '@dynatrace/strato-components/forms';
 
 ### Demo
 
+```tsx
+import { DateTimePicker } from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return <DateTimePicker />;
+};
+```
+
+```tsx
+import { DateTimePicker } from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return <DateTimePicker />;
+};
+```
+
+
 ### Control state
 
 You can also handle the state of the `DateTimePicker` component, making it
@@ -92,17 +325,122 @@ controlled. In order to do so, you need to set the `value` prop to assign the
 state value. In addition, you need to use the `onChange` prop to provide a
 handler that is called when the state of the `DateTimePicker` changes.
 
+```tsx
+import { useState } from 'react';
+
+import {
+  DateTimePicker,
+  type DateTimePickerProps,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [isoDate, setIsoDate] = useState<DateTimePickerProps['value']>(() =>
+    new Date().toISOString()
+  );
+
+  return <DateTimePicker value={isoDate} onChange={setIsoDate} />;
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import {
+  DateTimePicker,
+  type DateTimePickerProps,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [isoDate, setIsoDate] = useState<DateTimePickerProps['value']>(() =>
+    new Date().toISOString()
+  );
+
+  return <DateTimePicker value={isoDate} onChange={setIsoDate} />;
+};
+```
+
+
 ### Display types and precision
 
 The `DateTimePicker` component can be used to let users select or display a
 date, time, or both. For `time` and `datetime` types, the time precision can be
 configured.
 
+```tsx
+import { DateTimePicker } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const DisplayType = () => {
+  return (
+    <Flex>
+      <DateTimePicker type="date" />
+      <DateTimePicker type="time" precision="milliseconds" />
+      <DateTimePicker type="datetime" precision="minutes" />
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { DateTimePicker } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const DisplayType = () => {
+  return (
+    <Flex>
+      <DateTimePicker type="date" />
+      <DateTimePicker type="time" precision="milliseconds" />
+      <DateTimePicker type="datetime" precision="minutes" />
+    </Flex>
+  );
+};
+```
+
+
 ### Min and max values
 
 Minimum and maximum boundaries for date, time, and datetime values can be set
 with the `min` and `max` props. You can provide any ISOString or expression to
 be used as upper or lower bound.
+
+```tsx
+import {
+  DateTimePicker,
+  FormField,
+  FormFieldMessages,
+  Label,
+} from '@dynatrace/strato-components/forms';
+
+const MinMax = () => {
+  return (
+    <FormField>
+      <Label>DateTimePicker</Label>
+      <DateTimePicker min="2025-01-01" max="now" defaultValue="+1d" />
+      <FormFieldMessages />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  DateTimePicker,
+  FormField,
+  FormFieldMessages,
+  Label,
+} from '@dynatrace/strato-components/forms';
+
+const MinMax = () => {
+  return (
+    <FormField>
+      <Label>DateTimePicker</Label>
+      <DateTimePicker min="2025-01-01" max="now" defaultValue="+1d" />
+      <FormFieldMessages />
+    </FormField>
+  );
+};
+```
+
 
 ### Validation
 
@@ -113,6 +451,177 @@ the `useForm` hook from `react-hook-form`. By using the `controlState` prop, you
 can connect the `DateTimePicker`'s error state and message to that of the form.
 This shows a hint in case of an error and applies proper styling to the
 component.
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import type { TimeValue } from '@dynatrace/strato-components/core';
+import {
+  DateTimePicker,
+  FormField,
+  FormFieldMessages,
+  Label,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    datetime: TimeValue | string | null;
+  }>({
+    mode: 'all',
+    defaultValues: {
+      datetime: new Date().toISOString(),
+    },
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Select a date</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="datetime"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'A DateTime is required.',
+              },
+              validate(value: TimeValue | string | null) {
+                const newValue =
+                  typeof value === 'string' ? value : value?.absoluteDate;
+                return (
+                  (newValue &&
+                    new Date(newValue).getTime() < new Date().getTime()) ||
+                  'Please choose a date before today.'
+                );
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>DateTime</Label>
+                <DateTimePicker {...field} max="now" />
+                <FormFieldMessages>
+                  {error && (
+                    <FormFieldMessages.Item
+                      variant="error"
+                      message={error.message}
+                    />
+                  )}
+                </FormFieldMessages>
+              </FormField>
+            )}
+          />
+
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import type { TimeValue } from '@dynatrace/strato-components/core';
+import {
+  DateTimePicker,
+  FormField,
+  FormFieldMessages,
+  Label,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    datetime: TimeValue | string | null;
+  }>({
+    mode: 'all',
+    defaultValues: {
+      datetime: new Date().toISOString(),
+    },
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Select a date</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="datetime"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'A DateTime is required.',
+              },
+              validate(value: TimeValue | string | null) {
+                const newValue =
+                  typeof value === 'string' ? value : value?.absoluteDate;
+                return (
+                  (newValue &&
+                    new Date(newValue).getTime() < new Date().getTime()) ||
+                  'Please choose a date before today.'
+                );
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>DateTime</Label>
+                <DateTimePicker {...field} max="now" />
+                <FormFieldMessages>
+                  {error && (
+                    <FormFieldMessages.Item
+                      variant="error"
+                      message={error.message}
+                    />
+                  )}
+                </FormFieldMessages>
+              </FormField>
+            )}
+          />
+
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
 
 #### OnChange
 
@@ -176,6 +685,93 @@ import { FieldSet } from '@dynatrace/strato-components/forms';
 
 It is possible to nest several components inside each other. To do
 so, you can simply put it inside any other `Fieldset` component.
+
+```tsx
+import { useState } from 'react';
+
+import type { Timeframe } from '@dynatrace/strato-components/core';
+import { TimeframeSelector } from '@dynatrace/strato-components/filters';
+import { FieldSet, Switch } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Text } from '@dynatrace/strato-components/typography';
+
+const MultipleFieldSets = () => {
+  const [value, setValue] = useState<Timeframe | null>(null);
+  const [resolveData, setResolveData] = useState(false);
+  const [tracing, setTracing] = useState(false);
+
+  return (
+    <FieldSet name="general-parameters">
+      <FieldSet.Legend>General parameters</FieldSet.Legend>
+      <FieldSet name="timeframe">
+        <FieldSet.Legend>Timeframe</FieldSet.Legend>
+        <Flex>
+          <TimeframeSelector value={value} onChange={setValue} />
+        </Flex>
+        <Text>
+          General timeframe to use if no specific timeframe is used in a query
+        </Text>
+      </FieldSet>
+      <FieldSet>
+        <FieldSet.Legend>Resolve data</FieldSet.Legend>
+        <Switch value={resolveData} onChange={setResolveData}>
+          Enable resolving of dimensional queries
+        </Switch>
+      </FieldSet>
+      <FieldSet>
+        <FieldSet.Legend>Tracing</FieldSet.Legend>
+        <Switch value={tracing} onChange={setTracing}>
+          Activate additional tracing outputs
+        </Switch>
+      </FieldSet>
+    </FieldSet>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import type { Timeframe } from '@dynatrace/strato-components/core';
+import { TimeframeSelector } from '@dynatrace/strato-components/filters';
+import { FieldSet, Switch } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Text } from '@dynatrace/strato-components/typography';
+
+const MultipleFieldSets = () => {
+  const [value, setValue] = useState<Timeframe | null>(null);
+  const [resolveData, setResolveData] = useState(false);
+  const [tracing, setTracing] = useState(false);
+
+  return (
+    <FieldSet name="general-parameters">
+      <FieldSet.Legend>General parameters</FieldSet.Legend>
+      <FieldSet name="timeframe">
+        <FieldSet.Legend>Timeframe</FieldSet.Legend>
+        <Flex>
+          <TimeframeSelector value={value} onChange={setValue} />
+        </Flex>
+        <Text>
+          General timeframe to use if no specific timeframe is used in a query
+        </Text>
+      </FieldSet>
+      <FieldSet>
+        <FieldSet.Legend>Resolve data</FieldSet.Legend>
+        <Switch value={resolveData} onChange={setResolveData}>
+          Enable resolving of dimensional queries
+        </Switch>
+      </FieldSet>
+      <FieldSet>
+        <FieldSet.Legend>Tracing</FieldSet.Legend>
+        <Switch value={tracing} onChange={setTracing}>
+          Activate additional tracing outputs
+        </Switch>
+      </FieldSet>
+    </FieldSet>
+  );
+};
+```
+
 
 #### Disable a fieldset
 
@@ -424,6 +1020,163 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Control the state
 - Validate
 
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  NumberInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    size: number | null;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Settings</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="size"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'The number of clusters is required',
+              },
+              min: {
+                value: 10,
+                message: 'We do not support values lower than 10',
+              },
+              max: {
+                value: 150,
+                message: 'We do not support value greater than 150',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Number of clusters</Label>
+                <NumberInput
+                  placeholder="eg. 50"
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message || 'We support values from 10 to 150',
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  NumberInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    size: number | null;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Settings</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="size"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'The number of clusters is required',
+              },
+              min: {
+                value: 10,
+                message: 'We do not support values lower than 10',
+              },
+              max: {
+                value: 150,
+                message: 'We do not support value greater than 150',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Number of clusters</Label>
+                <NumberInput
+                  placeholder="eg. 50"
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message || 'We support values from 10 to 150',
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+
 ### Props
 
 DeprecatedThis component is deprecated and will be removed in a future release. Please use
@@ -654,6 +1407,41 @@ This is the simplest version of the `PasswordInput`, which is uncontrolled and
 therefore handles its state internally. You can also set a specific initial
 value using the `defaultValue` prop.
 
+```tsx
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Password</Label>
+      <PasswordInput />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Password</Label>
+      <PasswordInput />
+    </FormField>
+  );
+};
+```
+
+
 ### Control state
 
 The `PasswordInput` can also be controlled, meaning that you can handle the
@@ -661,10 +1449,98 @@ state. To do so, you need to use the `onChange` prop to provide a handler that
 is called when the internal state of the input changes. You also need to assign
 the value from the state to the `PasswordInput` by setting the `value` prop.
 
+```tsx
+import { useState } from 'react';
+
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Password</Label>
+      <PasswordInput value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Password</Label>
+      <PasswordInput value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
+
 ### Customize tooltip text
 
 You can use the `PasswordInput.Tooltip` to customize the text displayed if the
 password input text is either shown or hidden.
+
+```tsx
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+
+const CustomTooltip = () => {
+  return (
+    <FormField>
+      <Label>Password</Label>
+      <PasswordInput>
+        <PasswordInput.Tooltip
+          showText="Show the password text"
+          hideText="Hide the password text"
+        />
+      </PasswordInput>
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+
+const CustomTooltip = () => {
+  return (
+    <FormField>
+      <Label>Password</Label>
+      <PasswordInput>
+        <PasswordInput.Tooltip
+          showText="Show the password text"
+          hideText="Hide the password text"
+        />
+      </PasswordInput>
+    </FormField>
+  );
+};
+```
+
 
 ### Validation
 
@@ -684,6 +1560,163 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Control state
 - Customize tooltip text
 - Validation
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    control,
+    reset,
+  } = useForm<{
+    password: string | undefined;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Settings</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              validate: (value) => {
+                return (
+                  (value && value.length >= 8) ||
+                  'Password has to have at least 8 characters.'
+                );
+              },
+              pattern: {
+                value: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+/,
+                message: 'Passphrases must contain numbers and characters',
+              },
+              required: {
+                value: true,
+                message: 'Please enter a password.',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Number of clusters</Label>
+                <PasswordInput
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  PasswordInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    control,
+    reset,
+  } = useForm<{
+    password: string | undefined;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Settings</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              validate: (value) => {
+                return (
+                  (value && value.length >= 8) ||
+                  'Password has to have at least 8 characters.'
+                );
+              },
+              pattern: {
+                value: /(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+/,
+                message: 'Passphrases must contain numbers and characters',
+              },
+              required: {
+                value: true,
+                message: 'Please enter a password.',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Number of clusters</Label>
+                <PasswordInput
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
 
 ### Props
 
@@ -750,6 +1783,147 @@ prop, you can override the error messages and connect the `Radio`'s error state
 and message to that of the form. This shows a hint in case of an error and
 applies proper styling to the component.
 
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  Radio,
+  RadioGroup,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{ radio: string }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Settings</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="radio"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Please select an option',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Scale</Label>
+                <RadioGroup
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                >
+                  <Radio value="logarithmic">logarithmic</Radio>
+                  <Radio value="linear">linear</Radio>
+                </RadioGroup>
+              </FormField>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  Radio,
+  RadioGroup,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{ radio: string }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Settings</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="radio"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Please select an option',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Scale</Label>
+                <RadioGroup
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                >
+                  <Radio value="logarithmic">logarithmic</Radio>
+                  <Radio value="linear">linear</Radio>
+                </RadioGroup>
+              </FormField>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+
 #### Disable
 
 You can disable the entire `RadioGroup` by adding the `disabled` prop to it.
@@ -762,6 +1936,95 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Control the state
 - Validate
 - Disable
+
+```tsx
+import {
+  FieldSet,
+  Radio,
+  RadioGroup,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Disabled = () => {
+  return (
+    <Flex gap={8}>
+      <FieldSet>
+        <FieldSet.Legend>Disabled RadioGroup</FieldSet.Legend>
+        <RadioGroup disabled name="radio-disabled">
+          <Radio aria-label="hosts" value="hosts">
+            Hosts
+          </Radio>
+          <Radio aria-label="services" value="services">
+            Services
+          </Radio>
+          <Radio aria-label="processGroups" value="processGroups">
+            Process Groups
+          </Radio>
+        </RadioGroup>
+      </FieldSet>
+      <FieldSet>
+        <FieldSet.Legend>Disabled Radio</FieldSet.Legend>
+        <RadioGroup name="fieldset-disabled">
+          <Radio aria-label="hosts" value="hosts" disabled>
+            Hosts
+          </Radio>
+          <Radio aria-label="services" value="services">
+            Services
+          </Radio>
+          <Radio aria-label="processGroups" value="processGroups">
+            Process Groups
+          </Radio>
+        </RadioGroup>
+      </FieldSet>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import {
+  FieldSet,
+  Radio,
+  RadioGroup,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Disabled = () => {
+  return (
+    <Flex gap={8}>
+      <FieldSet>
+        <FieldSet.Legend>Disabled RadioGroup</FieldSet.Legend>
+        <RadioGroup disabled name="radio-disabled">
+          <Radio aria-label="hosts" value="hosts">
+            Hosts
+          </Radio>
+          <Radio aria-label="services" value="services">
+            Services
+          </Radio>
+          <Radio aria-label="processGroups" value="processGroups">
+            Process Groups
+          </Radio>
+        </RadioGroup>
+      </FieldSet>
+      <FieldSet>
+        <FieldSet.Legend>Disabled Radio</FieldSet.Legend>
+        <RadioGroup name="fieldset-disabled">
+          <Radio aria-label="hosts" value="hosts" disabled>
+            Hosts
+          </Radio>
+          <Radio aria-label="services" value="services">
+            Services
+          </Radio>
+          <Radio aria-label="processGroups" value="processGroups">
+            Process Groups
+          </Radio>
+        </RadioGroup>
+      </FieldSet>
+    </Flex>
+  );
+};
+```
+
 
 ### Props
 
@@ -802,12 +2065,90 @@ therefore handles its state internally. You can also set a specific initial
 value using the `defaultValue` prop. The `SearchInput` provides unified search
 styling and a built-in `Clear` button.
 
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Search</Label>
+      <SearchInput />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Search</Label>
+      <SearchInput />
+    </FormField>
+  );
+};
+```
+
+
 ### Control state
 
 The `SearchInput` can also be controlled, meaning that you can handle the state.
 To do so, use the `onChange` prop to provide a handler that is called when the
 internal state of the `SearchInput` changes. You also need to assign the value
 from the state to the `SearchInput` by setting the `value` prop.
+
+```tsx
+import { useState } from 'react';
+
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Search</Label>
+      <SearchInput value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Search</Label>
+      <SearchInput value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
 
 ### Add a suffix
 
@@ -817,14 +2158,173 @@ click handler. A divider is shown if there is both a suffix and a `Clear`
 button. In case of a large suffix area you might want to adjust the CSS
 min-width to avoid flickering with the conditionally shown clear button.
 
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Text } from '@dynatrace/strato-components/typography';
+import { HelpIcon } from '@dynatrace/strato-icons';
+
+const Suffix = () => {
+  return (
+    <Flex gap={8}>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search">
+          <SearchInput.Suffix>
+            <HelpIcon />
+          </SearchInput.Suffix>
+        </SearchInput>
+      </FormField>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search">
+          <SearchInput.Suffix>
+            <Text>@dynatrace.com</Text>
+            <SearchInput.Button>
+              <HelpIcon />
+            </SearchInput.Button>
+          </SearchInput.Suffix>
+        </SearchInput>
+      </FormField>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Text } from '@dynatrace/strato-components/typography';
+import { HelpIcon } from '@dynatrace/strato-icons';
+
+const Suffix = () => {
+  return (
+    <Flex gap={8}>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search">
+          <SearchInput.Suffix>
+            <HelpIcon />
+          </SearchInput.Suffix>
+        </SearchInput>
+      </FormField>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search">
+          <SearchInput.Suffix>
+            <Text>@dynatrace.com</Text>
+            <SearchInput.Button>
+              <HelpIcon />
+            </SearchInput.Button>
+          </SearchInput.Suffix>
+        </SearchInput>
+      </FormField>
+    </Flex>
+  );
+};
+```
+
+
 ### Variants
 
 The `SearchInput` can be styled differently using the `variant` prop. The
 default visual representation is `default`, but can also be set to `minimal`.
 
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex gap={8}>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search" />
+      </FormField>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search" variant="minimal" />
+      </FormField>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex gap={8}>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search" />
+      </FormField>
+      <FormField>
+        <Label>Search</Label>
+        <SearchInput placeholder="Type to search" variant="minimal" />
+      </FormField>
+    </Flex>
+  );
+};
+```
+
+
 ### Make the input read-only
 
 The `SearchInput` can be set to read-only by simply adding the `readOnly` prop.
+
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+
+const ReadOnly = () => {
+  return (
+    <FormField>
+      <Label>Search</Label>
+      <SearchInput readOnly />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  SearchInput,
+} from '@dynatrace/strato-components/forms';
+
+const ReadOnly = () => {
+  return (
+    <FormField>
+      <Label>Search</Label>
+      <SearchInput readOnly />
+    </FormField>
+  );
+};
+```
+
 
 ### Validate
 
@@ -848,6 +2348,143 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Variants
 - Make the input read-only
 - Validate
+
+```tsx
+import { useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  SearchInput,
+  FormFieldMessages,
+  type FormControlRef,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Validation = () => {
+  const searchInputRef = useRef<FormControlRef<HTMLDivElement> | null>(null);
+  const [showCustomError, setShowCustomError] = useState(false);
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
+      <Flex flexDirection="column" gap={16}>
+        <FormField>
+          <Label>Search</Label>
+          <SearchInput ref={searchInputRef} required />
+          <FormFieldMessages>
+            {(messages) => {
+              if (showCustomError) {
+                return (
+                  <FormFieldMessages.Item variant="error">
+                    Custom error for the search input
+                  </FormFieldMessages.Item>
+                );
+              }
+              if (!messages || messages.length === 0) {
+                return (
+                  <FormFieldMessages.Item variant="hint">
+                    Hint for the search input
+                  </FormFieldMessages.Item>
+                );
+              }
+
+              return messages.map((msg) => (
+                <FormFieldMessages.Item key={msg.id} {...msg} />
+              ));
+            }}
+          </FormFieldMessages>
+        </FormField>
+
+        <Flex gap={12}>
+          <Button variant="accent" type="submit">
+            Submit
+          </Button>
+          <Button
+            variant="emphasized"
+            onClick={() => setShowCustomError(!showCustomError)}
+          >
+            Toggle custom error
+          </Button>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  SearchInput,
+  FormFieldMessages,
+  type FormControlRef,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Validation = () => {
+  const searchInputRef = useRef<FormControlRef<HTMLDivElement> | null>(null);
+  const [showCustomError, setShowCustomError] = useState(false);
+
+  return (
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
+      <Flex flexDirection="column" gap={16}>
+        <FormField>
+          <Label>Search</Label>
+          <SearchInput ref={searchInputRef} required />
+          <FormFieldMessages>
+            {(messages) => {
+              if (showCustomError) {
+                return (
+                  <FormFieldMessages.Item variant="error">
+                    Custom error for the search input
+                  </FormFieldMessages.Item>
+                );
+              }
+              if (!messages || messages.length === 0) {
+                return (
+                  <FormFieldMessages.Item variant="hint">
+                    Hint for the search input
+                  </FormFieldMessages.Item>
+                );
+              }
+
+              return messages.map((msg) => (
+                <FormFieldMessages.Item key={msg.id} {...msg} />
+              ));
+            }}
+          </FormFieldMessages>
+        </FormField>
+
+        <Flex gap={12}>
+          <Button variant="accent" type="submit">
+            Submit
+          </Button>
+          <Button
+            variant="emphasized"
+            onClick={() => setShowCustomError(!showCustomError)}
+          >
+            Toggle custom error
+          </Button>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
 
 ### Props
 
@@ -890,6 +2527,43 @@ import { Select } from '@dynatrace/strato-components/forms';
 `
 
 ### Demo
+
+```tsx
+import {
+  SegmentSelector,
+  useSegments,
+} from '@dynatrace/strato-components/filters';
+
+const Basic = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { segments } = useSegments();
+
+  return (
+    <div style={{ height: '300px' }}>
+      <SegmentSelector />
+    </div>
+  );
+};
+```
+
+```tsx
+import {
+  SegmentSelector,
+  useSegments,
+} from '@dynatrace/strato-components/filters';
+
+const Basic = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { segments } = useSegments();
+
+  return (
+    <div style={{ height: '300px' }}>
+      <SegmentSelector />
+    </div>
+  );
+};
+```
+
 
 ### Use multiple selection
 
@@ -934,6 +2608,63 @@ Disable options
 In the Select`, you can disable each option separately by adding the `disabled`
 prop on the `Select.Option` component. Otherwise, if you need to disable the
 whole `Select` component, you can add the `disabled` prop directly.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { SegmentSelector } from '@dynatrace/strato-components/filters';
+import { ChevronDownSmallIcon, ContainerIcon } from '@dynatrace/strato-icons';
+
+const CustomTrigger = () => {
+  return (
+    <div style={{ height: '300px' }}>
+      <SegmentSelector>
+        <SegmentSelector.CustomTrigger>
+          {({ displayValue, isLoading }, props) => (
+            <Button {...props} loading={isLoading}>
+              <Button.Prefix>
+                <ContainerIcon />
+              </Button.Prefix>
+              {displayValue}
+              <Button.Suffix>
+                <ChevronDownSmallIcon />
+              </Button.Suffix>
+            </Button>
+          )}
+        </SegmentSelector.CustomTrigger>
+      </SegmentSelector>
+    </div>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { SegmentSelector } from '@dynatrace/strato-components/filters';
+import { ChevronDownSmallIcon, ContainerIcon } from '@dynatrace/strato-icons';
+
+const CustomTrigger = () => {
+  return (
+    <div style={{ height: '300px' }}>
+      <SegmentSelector>
+        <SegmentSelector.CustomTrigger>
+          {({ displayValue, isLoading }, props) => (
+            <Button {...props} loading={isLoading}>
+              <Button.Prefix>
+                <ContainerIcon />
+              </Button.Prefix>
+              {displayValue}
+              <Button.Suffix>
+                <ChevronDownSmallIcon />
+              </Button.Suffix>
+            </Button>
+          )}
+        </SegmentSelector.CustomTrigger>
+      </SegmentSelector>
+    </div>
+  );
+};
+```
+
 
 ### Make selection clearable
 
@@ -1335,6 +3066,149 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Control the state
 - Validate
 
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FieldSet, Switch } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    control,
+    reset,
+  } = useForm<{
+    'T&C': boolean;
+  }>({
+    mode: 'all',
+    defaultValues: {
+      'T&C': false,
+    },
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="T&C"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Terms and conditions are required.',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FieldSet>
+                <FieldSet.Legend>Terms and conditions:</FieldSet.Legend>
+                <Switch
+                  formValue="checked"
+                  required
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                >
+                  I agree to the terms and conditions
+                </Switch>
+              </FieldSet>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FieldSet, Switch } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    control,
+    reset,
+  } = useForm<{
+    'T&C': boolean;
+  }>({
+    mode: 'all',
+    defaultValues: {
+      'T&C': false,
+    },
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="T&C"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Terms and conditions are required.',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FieldSet>
+                <FieldSet.Legend>Terms and conditions:</FieldSet.Legend>
+                <Switch
+                  formValue="checked"
+                  required
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint: error?.message,
+                  }}
+                  {...field}
+                >
+                  I agree to the terms and conditions
+                </Switch>
+              </FieldSet>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+
 ### Props
 
 The `Switch` component allows users to toggle between two different states. You
@@ -1373,12 +3247,74 @@ This is the simplest version of the `TextArea` which is uncontrolled and
 therefore handles its state internally. You can also set a specific initial
 value using the `defaultValue` prop.
 
+```tsx
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea />
+    </FormField>
+  );
+};
+```
+
+
 ### Control state
 
 The `TextArea` can also be controlled, meaning that you can handle the state. To
 do so, you need to use the `onChange` prop to provide a handler that is called
 when the internal state of the `TextArea` changes. You also need to assign the
 value from the state to the `TextArea` by setting the `value` prop.
+
+```tsx
+import { useState } from 'react';
+
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
 
 ### Disable resizing
 
@@ -1387,11 +3323,65 @@ disable resizing, you can set the `resize` prop to `none`. This doesn't change
 the amount of text you can enter, but only the visual appearance. The amount of
 text can be adjusted using the `cols` and `rows`.
 
+```tsx
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const DisableResizing = () => {
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea resize="none" />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const DisableResizing = () => {
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea resize="none" />
+    </FormField>
+  );
+};
+```
+
+
 ### Restrict resizing to one direction
 
 The `TextArea` component can be resized in both directions by default. However,
 in case you need to resize in one direction only, you can set the `resize` prop
 to `horizontal` or `vertical`.
+
+```tsx
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const VerticalResize = () => {
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea resize="vertical" />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+
+const VerticalResize = () => {
+  return (
+    <FormField>
+      <Label>Enter some feedback</Label>
+      <TextArea resize="vertical" />
+    </FormField>
+  );
+};
+```
+
 
 ### Validation
 
@@ -1413,6 +3403,159 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Disable resizing
 - Restrict resizing to one direction
 - Validation
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    feedback: string;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="feedback"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Your feedback is required',
+              },
+              minLength: {
+                value: 10,
+                message: 'Feedback text cannot have less than 10 characters.',
+              },
+              maxLength: {
+                value: 250,
+                message: 'Feedback text cannot have more than 250 characters.',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Feedback</Label>
+                <TextArea
+                  minLength={10}
+                  maxLength={250}
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint:
+                      error?.message ||
+                      'Please enter between 10 and 250 characters.',
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FormField, Label, TextArea } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{
+    feedback: string;
+  }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="feedback"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Your feedback is required',
+              },
+              minLength: {
+                value: 10,
+                message: 'Feedback text cannot have less than 10 characters.',
+              },
+              maxLength: {
+                value: 250,
+                message: 'Feedback text cannot have more than 250 characters.',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Feedback</Label>
+                <TextArea
+                  minLength={10}
+                  maxLength={250}
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint:
+                      error?.message ||
+                      'Please enter between 10 and 250 characters.',
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
 
 ### Props
 
@@ -1487,12 +3630,90 @@ This is the simplest version of the `TextInput`, which is uncontrolled and
 therefore handles its state internally. You can also set a specific initial
 value using the `defaultValue` prop.
 
+```tsx
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Enter text</Label>
+      <TextInput />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+
+const Basic = () => {
+  return (
+    <FormField>
+      <Label>Enter text</Label>
+      <TextInput />
+    </FormField>
+  );
+};
+```
+
+
 ### Control state
 
 The `TextInput` can also be controlled, meaning that you can handle the state.
 To do so, you need to use the `onChange` prop to provide a handler that is
 called when the internal state of the `TextInput` changes. You also need to
 assign the value from the state to the `TextInput` by setting the `value` prop.
+
+```tsx
+import { useState } from 'react';
+
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Enter text</Label>
+      <TextInput value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+
+const Controlled = () => {
+  const [value, setValue] = useState('');
+
+  return (
+    <FormField>
+      <Label>Enter text</Label>
+      <TextInput value={value} onChange={setValue} />
+    </FormField>
+  );
+};
+```
+
 
 ### Add prefix or suffix
 
@@ -1502,14 +3723,201 @@ that renders an icon or any similar element without any text, you need to add
 either the `aria-label` prop or the `tooltipText` prop to provide a text
 description for the button.
 
+```tsx
+import { useRef, useState } from 'react';
+
+import {
+  FormField,
+  FormControlRef,
+  TextInput,
+  Label,
+} from '@dynatrace/strato-components/forms';
+import { FilterIcon, SettingIcon, XmarkIcon } from '@dynatrace/strato-icons';
+
+const PrefixSuffix = () => {
+  const [value, setValue] = useState('');
+  const inputRef = useRef<FormControlRef<HTMLDivElement>>(null);
+
+  return (
+    <FormField>
+      <Label>Enter text</Label>
+      <TextInput
+        placeholder="Enter something"
+        value={value}
+        onChange={setValue}
+        ref={inputRef}
+      >
+        <TextInput.Prefix>
+          <FilterIcon aria-label="Filter" />
+        </TextInput.Prefix>
+        <TextInput.Suffix>
+          <SettingIcon aria-label="Settings" />
+          <TextInput.Button
+            onClick={() => {
+              setValue('');
+              inputRef.current?.inputRef?.focus();
+            }}
+          >
+            <XmarkIcon />
+          </TextInput.Button>
+        </TextInput.Suffix>
+      </TextInput>
+    </FormField>
+  );
+};
+```
+
+```tsx
+import { useRef, useState } from 'react';
+
+import {
+  FormField,
+  FormControlRef,
+  TextInput,
+  Label,
+} from '@dynatrace/strato-components/forms';
+import { FilterIcon, SettingIcon, XmarkIcon } from '@dynatrace/strato-icons';
+
+const PrefixSuffix = () => {
+  const [value, setValue] = useState('');
+  const inputRef = useRef<FormControlRef<HTMLDivElement>>(null);
+
+  return (
+    <FormField>
+      <Label>Enter text</Label>
+      <TextInput
+        placeholder="Enter something"
+        value={value}
+        onChange={setValue}
+        ref={inputRef}
+      >
+        <TextInput.Prefix>
+          <FilterIcon aria-label="Filter" />
+        </TextInput.Prefix>
+        <TextInput.Suffix>
+          <SettingIcon aria-label="Settings" />
+          <TextInput.Button
+            onClick={() => {
+              setValue('');
+              inputRef.current?.inputRef?.focus();
+            }}
+          >
+            <XmarkIcon />
+          </TextInput.Button>
+        </TextInput.Suffix>
+      </TextInput>
+    </FormField>
+  );
+};
+```
+
+
 ### Variants
 
 The `TextInput` can be styled differently using the `variant` prop. The default
 visual representation is `default`, but can also be set to `minimal`.
 
+```tsx
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex gap={8}>
+      <Flex>
+        <FormField>
+          <Label>Enter text</Label>
+          <TextInput placeholder="This is a default text input" />
+        </FormField>
+      </Flex>
+      <Flex>
+        <FormField>
+          <Label>Enter text</Label>
+          <TextInput
+            placeholder="This is a minimal text input"
+            variant="minimal"
+          />
+        </FormField>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex gap={8}>
+      <Flex>
+        <FormField>
+          <Label>Enter text</Label>
+          <TextInput placeholder="This is a default text input" />
+        </FormField>
+      </Flex>
+      <Flex>
+        <FormField>
+          <Label>Enter text</Label>
+          <TextInput
+            placeholder="This is a minimal text input"
+            variant="minimal"
+          />
+        </FormField>
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+
 ### Make input read-only
 
 The `TextInput` can be set to read-only by simply adding the `readOnly` prop.
+
+```tsx
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+
+const ReadOnly = () => {
+  return (
+    <FormField>
+      <Label>Read-only</Label>
+      <TextInput readOnly defaultValue="This text is read-only" />
+    </FormField>
+  );
+};
+```
+
+```tsx
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+
+const ReadOnly = () => {
+  return (
+    <FormField>
+      <Label>Read-only</Label>
+      <TextInput readOnly defaultValue="This text is read-only" />
+    </FormField>
+  );
+};
+```
+
 
 ### Validation
 
@@ -1533,6 +3941,171 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Variants
 - Make input read-only
 - Validation
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{ username: string }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="username"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Please enter a username.',
+              },
+              minLength: {
+                value: 5,
+                message: 'The username cannot have less than 5 characters.',
+              },
+              maxLength: {
+                value: 20,
+                message: 'The username cannot have more than 20 characters.',
+              },
+              pattern: {
+                value: /^[a-zA-Z].*\d[A-Za-z\d]+/,
+                message: 'The username must contain numbers and characters',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Username</Label>
+                <TextInput
+                  placeholder="Enter your username"
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint:
+                      error?.message ||
+                      'Please enter between 5 and 20 characters.',
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
+```tsx
+import { Controller, useForm } from 'react-hook-form';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Heading, Text } from '@dynatrace/strato-components/typography';
+
+const Validation = () => {
+  const {
+    handleSubmit,
+    control,
+    formState: { isSubmitSuccessful },
+    reset,
+  } = useForm<{ username: string }>({
+    mode: 'all',
+  });
+
+  return (
+    <form
+      onSubmit={handleSubmit(() => void 0)}
+      onReset={() => reset()}
+      noValidate
+    >
+      <Flex flexDirection="column" gap={16}>
+        <Heading level={2}>Register</Heading>
+        <Flex flexDirection="column" gap={16}>
+          <Controller
+            name="username"
+            control={control}
+            rules={{
+              required: {
+                value: true,
+                message: 'Please enter a username.',
+              },
+              minLength: {
+                value: 5,
+                message: 'The username cannot have less than 5 characters.',
+              },
+              maxLength: {
+                value: 20,
+                message: 'The username cannot have more than 20 characters.',
+              },
+              pattern: {
+                value: /^[a-zA-Z].*\d[A-Za-z\d]+/,
+                message: 'The username must contain numbers and characters',
+              },
+            }}
+            render={({ field, fieldState: { error } }) => (
+              <FormField required>
+                <Label>Username</Label>
+                <TextInput
+                  placeholder="Enter your username"
+                  controlState={{
+                    state: error ? 'error' : 'valid',
+                    hint:
+                      error?.message ||
+                      'Please enter between 5 and 20 characters.',
+                  }}
+                  {...field}
+                />
+              </FormField>
+            )}
+          />
+
+          <Button type="submit" variant="emphasized">
+            Submit
+          </Button>
+          <Text>
+            The form has{!isSubmitSuccessful && ' not'} been submitted.
+          </Text>
+        </Flex>
+      </Flex>
+    </form>
+  );
+};
+```
+
 
 ### Props
 
@@ -1619,12 +4192,266 @@ Icons can be placed before or after the text in the `ToggleButtonGroup.Item`. If
 an item only displays an icon, include a `tooltip` describing what the icon
 represents.
 
+```tsx
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  ColumnsIcon,
+  LegendBottomIcon,
+  LegendRightIcon,
+  RowsIcon,
+  SecurityCriticalIcon,
+  SecurityHighIcon,
+  SecurityMediumIcon,
+  WarningIcon,
+} from '@dynatrace/strato-icons';
+
+const Icons = () => {
+  return (
+    <Flex flexDirection="column" gap={8}>
+      <div>
+        <ToggleButtonGroup name="item-only">
+          <ToggleButtonGroup.Item
+            value="legend-right"
+            tooltip="Legend Right"
+            data-testid="legend-right"
+            aria-label="Legend Right"
+          >
+            <ToggleButtonGroup.Prefix>
+              <LegendRightIcon />
+            </ToggleButtonGroup.Prefix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item
+            value="legend-bottom"
+            tooltip="Legend Bottom"
+            data-testid="legend-bottom"
+            aria-label="Legend Bottom"
+          >
+            <ToggleButtonGroup.Suffix>
+              <LegendBottomIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item
+            value="columns"
+            tooltip="Columns"
+            data-testid="columns"
+            aria-label="Columns"
+          >
+            <ToggleButtonGroup.Suffix>
+              <ColumnsIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item
+            value="rows"
+            tooltip="Rows"
+            data-testid="rows"
+            aria-label="Rows"
+          >
+            <ToggleButtonGroup.Suffix>
+              <RowsIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup name="prefix-suffix">
+          <ToggleButtonGroup.Item value="critical">
+            <ToggleButtonGroup.Prefix>
+              <SecurityCriticalIcon />
+            </ToggleButtonGroup.Prefix>
+            Security Critical
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="high">
+            <ToggleButtonGroup.Prefix>
+              <SecurityHighIcon />
+            </ToggleButtonGroup.Prefix>
+            Security High
+            <ToggleButtonGroup.Suffix>
+              <WarningIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="medium">
+            <ToggleButtonGroup.Prefix>
+              <SecurityMediumIcon />
+            </ToggleButtonGroup.Prefix>
+            Security Medium
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  ColumnsIcon,
+  LegendBottomIcon,
+  LegendRightIcon,
+  RowsIcon,
+  SecurityCriticalIcon,
+  SecurityHighIcon,
+  SecurityMediumIcon,
+  WarningIcon,
+} from '@dynatrace/strato-icons';
+
+const Icons = () => {
+  return (
+    <Flex flexDirection="column" gap={8}>
+      <div>
+        <ToggleButtonGroup name="item-only">
+          <ToggleButtonGroup.Item
+            value="legend-right"
+            tooltip="Legend Right"
+            data-testid="legend-right"
+            aria-label="Legend Right"
+          >
+            <ToggleButtonGroup.Prefix>
+              <LegendRightIcon />
+            </ToggleButtonGroup.Prefix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item
+            value="legend-bottom"
+            tooltip="Legend Bottom"
+            data-testid="legend-bottom"
+            aria-label="Legend Bottom"
+          >
+            <ToggleButtonGroup.Suffix>
+              <LegendBottomIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item
+            value="columns"
+            tooltip="Columns"
+            data-testid="columns"
+            aria-label="Columns"
+          >
+            <ToggleButtonGroup.Suffix>
+              <ColumnsIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item
+            value="rows"
+            tooltip="Rows"
+            data-testid="rows"
+            aria-label="Rows"
+          >
+            <ToggleButtonGroup.Suffix>
+              <RowsIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup name="prefix-suffix">
+          <ToggleButtonGroup.Item value="critical">
+            <ToggleButtonGroup.Prefix>
+              <SecurityCriticalIcon />
+            </ToggleButtonGroup.Prefix>
+            Security Critical
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="high">
+            <ToggleButtonGroup.Prefix>
+              <SecurityHighIcon />
+            </ToggleButtonGroup.Prefix>
+            Security High
+            <ToggleButtonGroup.Suffix>
+              <WarningIcon />
+            </ToggleButtonGroup.Suffix>
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="medium">
+            <ToggleButtonGroup.Prefix>
+              <SecurityMediumIcon />
+            </ToggleButtonGroup.Prefix>
+            Security Medium
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+    </Flex>
+  );
+};
+```
+
+
 #### Disable options
 
 The `ToggleButtonGroup` offers two disable options. You can disable the entire
 group or disable specific buttons. To implement either option, apply the
 `disabled` prop to the target element (either the group or an individual
 button).
+
+```tsx
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Disabled = () => {
+  return (
+    <Flex flexDirection="column" gap={8}>
+      <div>
+        <ToggleButtonGroup disabled name="disabled">
+          <ToggleButtonGroup.Item value="all">
+            All options
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="disabled">
+            disabled
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup name="item-disabled">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item disabled value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Disabled = () => {
+  return (
+    <Flex flexDirection="column" gap={8}>
+      <div>
+        <ToggleButtonGroup disabled name="disabled">
+          <ToggleButtonGroup.Item value="all">
+            All options
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="disabled">
+            disabled
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup name="item-disabled">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item disabled value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+    </Flex>
+  );
+};
+```
+
 
 #### Width
 
@@ -1636,6 +4463,109 @@ values:
 - `full`: expands to the full available width,
 
 - Custom string values (e.g., "400px"): allows specifying an exact width.
+
+```tsx
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Width = () => {
+  return (
+    <Flex flexDirection="column" gap={8}>
+      <div>
+        <ToggleButtonGroup width="content" name="content">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup width="600px" name="600px">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup width="full" name="full">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { ToggleButtonGroup } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Width = () => {
+  return (
+    <Flex flexDirection="column" gap={8}>
+      <div>
+        <ToggleButtonGroup width="content" name="content">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup width="600px" name="600px">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+      <div>
+        <ToggleButtonGroup width="full" name="full">
+          <ToggleButtonGroup.Item value="left">
+            align left
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="center">
+            align center
+          </ToggleButtonGroup.Item>
+          <ToggleButtonGroup.Item value="right">
+            align right
+          </ToggleButtonGroup.Item>
+        </ToggleButtonGroup>
+      </div>
+    </Flex>
+  );
+};
+```
+
 
 #### Validation
 
@@ -1659,6 +4589,183 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Disable options
 - Width
 - Validation
+
+```tsx
+import { useState, useRef } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  ToggleButtonGroup,
+  type FormControlRef,
+  FormField,
+  Label,
+  FormFieldMessages,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  LineChartIcon,
+  BandChartIcon,
+  GanttChartIcon,
+} from '@dynatrace/strato-icons';
+
+const Validation = () => {
+  const toggleButtonGroupRef = useRef<FormControlRef<HTMLDivElement>>(null);
+  const [showCustomError, setShowCustomError] = useState(false);
+
+  return (
+    <Flex flexDirection="column">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
+        <FormField>
+          <Label>ToggleButtonGroup</Label>
+          <ToggleButtonGroup ref={toggleButtonGroupRef} name="form" required>
+            <ToggleButtonGroup.Item value="line-chart">
+              <ToggleButtonGroup.Prefix>
+                <LineChartIcon />
+              </ToggleButtonGroup.Prefix>
+              Line Chart
+            </ToggleButtonGroup.Item>
+            <ToggleButtonGroup.Item value="bar-chart">
+              <ToggleButtonGroup.Prefix>
+                <BandChartIcon />
+              </ToggleButtonGroup.Prefix>
+              Bar Chart
+            </ToggleButtonGroup.Item>
+            <ToggleButtonGroup.Item value="gant-chart">
+              <ToggleButtonGroup.Prefix>
+                <GanttChartIcon />
+              </ToggleButtonGroup.Prefix>
+              Gant Chart
+            </ToggleButtonGroup.Item>
+          </ToggleButtonGroup>
+          <FormFieldMessages>
+            {(messages) => {
+              if (showCustomError) {
+                return (
+                  <FormFieldMessages.Item variant="error">
+                    Custom error for the radio group
+                  </FormFieldMessages.Item>
+                );
+              }
+              if (!messages || messages.length === 0) {
+                return (
+                  <FormFieldMessages.Item variant="hint">
+                    Please select an Item
+                  </FormFieldMessages.Item>
+                );
+              }
+              return messages.map((msg) => (
+                <FormFieldMessages.Item key={msg.id} {...msg} />
+              ));
+            }}
+          </FormFieldMessages>
+        </FormField>
+        <Button variant="accent" type="submit">
+          Submit
+        </Button>
+        <Button
+          variant="emphasized"
+          onClick={() => setShowCustomError(!showCustomError)}
+        >
+          Toggle custom error
+        </Button>
+      </form>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { useState, useRef } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  ToggleButtonGroup,
+  type FormControlRef,
+  FormField,
+  Label,
+  FormFieldMessages,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  LineChartIcon,
+  BandChartIcon,
+  GanttChartIcon,
+} from '@dynatrace/strato-icons';
+
+const Validation = () => {
+  const toggleButtonGroupRef = useRef<FormControlRef<HTMLDivElement>>(null);
+  const [showCustomError, setShowCustomError] = useState(false);
+
+  return (
+    <Flex flexDirection="column">
+      <form
+        onSubmit={(event) => {
+          event.preventDefault();
+        }}
+      >
+        <FormField>
+          <Label>ToggleButtonGroup</Label>
+          <ToggleButtonGroup ref={toggleButtonGroupRef} name="form" required>
+            <ToggleButtonGroup.Item value="line-chart">
+              <ToggleButtonGroup.Prefix>
+                <LineChartIcon />
+              </ToggleButtonGroup.Prefix>
+              Line Chart
+            </ToggleButtonGroup.Item>
+            <ToggleButtonGroup.Item value="bar-chart">
+              <ToggleButtonGroup.Prefix>
+                <BandChartIcon />
+              </ToggleButtonGroup.Prefix>
+              Bar Chart
+            </ToggleButtonGroup.Item>
+            <ToggleButtonGroup.Item value="gant-chart">
+              <ToggleButtonGroup.Prefix>
+                <GanttChartIcon />
+              </ToggleButtonGroup.Prefix>
+              Gant Chart
+            </ToggleButtonGroup.Item>
+          </ToggleButtonGroup>
+          <FormFieldMessages>
+            {(messages) => {
+              if (showCustomError) {
+                return (
+                  <FormFieldMessages.Item variant="error">
+                    Custom error for the radio group
+                  </FormFieldMessages.Item>
+                );
+              }
+              if (!messages || messages.length === 0) {
+                return (
+                  <FormFieldMessages.Item variant="hint">
+                    Please select an Item
+                  </FormFieldMessages.Item>
+                );
+              }
+              return messages.map((msg) => (
+                <FormFieldMessages.Item key={msg.id} {...msg} />
+              ));
+            }}
+          </FormFieldMessages>
+        </FormField>
+        <Button variant="accent" type="submit">
+          Submit
+        </Button>
+        <Button
+          variant="emphasized"
+          onClick={() => setShowCustomError(!showCustomError)}
+        >
+          Toggle custom error
+        </Button>
+      </form>
+    </Flex>
+  );
+};
+```
+
 
 ### Props
 

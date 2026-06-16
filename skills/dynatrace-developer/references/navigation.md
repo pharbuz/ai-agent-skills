@@ -63,6 +63,45 @@ import { Breadcrumbs } from '@dynatrace/strato-components/navigation';
 
 The `disabled` prop disables a `Breadcrumbs.Item`, making it unclickable.
 
+```tsx
+import { Breadcrumbs } from '@dynatrace/strato-components/navigation';
+
+const DisabledItem = () => {
+  return (
+    <Breadcrumbs>
+      <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 1</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 2</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 3</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 4</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#" disabled>
+        Level 5
+      </Breadcrumbs.Item>
+    </Breadcrumbs>
+  );
+};
+```
+
+```tsx
+import { Breadcrumbs } from '@dynatrace/strato-components/navigation';
+
+const DisabledItem = () => {
+  return (
+    <Breadcrumbs>
+      <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 1</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 2</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 3</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#">Level 4</Breadcrumbs.Item>
+      <Breadcrumbs.Item href="#" disabled>
+        Level 5
+      </Breadcrumbs.Item>
+    </Breadcrumbs>
+  );
+};
+```
+
+
 #### Use the Breadcrumbs with React Router
 
 The `Breadcrumbs.Item` is a polymorphic component and can also be used as a
@@ -120,6 +159,91 @@ import { Menu } from '@dynatrace/strato-components/navigation';
 `
 
 ### Demo
+
+```tsx
+import { useNavigate } from 'react-router';
+
+import { HelpMenu } from '@dynatrace/strato-components/layouts';
+
+const Basic = () => {
+  const navigate = useNavigate();
+
+  return (
+    <HelpMenu
+      entries={{
+        whatsNew: 'default',
+        getStarted: {
+          onSelect: () => undefined,
+        },
+        documentation: [
+          {
+            label: 'Dynatrace Hub',
+            href: 'link/to/hub',
+            onSelect: () => {
+              // side effect code can be executed to track behavioral events
+            },
+          },
+          {
+            label: 'Onboarding wizard',
+            onSelect: () => {
+              navigate('/onboarding');
+            },
+          },
+        ],
+        keyboardShortcuts: {
+          href: 'https://developer.dynatrace.com/',
+        },
+        playground: 'default',
+        feedback: { onSelect: () => undefined },
+        about: 'default',
+      }}
+    />
+  );
+};
+```
+
+```tsx
+import { useNavigate } from 'react-router';
+
+import { HelpMenu } from '@dynatrace/strato-components/layouts';
+
+const Basic = () => {
+  const navigate = useNavigate();
+
+  return (
+    <HelpMenu
+      entries={{
+        whatsNew: 'default',
+        getStarted: {
+          onSelect: () => undefined,
+        },
+        documentation: [
+          {
+            label: 'Dynatrace Hub',
+            href: 'link/to/hub',
+            onSelect: () => {
+              // side effect code can be executed to track behavioral events
+            },
+          },
+          {
+            label: 'Onboarding wizard',
+            onSelect: () => {
+              navigate('/onboarding');
+            },
+          },
+        ],
+        keyboardShortcuts: {
+          href: 'https://developer.dynatrace.com/',
+        },
+        playground: 'default',
+        feedback: { onSelect: () => undefined },
+        about: 'default',
+      }}
+    />
+  );
+};
+```
+
 
 ### Default open menu
 
@@ -365,6 +489,89 @@ third tab is disabled.
 Allows you to open a specific tab when the component is loaded. In the example
 below, the third tab is open when component is loaded.
 
+```tsx
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Tab, Tabs } from '@dynatrace/strato-components/navigation';
+import { Text } from '@dynatrace/strato-components/typography';
+
+const DefaultOpen = () => {
+  return (
+    <Tabs defaultIndex={2}>
+      <Tab title="Digital Experience">
+        <Flex flexDirection="column">
+          <Text>
+            Improve user experiences with best-in-class digital experience
+            monitoring. Ensure every application is available, functional, fast,
+            and efficient across every channel including mobile, web, IoT, and
+            APIs.
+          </Text>
+        </Flex>
+      </Tab>
+      <Tab title="Business Analytics">
+        <Flex flexDirection="column">
+          <Text>
+            Drive better business outcomes across web, mobile, and IoT channels
+            through digital application analytics that deliver real-time
+            visibility into business KPIs and improve IT and business
+            collaboration.
+          </Text>
+        </Flex>
+      </Tab>
+      <Tab title="Cloud Automation">
+        <Flex flexDirection="column">
+          <Text>
+            Empower DevOps platform engineers, SREs, and Development teams to
+            deliver higher quality software faster and more securely.
+          </Text>
+        </Flex>
+      </Tab>
+    </Tabs>
+  );
+};
+```
+
+```tsx
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Tab, Tabs } from '@dynatrace/strato-components/navigation';
+import { Text } from '@dynatrace/strato-components/typography';
+
+const DefaultOpen = () => {
+  return (
+    <Tabs defaultIndex={2}>
+      <Tab title="Digital Experience">
+        <Flex flexDirection="column">
+          <Text>
+            Improve user experiences with best-in-class digital experience
+            monitoring. Ensure every application is available, functional, fast,
+            and efficient across every channel including mobile, web, IoT, and
+            APIs.
+          </Text>
+        </Flex>
+      </Tab>
+      <Tab title="Business Analytics">
+        <Flex flexDirection="column">
+          <Text>
+            Drive better business outcomes across web, mobile, and IoT channels
+            through digital application analytics that deliver real-time
+            visibility into business KPIs and improve IT and business
+            collaboration.
+          </Text>
+        </Flex>
+      </Tab>
+      <Tab title="Cloud Automation">
+        <Flex flexDirection="column">
+          <Text>
+            Empower DevOps platform engineers, SREs, and Development teams to
+            deliver higher quality software faster and more securely.
+          </Text>
+        </Flex>
+      </Tab>
+    </Tabs>
+  );
+};
+```
+
+
 #### Control the state
 
 #### Change the panel overflow
@@ -388,6 +595,65 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Control the state
 - Change the panel overflow
 - Keep Tabs mounted
+
+```tsx
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Tab, Tabs } from '@dynatrace/strato-components/navigation';
+
+const KeepMounted = () => {
+  return (
+    <Tabs>
+      <Tab title="Infrastructure Monitoring">
+        <Flex flexDirection="column">
+          Get automatic and intelligent observability across cloud and hybrid
+          environments with continuous auto-discovery of hosts, VMs, serverless,
+          cloud services, containers and Kubernetes, network, devices, logs,
+          events and more - all in context, with precise, AI-powered answers.
+        </Flex>
+      </Tab>
+      <Tab title="Applications &amp; Microservices" keepMounted>
+        <Flex flexDirection="column">
+          Get best-in-class APM from the category leader. Automatic and
+          intelligent observability at scale for cloud native workloads and
+          enterprise apps helps you ensure end-to-end hybrid cloud distributed
+          tracing, optimize service performance, innovate faster, collaborate
+          efficiently, and deliver more value with less effort.
+        </Flex>
+      </Tab>
+    </Tabs>
+  );
+};
+```
+
+```tsx
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Tab, Tabs } from '@dynatrace/strato-components/navigation';
+
+const KeepMounted = () => {
+  return (
+    <Tabs>
+      <Tab title="Infrastructure Monitoring">
+        <Flex flexDirection="column">
+          Get automatic and intelligent observability across cloud and hybrid
+          environments with continuous auto-discovery of hosts, VMs, serverless,
+          cloud services, containers and Kubernetes, network, devices, logs,
+          events and more - all in context, with precise, AI-powered answers.
+        </Flex>
+      </Tab>
+      <Tab title="Applications &amp; Microservices" keepMounted>
+        <Flex flexDirection="column">
+          Get best-in-class APM from the category leader. Automatic and
+          intelligent observability at scale for cloud native workloads and
+          enterprise apps helps you ensure end-to-end hybrid cloud distributed
+          tracing, optimize service performance, innovate faster, collaborate
+          efficiently, and deliver more value with less effort.
+        </Flex>
+      </Tab>
+    </Tabs>
+  );
+};
+```
+
 
 ### Props
 

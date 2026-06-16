@@ -36,6 +36,109 @@ different user goals, levels of knowledge, or access, use `AppHeader.Navigation`
 to segment the flows. It will collapse into a menu, if there isn't enough space
 in the AppHeader.
 
+```tsx
+import { NavLink, Link as RouterLink } from 'react-router';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { AppHeader, HelpMenu } from '@dynatrace/strato-components/layouts';
+import { Tooltip } from '@dynatrace/strato-components/overlays';
+import { SettingIcon } from '@dynatrace/strato-icons';
+
+const Navigation = () => {
+  return (
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo />
+        <AppHeader.NavigationItem href="#" isSelected>
+          First tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem href="#" disabled isSelected>
+          Second tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem href="#" disabled>
+          Third tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem to="#" as={NavLink}>
+          Fourth tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem to="/#?something" as={RouterLink}>
+          Fifth tab
+        </AppHeader.NavigationItem>
+      </AppHeader.Navigation>
+      <AppHeader.Menus>
+        <Tooltip text="Settings">
+          <Button onClick={() => undefined}>
+            <Button.Prefix>
+              <SettingIcon />
+            </Button.Prefix>
+          </Button>
+        </Tooltip>
+        <HelpMenu
+          entries={{
+            whatsNew: 'default',
+            keyboardShortcuts: 'default',
+            playground: 'default',
+            about: 'default',
+          }}
+        />
+      </AppHeader.Menus>
+    </AppHeader>
+  );
+};
+```
+
+```tsx
+import { NavLink, Link as RouterLink } from 'react-router';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { AppHeader, HelpMenu } from '@dynatrace/strato-components/layouts';
+import { Tooltip } from '@dynatrace/strato-components/overlays';
+import { SettingIcon } from '@dynatrace/strato-icons';
+
+const Navigation = () => {
+  return (
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo />
+        <AppHeader.NavigationItem href="#" isSelected>
+          First tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem href="#" disabled isSelected>
+          Second tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem href="#" disabled>
+          Third tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem to="#" as={NavLink}>
+          Fourth tab
+        </AppHeader.NavigationItem>
+        <AppHeader.NavigationItem to="/#?something" as={RouterLink}>
+          Fifth tab
+        </AppHeader.NavigationItem>
+      </AppHeader.Navigation>
+      <AppHeader.Menus>
+        <Tooltip text="Settings">
+          <Button onClick={() => undefined}>
+            <Button.Prefix>
+              <SettingIcon />
+            </Button.Prefix>
+          </Button>
+        </Tooltip>
+        <HelpMenu
+          entries={{
+            whatsNew: 'default',
+            keyboardShortcuts: 'default',
+            playground: 'default',
+            about: 'default',
+          }}
+        />
+      </AppHeader.Menus>
+    </AppHeader>
+  );
+};
+```
+
+
 ##### Setting active styles on `NavigationItem`
 
 Set `isSelected` on `AppHeader.NavigationItem` to apply the correct styles.
@@ -50,6 +153,69 @@ want to use a routing library like `react-router-dom` you can set
 
 `react-router-dom`s `NavLink` automatically adds an `active` css class, so you
 don't need to set `isSelected` manually.
+
+```tsx
+<AppHeader>
+  <AppHeader.Navigation>
+    <AppHeader.Logo as={RouterLink} to="#" />
+    <AppHeader.NavigationItem as={RouterLink} to="#" isSelected={false}>
+      First tab
+    </AppHeader.NavigationItem>
+    <AppHeader.NavigationItem as={NavLink} to="#">
+      Second tab
+    </AppHeader.NavigationItem>
+  </AppHeader.Navigation>
+  <AppHeader.Menus>
+    <Tooltip text="Settings">
+      <Button onClick={() => undefined}>
+        <Button.Prefix>
+          <SettingIcon />
+        </Button.Prefix>
+      </Button>
+    </Tooltip>
+    <HelpMenu
+      entries={{
+        whatsNew: 'default',
+        keyboardShortcuts: 'default',
+        playground: 'default',
+        about: 'default',
+      }}
+    />
+  </AppHeader.Menus>
+</AppHeader>
+```
+
+```tsx
+<AppHeader>
+  <AppHeader.Navigation>
+    <AppHeader.Logo as={RouterLink} to="#" />
+    <AppHeader.NavigationItem as={RouterLink} to="#" isSelected={false}>
+      First tab
+    </AppHeader.NavigationItem>
+    <AppHeader.NavigationItem as={NavLink} to="#">
+      Second tab
+    </AppHeader.NavigationItem>
+  </AppHeader.Navigation>
+  <AppHeader.Menus>
+    <Tooltip text="Settings">
+      <Button onClick={() => undefined}>
+        <Button.Prefix>
+          <SettingIcon />
+        </Button.Prefix>
+      </Button>
+    </Tooltip>
+    <HelpMenu
+      entries={{
+        whatsNew: 'default',
+        keyboardShortcuts: 'default',
+        playground: 'default',
+        about: 'default',
+      }}
+    />
+  </AppHeader.Menus>
+</AppHeader>
+```
+
 
 ##### Customize the app Logo
 
@@ -360,6 +526,35 @@ import { Flex } from '@dynatrace/strato-components/layouts';
 In the example below the `flexDirection` prop is used. The same approach can be
 used for other flexbox properties.
 
+```tsx
+import { Flex, Container } from '@dynatrace/strato-components/layouts';
+
+const FlexDirection = () => {
+  return (
+    <Flex flexDirection="row" width="100%">
+      <Container>Box 1</Container>
+      <Container>Box 2</Container>
+      <Container>Box 3</Container>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Flex, Container } from '@dynatrace/strato-components/layouts';
+
+const FlexDirection = () => {
+  return (
+    <Flex flexDirection="row" width="100%">
+      <Container>Box 1</Container>
+      <Container>Box 2</Container>
+      <Container>Box 3</Container>
+    </Flex>
+  );
+};
+```
+
+
 #### Flex item
 
 The prop `flexItem` can be set on any Flex component to mark it as a child of
@@ -371,6 +566,39 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Flex props
 - Flex item
+
+```tsx
+import { Flex, Container } from '@dynatrace/strato-components/layouts';
+
+const FlexItem = () => {
+  return (
+    <Flex flexDirection="row" width="100%">
+      <Container>Box 1</Container>
+      <Flex flexItem flexGrow={2}>
+        <Container>Box 2</Container>
+      </Flex>
+      <Container>Box 3</Container>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Flex, Container } from '@dynatrace/strato-components/layouts';
+
+const FlexItem = () => {
+  return (
+    <Flex flexDirection="row" width="100%">
+      <Container>Box 1</Container>
+      <Flex flexItem flexGrow={2}>
+        <Container>Box 2</Container>
+      </Flex>
+      <Container>Box 3</Container>
+    </Flex>
+  );
+};
+```
+
 
 ### Props
 
@@ -506,6 +734,35 @@ import { Grid } from '@dynatrace/strato-components/layouts';
 In the example below the `gridTemplateColumns` prop is used. The same approach
 can be used for other CSS grid properties.
 
+```tsx
+import { Grid, Container } from '@dynatrace/strato-components/layouts';
+
+const Basic = () => {
+  return (
+    <Grid gridTemplateColumns="repeat(3, 1fr)">
+      <Container>Box 1</Container>
+      <Container>Box 2</Container>
+      <Container>Box 3</Container>
+    </Grid>
+  );
+};
+```
+
+```tsx
+import { Grid, Container } from '@dynatrace/strato-components/layouts';
+
+const Basic = () => {
+  return (
+    <Grid gridTemplateColumns="repeat(3, 1fr)">
+      <Container>Box 1</Container>
+      <Container>Box 2</Container>
+      <Container>Box 3</Container>
+    </Grid>
+  );
+};
+```
+
+
 #### Grid item
 
 The prop `gridItem` can be set on any `Grid` component to mark it as a child of
@@ -517,6 +774,69 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Grid props
 - Grid item
+
+```tsx
+import { Grid, Container } from '@dynatrace/strato-components/layouts';
+
+const GridItem = () => {
+  return (
+    <Grid
+      width="100%"
+      gap={20}
+      gridTemplateColumns="repeat(2, 1fr)"
+      gridTemplateAreas="'one one' 'A B' 'C D'"
+    >
+      <Grid gridItem gridArea="one">
+        <Container>Grid Header</Container>
+      </Grid>
+      <Grid gridItem key="A" gridArea="A">
+        <Container>A</Container>
+      </Grid>
+      <Grid gridItem key="B" gridArea="B">
+        <Container>B</Container>
+      </Grid>
+      <Grid gridItem key="C" gridArea="C">
+        <Container>C</Container>
+      </Grid>
+      <Grid gridItem key="D" gridArea="D">
+        <Container>D</Container>
+      </Grid>
+    </Grid>
+  );
+};
+```
+
+```tsx
+import { Grid, Container } from '@dynatrace/strato-components/layouts';
+
+const GridItem = () => {
+  return (
+    <Grid
+      width="100%"
+      gap={20}
+      gridTemplateColumns="repeat(2, 1fr)"
+      gridTemplateAreas="'one one' 'A B' 'C D'"
+    >
+      <Grid gridItem gridArea="one">
+        <Container>Grid Header</Container>
+      </Grid>
+      <Grid gridItem key="A" gridArea="A">
+        <Container>A</Container>
+      </Grid>
+      <Grid gridItem key="B" gridArea="B">
+        <Container>B</Container>
+      </Grid>
+      <Grid gridItem key="C" gridArea="C">
+        <Container>C</Container>
+      </Grid>
+      <Grid gridItem key="D" gridArea="D">
+        <Container>D</Container>
+      </Grid>
+    </Grid>
+  );
+};
+```
+
 
 ### Props
 
@@ -663,6 +983,41 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Defaults
 
+```tsx
+import { HelpMenu } from '@dynatrace/strato-components/layouts';
+
+const Defaults = () => {
+  return (
+    <HelpMenu
+      entries={{
+        whatsNew: 'default',
+        keyboardShortcuts: 'default',
+        playground: 'default',
+        about: 'default',
+      }}
+    />
+  );
+};
+```
+
+```tsx
+import { HelpMenu } from '@dynatrace/strato-components/layouts';
+
+const Defaults = () => {
+  return (
+    <HelpMenu
+      entries={{
+        whatsNew: 'default',
+        keyboardShortcuts: 'default',
+        playground: 'default',
+        about: 'default',
+      }}
+    />
+  );
+};
+```
+
+
 ### Props
 
 A prebuilt menu as entrypoint for app specific help links and actions.
@@ -725,6 +1080,63 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Classname
 
+```tsx
+import {
+  Flex,
+  Container,
+  InputGroup,
+  inputGroupClassName,
+} from '@dynatrace/strato-components/layouts';
+
+const Classname = () => {
+  return (
+    <Flex flexDirection="column">
+      <InputGroup>
+        <Container>Container without classname</Container>
+        <Container>Container without classname</Container>
+      </InputGroup>
+      <InputGroup>
+        <Container className={inputGroupClassName}>
+          Container with classname
+        </Container>
+        <Container className={inputGroupClassName}>
+          Container with classname
+        </Container>
+      </InputGroup>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import {
+  Flex,
+  Container,
+  InputGroup,
+  inputGroupClassName,
+} from '@dynatrace/strato-components/layouts';
+
+const Classname = () => {
+  return (
+    <Flex flexDirection="column">
+      <InputGroup>
+        <Container>Container without classname</Container>
+        <Container>Container without classname</Container>
+      </InputGroup>
+      <InputGroup>
+        <Container className={inputGroupClassName}>
+          Container with classname
+        </Container>
+        <Container className={inputGroupClassName}>
+          Container with classname
+        </Container>
+      </InputGroup>
+    </Flex>
+  );
+};
+```
+
+
 ### Props
 
 The `InputGroup` component is the outermost layout component of a field
@@ -762,6 +1174,91 @@ enable this feature by setting the `integratedControls` prop on the `Sidebar`
 component. Integrated controls show when hovering the `Sidebar` panel or when
 the panel is dismissed.
 
+```tsx
+<Page>
+  <Page.Header>
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo appName="MyApp" />
+      </AppHeader.Navigation>
+    </AppHeader>
+  </Page.Header>
+  <Page.Sidebar integratedControls>
+    <TitleBar>
+      <TitleBar.Title>Sidebar</TitleBar.Title>
+      <TitleBar.Subtitle>e.g. for navigation</TitleBar.Subtitle>
+    </TitleBar>
+  </Page.Sidebar>
+  <Page.Main style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Title>Main</TitleBar.Title>
+      <TitleBar.Subtitle>
+        Place your main content in this area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton target="details" />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.Main>
+  <Page.DetailView style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Title>Settings</TitleBar.Title>
+      <TitleBar.Subtitle>
+        For content related to the main area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.DetailView>
+</Page>
+```
+
+```tsx
+<Page>
+  <Page.Header>
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo appName="MyApp" />
+      </AppHeader.Navigation>
+    </AppHeader>
+  </Page.Header>
+  <Page.Sidebar integratedControls>
+    <TitleBar>
+      <TitleBar.Title>Sidebar</TitleBar.Title>
+      <TitleBar.Subtitle>e.g. for navigation</TitleBar.Subtitle>
+    </TitleBar>
+  </Page.Sidebar>
+  <Page.Main style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Title>Main</TitleBar.Title>
+      <TitleBar.Subtitle>
+        Place your main content in this area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton target="details" />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.Main>
+  <Page.DetailView style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Title>Settings</TitleBar.Title>
+      <TitleBar.Subtitle>
+        For content related to the main area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.DetailView>
+</Page>
+```
+
+
 #### Define responsive layouts
 
 The page handles different screen sizes internally. On smaller screens, a drawer
@@ -774,6 +1271,309 @@ Default breakpoints:
 - `DetailView`: tablet
 
 - `Sidebar`: mobile
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  NumberInputV2 as NumberInput,
+} from '@dynatrace/strato-components/forms';
+import {
+  AppHeader,
+  Page,
+  TitleBar,
+} from '@dynatrace/strato-components/layouts';
+import Borders from '@dynatrace/strato-design-tokens/borders';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import Spacings from '@dynatrace/strato-design-tokens/spacings';
+import {
+  CloseSidebarIcon,
+  OpenSidebarIcon,
+  SettingIcon,
+  XmarkIcon,
+} from '@dynatrace/strato-icons';
+
+const MobileConfig = () => {
+  const [isDetailViewDismissed, setIsDetailViewDismissed] =
+    useState<boolean>(false);
+  const [isSidebarDismissed, setIsSidebarDismissed] = useState<boolean>(false);
+  const [breakpoint, setBreakpoint] = useState<number | null>(920);
+
+  return (
+    <Page>
+      <Page.Header>
+        <AppHeader>
+          <AppHeader.Navigation>
+            <AppHeader.NavigationItem href="/">Home</AppHeader.NavigationItem>
+            <AppHeader.NavigationItem href="/">
+              Dashboards
+            </AppHeader.NavigationItem>
+            <AppHeader.NavigationItem href="/">
+              Notebooks
+            </AppHeader.NavigationItem>
+          </AppHeader.Navigation>
+        </AppHeader>
+      </Page.Header>
+      <Page.Sidebar
+        dismissed={isSidebarDismissed}
+        onDismissChange={(state) => {
+          setIsSidebarDismissed(state);
+        }}
+      >
+        <TitleBar>
+          <TitleBar.Title>Sidebar</TitleBar.Title>
+          <TitleBar.Subtitle>e.g. for navigation</TitleBar.Subtitle>
+          <TitleBar.Action>
+            <Button
+              onClick={() => setIsSidebarDismissed(true)}
+              aria-label="Close sidebar"
+            >
+              <Button.Prefix>
+                <XmarkIcon />
+              </Button.Prefix>
+            </Button>
+          </TitleBar.Action>
+        </TitleBar>
+      </Page.Sidebar>
+      <Page.Main style={{ display: 'flex', flexDirection: 'column' }}>
+        <TitleBar>
+          <TitleBar.Prefix>
+            <Button
+              onClick={() => setIsSidebarDismissed(!isSidebarDismissed)}
+              aria-label={`${isSidebarDismissed ? 'Open' : 'Close'} sidebar`}
+            >
+              <Button.Suffix>
+                {isSidebarDismissed ? (
+                  <OpenSidebarIcon />
+                ) : (
+                  <CloseSidebarIcon />
+                )}
+              </Button.Suffix>
+            </Button>
+          </TitleBar.Prefix>
+          <TitleBar.Title>Main</TitleBar.Title>
+          <TitleBar.Subtitle>
+            Place your main content in this area
+          </TitleBar.Subtitle>
+          <TitleBar.Action>
+            <Button
+              onClick={() => setIsDetailViewDismissed(!isDetailViewDismissed)}
+              aria-label={`${
+                isDetailViewDismissed ? 'Open' : 'Close'
+              } settings`}
+            >
+              <Button.Prefix>
+                <SettingIcon />
+              </Button.Prefix>
+            </Button>
+          </TitleBar.Action>
+        </TitleBar>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            marginTop: Spacings.Size24,
+            borderRadius: Borders.Radius.Container.Default,
+            backgroundColor: Colors.Background.Container.Neutral.Default,
+          }}
+        />
+      </Page.Main>
+      <Page.DetailView
+        onDismissChange={(state) => {
+          setIsDetailViewDismissed(state);
+        }}
+        dismissed={isDetailViewDismissed}
+        breakpoint={breakpoint || 920}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
+        <TitleBar>
+          <TitleBar.Title>Settings</TitleBar.Title>
+          <TitleBar.Subtitle>
+            Change the breakpoint to a screen size smaller than the current
+            screen to see the Drawer (initially closed).
+          </TitleBar.Subtitle>
+          <TitleBar.Action>
+            <Button
+              onClick={() => setIsDetailViewDismissed(true)}
+              aria-label="Close details"
+            >
+              <Button.Prefix>
+                <XmarkIcon />
+              </Button.Prefix>
+            </Button>
+          </TitleBar.Action>
+        </TitleBar>
+        <FormField>
+          <Label>
+            Change the breakpoint of the detail view, 0 means no mobile layout
+            will be used.
+          </Label>
+          <NumberInput
+            aria-label="define breakpoint"
+            value={breakpoint}
+            onChange={setBreakpoint}
+          />
+        </FormField>
+      </Page.DetailView>
+    </Page>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  NumberInputV2 as NumberInput,
+} from '@dynatrace/strato-components/forms';
+import {
+  AppHeader,
+  Page,
+  TitleBar,
+} from '@dynatrace/strato-components/layouts';
+import Borders from '@dynatrace/strato-design-tokens/borders';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import Spacings from '@dynatrace/strato-design-tokens/spacings';
+import {
+  CloseSidebarIcon,
+  OpenSidebarIcon,
+  SettingIcon,
+  XmarkIcon,
+} from '@dynatrace/strato-icons';
+
+const MobileConfig = () => {
+  const [isDetailViewDismissed, setIsDetailViewDismissed] =
+    useState<boolean>(false);
+  const [isSidebarDismissed, setIsSidebarDismissed] = useState<boolean>(false);
+  const [breakpoint, setBreakpoint] = useState<number | null>(920);
+
+  return (
+    <Page>
+      <Page.Header>
+        <AppHeader>
+          <AppHeader.Navigation>
+            <AppHeader.NavigationItem href="/">Home</AppHeader.NavigationItem>
+            <AppHeader.NavigationItem href="/">
+              Dashboards
+            </AppHeader.NavigationItem>
+            <AppHeader.NavigationItem href="/">
+              Notebooks
+            </AppHeader.NavigationItem>
+          </AppHeader.Navigation>
+        </AppHeader>
+      </Page.Header>
+      <Page.Sidebar
+        dismissed={isSidebarDismissed}
+        onDismissChange={(state) => {
+          setIsSidebarDismissed(state);
+        }}
+      >
+        <TitleBar>
+          <TitleBar.Title>Sidebar</TitleBar.Title>
+          <TitleBar.Subtitle>e.g. for navigation</TitleBar.Subtitle>
+          <TitleBar.Action>
+            <Button
+              onClick={() => setIsSidebarDismissed(true)}
+              aria-label="Close sidebar"
+            >
+              <Button.Prefix>
+                <XmarkIcon />
+              </Button.Prefix>
+            </Button>
+          </TitleBar.Action>
+        </TitleBar>
+      </Page.Sidebar>
+      <Page.Main style={{ display: 'flex', flexDirection: 'column' }}>
+        <TitleBar>
+          <TitleBar.Prefix>
+            <Button
+              onClick={() => setIsSidebarDismissed(!isSidebarDismissed)}
+              aria-label={`${isSidebarDismissed ? 'Open' : 'Close'} sidebar`}
+            >
+              <Button.Suffix>
+                {isSidebarDismissed ? (
+                  <OpenSidebarIcon />
+                ) : (
+                  <CloseSidebarIcon />
+                )}
+              </Button.Suffix>
+            </Button>
+          </TitleBar.Prefix>
+          <TitleBar.Title>Main</TitleBar.Title>
+          <TitleBar.Subtitle>
+            Place your main content in this area
+          </TitleBar.Subtitle>
+          <TitleBar.Action>
+            <Button
+              onClick={() => setIsDetailViewDismissed(!isDetailViewDismissed)}
+              aria-label={`${
+                isDetailViewDismissed ? 'Open' : 'Close'
+              } settings`}
+            >
+              <Button.Prefix>
+                <SettingIcon />
+              </Button.Prefix>
+            </Button>
+          </TitleBar.Action>
+        </TitleBar>
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            marginTop: Spacings.Size24,
+            borderRadius: Borders.Radius.Container.Default,
+            backgroundColor: Colors.Background.Container.Neutral.Default,
+          }}
+        />
+      </Page.Main>
+      <Page.DetailView
+        onDismissChange={(state) => {
+          setIsDetailViewDismissed(state);
+        }}
+        dismissed={isDetailViewDismissed}
+        breakpoint={breakpoint || 920}
+        style={{ display: 'flex', flexDirection: 'column' }}
+      >
+        <TitleBar>
+          <TitleBar.Title>Settings</TitleBar.Title>
+          <TitleBar.Subtitle>
+            Change the breakpoint to a screen size smaller than the current
+            screen to see the Drawer (initially closed).
+          </TitleBar.Subtitle>
+          <TitleBar.Action>
+            <Button
+              onClick={() => setIsDetailViewDismissed(true)}
+              aria-label="Close details"
+            >
+              <Button.Prefix>
+                <XmarkIcon />
+              </Button.Prefix>
+            </Button>
+          </TitleBar.Action>
+        </TitleBar>
+        <FormField>
+          <Label>
+            Change the breakpoint of the detail view, 0 means no mobile layout
+            will be used.
+          </Label>
+          <NumberInput
+            aria-label="define breakpoint"
+            value={breakpoint}
+            onChange={setBreakpoint}
+          />
+        </FormField>
+      </Page.DetailView>
+    </Page>
+  );
+};
+```
+
 
 #### Controlling panel state
 
@@ -831,6 +1631,133 @@ The easiest solution for rendering different pages in your app is to use one
 page for each route. This way, you can choose which compounds to use per route
 and configure each page separately.
 
+```tsx
+import { useState } from 'react';
+import { Route, Link as RouterLink, Routes } from 'react-router';
+
+import { AppHeader, Page } from '@dynatrace/strato-components/layouts';
+
+const CommonHeader = () => (
+  <Page.Header>
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo
+          as={RouterLink}
+          to="/layouts/page/PagePerRoute/stories/"
+          appName="Home"
+        />
+        <AppHeader.NavigationItem
+          as={RouterLink}
+          to="/layouts/page/PagePerRoute/stories/page1"
+        >
+          Workflows
+        </AppHeader.NavigationItem>
+      </AppHeader.Navigation>
+    </AppHeader>
+  </Page.Header>
+);
+
+const PagePerRoute = () => {
+  const [sidebarDismissed, setSidebarDismissed] = useState(false);
+
+  return (
+    <Routes>
+      <Route
+        index
+        element={
+          <Page>
+            <CommonHeader />
+            <Page.Main>Main</Page.Main>
+          </Page>
+        }
+      />
+      <Route
+        path="/page1"
+        element={
+          <Page>
+            <CommonHeader />
+            <Page.Sidebar
+              dismissed={sidebarDismissed}
+              onDismissChange={() => null}
+            >
+              <Page.PanelControlButton
+                onClick={() => setSidebarDismissed(true)}
+              />
+              Sidebar
+            </Page.Sidebar>
+            <Page.Main>Main</Page.Main>
+          </Page>
+        }
+      />
+    </Routes>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+import { Route, Link as RouterLink, Routes } from 'react-router';
+
+import { AppHeader, Page } from '@dynatrace/strato-components/layouts';
+
+const CommonHeader = () => (
+  <Page.Header>
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo
+          as={RouterLink}
+          to="/layouts/page/PagePerRoute/stories/"
+          appName="Home"
+        />
+        <AppHeader.NavigationItem
+          as={RouterLink}
+          to="/layouts/page/PagePerRoute/stories/page1"
+        >
+          Workflows
+        </AppHeader.NavigationItem>
+      </AppHeader.Navigation>
+    </AppHeader>
+  </Page.Header>
+);
+
+const PagePerRoute = () => {
+  const [sidebarDismissed, setSidebarDismissed] = useState(false);
+
+  return (
+    <Routes>
+      <Route
+        index
+        element={
+          <Page>
+            <CommonHeader />
+            <Page.Main>Main</Page.Main>
+          </Page>
+        }
+      />
+      <Route
+        path="/page1"
+        element={
+          <Page>
+            <CommonHeader />
+            <Page.Sidebar
+              dismissed={sidebarDismissed}
+              onDismissChange={() => null}
+            >
+              <Page.PanelControlButton
+                onClick={() => setSidebarDismissed(true)}
+              />
+              Sidebar
+            </Page.Sidebar>
+            <Page.Main>Main</Page.Main>
+          </Page>
+        }
+      />
+    </Routes>
+  );
+};
+```
+
+
 ##### Nested layouts
 
 The page's compounds can be nested inside other components. This enables you to
@@ -842,6 +1769,217 @@ render an actual wrapper in the DOM. This would break the page layout. You can
 only use components that output the compounds directly, as the `Fragment` or
 react-router-dom's `Outlet`.
 
+```tsx
+import { useState } from 'react';
+import {
+  Outlet,
+  Route,
+  Link as RouterLink,
+  Routes,
+  useParams,
+} from 'react-router';
+
+import { Flex, AppHeader, Page } from '@dynatrace/strato-components/layouts';
+import { Link } from '@dynatrace/strato-components/typography';
+
+const RootLayout = () => {
+  return (
+    <Page>
+      <Page.Header>
+        <AppHeader>
+          <AppHeader.Navigation>
+            <AppHeader.Logo as={RouterLink} to="./" appName="Home" />
+            <AppHeader.NavigationItem as={RouterLink} to="./workflows">
+              Workflows
+            </AppHeader.NavigationItem>
+          </AppHeader.Navigation>
+        </AppHeader>
+      </Page.Header>
+      <Outlet />
+    </Page>
+  );
+};
+const Index = () => <Page.Main>Intro</Page.Main>;
+const WorkflowsHome = () => {
+  const [sidebarDismissed, setSidebarDismissed] = useState(false);
+  return (
+    <>
+      <Page.Sidebar dismissed={sidebarDismissed} onDismissChange={() => null}>
+        <Page.PanelControlButton
+          target="sidebar"
+          onClick={() => setSidebarDismissed(true)}
+        />
+        <Flex flexDirection="column">
+          Sidebar
+          <Link as={RouterLink} to="./workflow1">
+            workflow1
+          </Link>
+          <Link as={RouterLink} to="./workflow2">
+            workflow2
+          </Link>
+        </Flex>
+      </Page.Sidebar>
+      <Outlet />
+    </>
+  );
+};
+const WorkflowsIntro = () => <Page.Main>Workflows intro</Page.Main>;
+const WorkflowTasks = () => {
+  const { workflow } = useParams();
+  return (
+    <>
+      <Page.Main>
+        <Flex flexDirection="column">
+          Tasks for workflow {workflow}
+          <Link as={RouterLink} to="./task1">
+            {workflow} - task1
+          </Link>
+          <Link as={RouterLink} to="./task2">
+            {workflow} - task2
+          </Link>
+        </Flex>
+      </Page.Main>
+      <Outlet />
+    </>
+  );
+};
+const TaskDetails = () => {
+  const { task } = useParams();
+  const [detailViewDismissed, setDetailViewDismissed] = useState(false);
+  return (
+    <Page.DetailView
+      dismissed={detailViewDismissed}
+      onDismissChange={() => null}
+    >
+      <Page.PanelControlButton onClick={() => setDetailViewDismissed(true)} />
+      Details for task {task}
+    </Page.DetailView>
+  );
+};
+
+const NestedRouterOutlets = () => {
+  return (
+    <Routes>
+      <Route element={<RootLayout />}>
+        <Route index element={<Index />} />
+        <Route path="workflows" element={<WorkflowsHome />}>
+          <Route index element={<WorkflowsIntro />} />
+          <Route path=":workflow" element={<WorkflowTasks />}>
+            <Route path=":task" element={<TaskDetails />} />
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+import {
+  Outlet,
+  Route,
+  Link as RouterLink,
+  Routes,
+  useParams,
+} from 'react-router';
+
+import { Flex, AppHeader, Page } from '@dynatrace/strato-components/layouts';
+import { Link } from '@dynatrace/strato-components/typography';
+
+const RootLayout = () => {
+  return (
+    <Page>
+      <Page.Header>
+        <AppHeader>
+          <AppHeader.Navigation>
+            <AppHeader.Logo as={RouterLink} to="./" appName="Home" />
+            <AppHeader.NavigationItem as={RouterLink} to="./workflows">
+              Workflows
+            </AppHeader.NavigationItem>
+          </AppHeader.Navigation>
+        </AppHeader>
+      </Page.Header>
+      <Outlet />
+    </Page>
+  );
+};
+const Index = () => <Page.Main>Intro</Page.Main>;
+const WorkflowsHome = () => {
+  const [sidebarDismissed, setSidebarDismissed] = useState(false);
+  return (
+    <>
+      <Page.Sidebar dismissed={sidebarDismissed} onDismissChange={() => null}>
+        <Page.PanelControlButton
+          target="sidebar"
+          onClick={() => setSidebarDismissed(true)}
+        />
+        <Flex flexDirection="column">
+          Sidebar
+          <Link as={RouterLink} to="./workflow1">
+            workflow1
+          </Link>
+          <Link as={RouterLink} to="./workflow2">
+            workflow2
+          </Link>
+        </Flex>
+      </Page.Sidebar>
+      <Outlet />
+    </>
+  );
+};
+const WorkflowsIntro = () => <Page.Main>Workflows intro</Page.Main>;
+const WorkflowTasks = () => {
+  const { workflow } = useParams();
+  return (
+    <>
+      <Page.Main>
+        <Flex flexDirection="column">
+          Tasks for workflow {workflow}
+          <Link as={RouterLink} to="./task1">
+            {workflow} - task1
+          </Link>
+          <Link as={RouterLink} to="./task2">
+            {workflow} - task2
+          </Link>
+        </Flex>
+      </Page.Main>
+      <Outlet />
+    </>
+  );
+};
+const TaskDetails = () => {
+  const { task } = useParams();
+  const [detailViewDismissed, setDetailViewDismissed] = useState(false);
+  return (
+    <Page.DetailView
+      dismissed={detailViewDismissed}
+      onDismissChange={() => null}
+    >
+      <Page.PanelControlButton onClick={() => setDetailViewDismissed(true)} />
+      Details for task {task}
+    </Page.DetailView>
+  );
+};
+
+const NestedRouterOutlets = () => {
+  return (
+    <Routes>
+      <Route element={<RootLayout />}>
+        <Route index element={<Index />} />
+        <Route path="workflows" element={<WorkflowsHome />}>
+          <Route index element={<WorkflowsIntro />} />
+          <Route path=":workflow" element={<WorkflowTasks />}>
+            <Route path=":task" element={<TaskDetails />} />
+          </Route>
+        </Route>
+      </Route>
+    </Routes>
+  );
+};
+```
+
+
 #### Scroll behavior
 
 Each of the panels of the page will be a scroll container if the content
@@ -851,6 +1989,137 @@ You may want to reset the scroll position and start at the top of the scroll
 container again. To do so, we're exposing a reference to the container element
 of each panel that you can leverage to reset the scroll position when changing
 the content.
+
+```tsx
+import { useEffect, useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex, Page, TitleBar } from '@dynatrace/strato-components/layouts';
+import Borders from '@dynatrace/strato-design-tokens/borders';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import Spacings from '@dynatrace/strato-design-tokens/spacings';
+
+const ScrollToTop = () => {
+  const [togglePageContent, setTogglePageContent] = useState(false);
+  const [toggleScroll, setToggleScroll] = useState(false);
+  const mainRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (toggleScroll && mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, [toggleScroll, togglePageContent]);
+
+  return (
+    <Page>
+      <Page.Header>
+        <Flex>
+          <Button
+            onClick={() => {
+              setTogglePageContent(!togglePageContent);
+            }}
+          >
+            Toggle content
+          </Button>
+          <Button
+            onClick={() => {
+              setToggleScroll(!toggleScroll);
+            }}
+          >
+            Toggle scroll behavior
+          </Button>
+        </Flex>
+      </Page.Header>
+      <Page.Main ref={mainRef}>
+        <TitleBar>
+          <TitleBar.Title>Main</TitleBar.Title>
+          <TitleBar.Subtitle>
+            Place your main content in this area
+          </TitleBar.Subtitle>
+        </TitleBar>
+        <div
+          style={{
+            width: '100%',
+            height: togglePageContent ? '3000px' : '1500px',
+            marginTop: Spacings.Size24,
+            borderRadius: Borders.Radius.Container.Default,
+            background: `linear-gradient(${
+              togglePageContent
+                ? `${Colors.Background.Container.Neutral.Default}, ${Colors.Background.Container.Neutral.Emphasized}`
+                : `${Colors.Background.Container.Success.Default}, ${Colors.Background.Container.Success.Emphasized}`
+            })`,
+          }}
+        />
+      </Page.Main>
+    </Page>
+  );
+};
+```
+
+```tsx
+import { useEffect, useRef, useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex, Page, TitleBar } from '@dynatrace/strato-components/layouts';
+import Borders from '@dynatrace/strato-design-tokens/borders';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import Spacings from '@dynatrace/strato-design-tokens/spacings';
+
+const ScrollToTop = () => {
+  const [togglePageContent, setTogglePageContent] = useState(false);
+  const [toggleScroll, setToggleScroll] = useState(false);
+  const mainRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (toggleScroll && mainRef.current) {
+      mainRef.current.scrollTop = 0;
+    }
+  }, [toggleScroll, togglePageContent]);
+
+  return (
+    <Page>
+      <Page.Header>
+        <Flex>
+          <Button
+            onClick={() => {
+              setTogglePageContent(!togglePageContent);
+            }}
+          >
+            Toggle content
+          </Button>
+          <Button
+            onClick={() => {
+              setToggleScroll(!toggleScroll);
+            }}
+          >
+            Toggle scroll behavior
+          </Button>
+        </Flex>
+      </Page.Header>
+      <Page.Main ref={mainRef}>
+        <TitleBar>
+          <TitleBar.Title>Main</TitleBar.Title>
+          <TitleBar.Subtitle>
+            Place your main content in this area
+          </TitleBar.Subtitle>
+        </TitleBar>
+        <div
+          style={{
+            width: '100%',
+            height: togglePageContent ? '3000px' : '1500px',
+            marginTop: Spacings.Size24,
+            borderRadius: Borders.Radius.Container.Default,
+            background: `linear-gradient(${
+              togglePageContent
+                ? `${Colors.Background.Container.Neutral.Default}, ${Colors.Background.Container.Neutral.Emphasized}`
+                : `${Colors.Background.Container.Success.Default}, ${Colors.Background.Container.Success.Emphasized}`
+            })`,
+          }}
+        />
+      </Page.Main>
+    </Page>
+  );
+};
+```
+
 
 #### Keep Sidebar / DetailView panel mounted
 
@@ -875,6 +2144,103 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Using the page with react-router
 - Scroll behavior
 - Keep Sidebar / DetailView panel mounted
+
+```tsx
+<Page>
+  <Page.Header>
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo appName="MyApp" />
+      </AppHeader.Navigation>
+    </AppHeader>
+  </Page.Header>
+  <Page.Sidebar keepMounted>
+    <TitleBar>
+      <TitleBar.Title>Sidebar</TitleBar.Title>
+      <TitleBar.Subtitle>e.g. for navigation</TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+  </Page.Sidebar>
+  <Page.Main style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Prefix>
+        <Page.PanelControlButton target="sidebar" />
+      </TitleBar.Prefix>
+      <TitleBar.Title>Main</TitleBar.Title>
+      <TitleBar.Subtitle>
+        Place your main content in this area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.Main>
+  <Page.DetailView style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Title>Settings</TitleBar.Title>
+      <TitleBar.Subtitle>
+        For content related to the main area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.DetailView>
+</Page>
+```
+
+```tsx
+<Page>
+  <Page.Header>
+    <AppHeader>
+      <AppHeader.Navigation>
+        <AppHeader.Logo appName="MyApp" />
+      </AppHeader.Navigation>
+    </AppHeader>
+  </Page.Header>
+  <Page.Sidebar keepMounted>
+    <TitleBar>
+      <TitleBar.Title>Sidebar</TitleBar.Title>
+      <TitleBar.Subtitle>e.g. for navigation</TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+  </Page.Sidebar>
+  <Page.Main style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Prefix>
+        <Page.PanelControlButton target="sidebar" />
+      </TitleBar.Prefix>
+      <TitleBar.Title>Main</TitleBar.Title>
+      <TitleBar.Subtitle>
+        Place your main content in this area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.Main>
+  <Page.DetailView style={{ display: 'flex', flexDirection: 'column' }}>
+    <TitleBar>
+      <TitleBar.Title>Settings</TitleBar.Title>
+      <TitleBar.Subtitle>
+        For content related to the main area
+      </TitleBar.Subtitle>
+      <TitleBar.Action>
+        <Page.PanelControlButton />
+      </TitleBar.Action>
+    </TitleBar>
+    <Placeholder />
+  </Page.DetailView>
+</Page>
+```
+
 
 ### Props
 
@@ -991,6 +2357,219 @@ do not set a prop explicitly.
 
 ### Demo
 
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  AppHeader,
+  Flex,
+  HelpMenu,
+  PageLayout,
+} from '@dynatrace/strato-components/layouts';
+import { Menu } from '@dynatrace/strato-components/navigation';
+import { Heading } from '@dynatrace/strato-components/typography';
+import Borders from '@dynatrace/strato-design-tokens/borders';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import Spacings from '@dynatrace/strato-design-tokens/spacings';
+import { DotMenuIcon } from '@dynatrace/strato-icons';
+
+const Placeholder = () => (
+  <div
+    style={{
+      width: '100%',
+      flex: 1,
+      marginTop: Spacings.Size24,
+      borderRadius: Borders.Radius.Container.Default,
+      backgroundColor: Colors.Background.Container.Neutral.Default,
+    }}
+  />
+);
+
+const Basic = () => {
+  const [isDetailsCollapsed, setIsDetailsCollapsed] = useState(false);
+
+  return (
+    <PageLayout style={{ height: '600px' }}>
+      <PageLayout.Header>
+        <AppHeader>
+          <AppHeader.Navigation>
+            <AppHeader.NavigationItem href="#">
+              NavItem
+            </AppHeader.NavigationItem>
+            <AppHeader.NavigationItem href="#" isSelected>
+              NavItem
+            </AppHeader.NavigationItem>
+          </AppHeader.Navigation>
+          <AppHeader.Menus>
+            <HelpMenu
+              entries={{
+                whatsNew: 'default',
+                playground: 'default',
+                about: 'default',
+              }}
+            />
+          </AppHeader.Menus>
+        </AppHeader>
+      </PageLayout.Header>
+      <PageLayout.Sidebar>
+        <Flex flexDirection="column">
+          <Heading level={3}>Sidebar</Heading>
+          <Placeholder />
+        </Flex>
+      </PageLayout.Sidebar>
+      <PageLayout.Content>
+        <Flex flexDirection="column">
+          <Heading level={2}>Content</Heading>
+          <Button
+            variant="emphasized"
+            onClick={() => setIsDetailsCollapsed(false)}
+          >
+            Show Details
+          </Button>
+          <Placeholder />
+        </Flex>
+      </PageLayout.Content>
+      <PageLayout.Details
+        collapsed={isDetailsCollapsed}
+        onCollapsedChange={setIsDetailsCollapsed}
+      >
+        <Flex flexDirection="column">
+          <Flex alignItems="baseline" justifyContent="space-between">
+            <Heading level={3}>Details</Heading>
+            <PageLayout.Details.ControlBar>
+              <Menu>
+                <Menu.Trigger>
+                  <Button aria-label="More actions">
+                    <Button.Prefix>
+                      <DotMenuIcon />
+                    </Button.Prefix>
+                  </Button>
+                </Menu.Trigger>
+                <Menu.Content>
+                  <Menu.Item onSelect={() => undefined}>Edit</Menu.Item>
+                  <Menu.Item onSelect={() => undefined}>Download</Menu.Item>
+                  <Menu.Item onSelect={() => undefined}>Bookmark</Menu.Item>
+                  <Menu.Item onSelect={() => undefined}>Share</Menu.Item>
+                </Menu.Content>
+              </Menu>
+            </PageLayout.Details.ControlBar>
+          </Flex>
+          <Placeholder />
+        </Flex>
+      </PageLayout.Details>
+    </PageLayout>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  AppHeader,
+  Flex,
+  HelpMenu,
+  PageLayout,
+} from '@dynatrace/strato-components/layouts';
+import { Menu } from '@dynatrace/strato-components/navigation';
+import { Heading } from '@dynatrace/strato-components/typography';
+import Borders from '@dynatrace/strato-design-tokens/borders';
+import Colors from '@dynatrace/strato-design-tokens/colors';
+import Spacings from '@dynatrace/strato-design-tokens/spacings';
+import { DotMenuIcon } from '@dynatrace/strato-icons';
+
+const Placeholder = () => (
+  <div
+    style={{
+      width: '100%',
+      flex: 1,
+      marginTop: Spacings.Size24,
+      borderRadius: Borders.Radius.Container.Default,
+      backgroundColor: Colors.Background.Container.Neutral.Default,
+    }}
+  />
+);
+
+const Basic = () => {
+  const [isDetailsCollapsed, setIsDetailsCollapsed] = useState(false);
+
+  return (
+    <PageLayout style={{ height: '600px' }}>
+      <PageLayout.Header>
+        <AppHeader>
+          <AppHeader.Navigation>
+            <AppHeader.NavigationItem href="#">
+              NavItem
+            </AppHeader.NavigationItem>
+            <AppHeader.NavigationItem href="#" isSelected>
+              NavItem
+            </AppHeader.NavigationItem>
+          </AppHeader.Navigation>
+          <AppHeader.Menus>
+            <HelpMenu
+              entries={{
+                whatsNew: 'default',
+                playground: 'default',
+                about: 'default',
+              }}
+            />
+          </AppHeader.Menus>
+        </AppHeader>
+      </PageLayout.Header>
+      <PageLayout.Sidebar>
+        <Flex flexDirection="column">
+          <Heading level={3}>Sidebar</Heading>
+          <Placeholder />
+        </Flex>
+      </PageLayout.Sidebar>
+      <PageLayout.Content>
+        <Flex flexDirection="column">
+          <Heading level={2}>Content</Heading>
+          <Button
+            variant="emphasized"
+            onClick={() => setIsDetailsCollapsed(false)}
+          >
+            Show Details
+          </Button>
+          <Placeholder />
+        </Flex>
+      </PageLayout.Content>
+      <PageLayout.Details
+        collapsed={isDetailsCollapsed}
+        onCollapsedChange={setIsDetailsCollapsed}
+      >
+        <Flex flexDirection="column">
+          <Flex alignItems="baseline" justifyContent="space-between">
+            <Heading level={3}>Details</Heading>
+            <PageLayout.Details.ControlBar>
+              <Menu>
+                <Menu.Trigger>
+                  <Button aria-label="More actions">
+                    <Button.Prefix>
+                      <DotMenuIcon />
+                    </Button.Prefix>
+                  </Button>
+                </Menu.Trigger>
+                <Menu.Content>
+                  <Menu.Item onSelect={() => undefined}>Edit</Menu.Item>
+                  <Menu.Item onSelect={() => undefined}>Download</Menu.Item>
+                  <Menu.Item onSelect={() => undefined}>Bookmark</Menu.Item>
+                  <Menu.Item onSelect={() => undefined}>Share</Menu.Item>
+                </Menu.Content>
+              </Menu>
+            </PageLayout.Details.ControlBar>
+          </Flex>
+          <Placeholder />
+        </Flex>
+      </PageLayout.Details>
+    </PageLayout>
+  );
+};
+```
+
+
 ### Responsive behavior
 
 Below its configured `breakpoint`, a panel collapses into a `Drawer` to preserve
@@ -1076,6 +2655,61 @@ Still have questions?Find answers in the Dynatrace Community
 - Details control bar
 - Disable resizing
 - Use with router
+
+```tsx
+// App layout - defines the persistent layout frame
+const AppLayout = () => (
+  <PageLayout>
+    <PageLayout.Header>
+      <AppHeader>{/* top-level navigation */}</AppHeader>
+    </PageLayout.Header>
+    <PageLayout.Sidebar>{/* sub-navigation */}</PageLayout.Sidebar>
+    {/* Route components render their Content/Details slots here */}
+    <Outlet />
+  </PageLayout>
+);
+
+// Route component - only provides the slots it owns
+const DashboardRoute = () => (
+  <>
+    <PageLayout.Content>
+      <DashboardTable />
+    </PageLayout.Content>
+    <PageLayout.Details>
+      <PageLayout.Details.ControlBar />
+      <DetailsPanel />
+    </PageLayout.Details>
+  </>
+);
+```
+
+```tsx
+// App layout - defines the persistent layout frame
+const AppLayout = () => (
+  <PageLayout>
+    <PageLayout.Header>
+      <AppHeader>{/* top-level navigation */}</AppHeader>
+    </PageLayout.Header>
+    <PageLayout.Sidebar>{/* sub-navigation */}</PageLayout.Sidebar>
+    {/* Route components render their Content/Details slots here */}
+    <Outlet />
+  </PageLayout>
+);
+
+// Route component - only provides the slots it owns
+const DashboardRoute = () => (
+  <>
+    <PageLayout.Content>
+      <DashboardTable />
+    </PageLayout.Content>
+    <PageLayout.Details>
+      <PageLayout.Details.ControlBar />
+      <DetailsPanel />
+    </PageLayout.Details>
+  </>
+);
+```
+
 
 ### Props
 
@@ -1273,6 +2907,141 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Import
 - Use cases
 - Use all TitleBar slots
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  Flex,
+  Container,
+  TitleBar,
+} from '@dynatrace/strato-components/layouts';
+import { Breadcrumbs } from '@dynatrace/strato-components/navigation';
+import {
+  FavoriteIcon,
+  InformationIcon,
+  RefreshIcon,
+  UnfavoriteIcon,
+  XmarkIcon,
+} from '@dynatrace/strato-icons';
+
+const Full = () => {
+  return (
+    <TitleBar>
+      <TitleBar.Navigation>
+        <Breadcrumbs>
+          <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
+          <Breadcrumbs.Item href="#">Level 1</Breadcrumbs.Item>
+          <Breadcrumbs.Item href="#">Level 2</Breadcrumbs.Item>
+        </Breadcrumbs>
+      </TitleBar.Navigation>
+      <TitleBar.Action>
+        <Button variant="default">
+          <Button.Prefix>
+            <XmarkIcon />
+          </Button.Prefix>
+        </Button>
+      </TitleBar.Action>
+      <TitleBar.Prefix>
+        <Container as={Flex}>
+          <InformationIcon />
+        </Container>
+      </TitleBar.Prefix>
+      <TitleBar.Title>AppName</TitleBar.Title>
+      <TitleBar.Subtitle>Some Subtitle</TitleBar.Subtitle>
+      <TitleBar.Suffix>
+        <Flex gap={4}>
+          <Button variant="default">
+            <Button.Prefix>
+              <UnfavoriteIcon />
+            </Button.Prefix>
+            Action
+          </Button>
+          <Button variant="default">
+            <Button.Prefix>
+              <FavoriteIcon />
+            </Button.Prefix>
+            Action
+          </Button>
+          <Button variant="default">
+            <Button.Prefix>
+              <RefreshIcon />
+            </Button.Prefix>
+            Action
+          </Button>
+        </Flex>
+      </TitleBar.Suffix>
+    </TitleBar>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  Flex,
+  Container,
+  TitleBar,
+} from '@dynatrace/strato-components/layouts';
+import { Breadcrumbs } from '@dynatrace/strato-components/navigation';
+import {
+  FavoriteIcon,
+  InformationIcon,
+  RefreshIcon,
+  UnfavoriteIcon,
+  XmarkIcon,
+} from '@dynatrace/strato-icons';
+
+const Full = () => {
+  return (
+    <TitleBar>
+      <TitleBar.Navigation>
+        <Breadcrumbs>
+          <Breadcrumbs.Item href="#">Home</Breadcrumbs.Item>
+          <Breadcrumbs.Item href="#">Level 1</Breadcrumbs.Item>
+          <Breadcrumbs.Item href="#">Level 2</Breadcrumbs.Item>
+        </Breadcrumbs>
+      </TitleBar.Navigation>
+      <TitleBar.Action>
+        <Button variant="default">
+          <Button.Prefix>
+            <XmarkIcon />
+          </Button.Prefix>
+        </Button>
+      </TitleBar.Action>
+      <TitleBar.Prefix>
+        <Container as={Flex}>
+          <InformationIcon />
+        </Container>
+      </TitleBar.Prefix>
+      <TitleBar.Title>AppName</TitleBar.Title>
+      <TitleBar.Subtitle>Some Subtitle</TitleBar.Subtitle>
+      <TitleBar.Suffix>
+        <Flex gap={4}>
+          <Button variant="default">
+            <Button.Prefix>
+              <UnfavoriteIcon />
+            </Button.Prefix>
+            Action
+          </Button>
+          <Button variant="default">
+            <Button.Prefix>
+              <FavoriteIcon />
+            </Button.Prefix>
+            Action
+          </Button>
+          <Button variant="default">
+            <Button.Prefix>
+              <RefreshIcon />
+            </Button.Prefix>
+            Action
+          </Button>
+        </Flex>
+      </TitleBar.Suffix>
+    </TitleBar>
+  );
+};
+```
+
 
 ### Props
 

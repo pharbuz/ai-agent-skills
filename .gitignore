@@ -10,3 +10,6 @@
 *.iso
 LabSources/
 AutomatedLab-VMs/
+
+# Scraped documentation cache (can be regenerated)
+scraped/

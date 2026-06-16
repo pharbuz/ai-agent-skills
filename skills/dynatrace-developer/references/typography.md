@@ -35,6 +35,21 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Provide a source
 
+```tsx
+import { Blockquote } from '@dynatrace/strato-components/typography';
+
+const Cite = () => {
+  return (
+    <Blockquote cite="https://www.dynatrace.com/support/help/setup-and-configuration/dynatrace-oneagent/">
+      OneAgent gives you all the operational and business performance metrics
+      you need, from the frontend to the backend and everything in between—cloud
+      instances, hosts, network health, processes, and services.
+    </Blockquote>
+  );
+};
+```
+
+
 ### Props
 
 The `Blockquote` component wraps longer text blocks and indicates that the
@@ -346,6 +361,35 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Create nested lists
 - Change font and text style
 
+```tsx
+import { List, Text } from '@dynatrace/strato-components/typography';
+
+const FontTextStyle = () => {
+  return (
+    <List fontStyle="code" textStyle="base-emphasized">
+      <Text>Item 1</Text>
+      <Text>Item 2</Text>
+      <Text>Item 3</Text>
+    </List>
+  );
+};
+```
+
+```tsx
+import { List, Text } from '@dynatrace/strato-components/typography';
+
+const FontTextStyle = () => {
+  return (
+    <List fontStyle="code" textStyle="base-emphasized">
+      <Text>Item 1</Text>
+      <Text>Item 2</Text>
+      <Text>Item 3</Text>
+    </List>
+  );
+};
+```
+
+
 ### Props
 
 The `List` component groups a set of related content in a list and can be
@@ -386,6 +430,57 @@ import { Paragraph } from '@dynatrace/strato-components/typography';
 
 All typography components like `Strong`, `Strikethrough` or `Text` can be used
 within a `Paragraph`.
+
+```tsx
+import {
+  Emphasis,
+  Paragraph,
+  Strikethrough,
+  Strong,
+  Text,
+} from '@dynatrace/strato-components/typography';
+
+const Styled = () => {
+  return (
+    <Paragraph>
+      <Strong>Dynatrace OneAgent</Strong> automatically monitors all process
+      groups detected in your environment (processes running during OneAgent
+      installation must be restarted{' '}
+      <Strikethrough>to initiate monitoring</Strikethrough>).
+      <Text as="p">
+        OneAgent additionally provides <Emphasis>deep monitoring</Emphasis> for
+        all processes that it can monitor at the request.
+      </Text>
+    </Paragraph>
+  );
+};
+```
+
+```tsx
+import {
+  Emphasis,
+  Paragraph,
+  Strikethrough,
+  Strong,
+  Text,
+} from '@dynatrace/strato-components/typography';
+
+const Styled = () => {
+  return (
+    <Paragraph>
+      <Strong>Dynatrace OneAgent</Strong> automatically monitors all process
+      groups detected in your environment (processes running during OneAgent
+      installation must be restarted{' '}
+      <Strikethrough>to initiate monitoring</Strikethrough>).
+      <Text as="p">
+        OneAgent additionally provides <Emphasis>deep monitoring</Emphasis> for
+        all processes that it can monitor at the request.
+      </Text>
+    </Paragraph>
+  );
+};
+```
+
 
 #### Limit the number of lines
 
@@ -549,6 +644,39 @@ Depending on the value set for the `truncationMode` prop, the `TextEllipsis`
 component can truncate text at the `start`, `middle`, or `end`. It is important
 to note that `start` and `end` truncation rely on the CSS `text-overflow`
 ellipsis, making them more performant than the `middle` ellipsis.
+
+```tsx
+import { TextEllipsis } from '@dynatrace/strato-components/typography';
+
+const Variants = () => {
+  const text = '1 synthetic event, every 1 hour, 1/1 location unavailable';
+
+  return (
+    <div style={{ width: 200 }}>
+      <TextEllipsis truncationMode="start">{text}</TextEllipsis>
+      <TextEllipsis truncationMode="middle">{text}</TextEllipsis>
+      <TextEllipsis truncationMode="end">{text}</TextEllipsis>
+    </div>
+  );
+};
+```
+
+```tsx
+import { TextEllipsis } from '@dynatrace/strato-components/typography';
+
+const Variants = () => {
+  const text = '1 synthetic event, every 1 hour, 1/1 location unavailable';
+
+  return (
+    <div style={{ width: 200 }}>
+      <TextEllipsis truncationMode="start">{text}</TextEllipsis>
+      <TextEllipsis truncationMode="middle">{text}</TextEllipsis>
+      <TextEllipsis truncationMode="end">{text}</TextEllipsis>
+    </div>
+  );
+};
+```
+
 
 #### Show tooltip when text overflows
 

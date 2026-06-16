@@ -188,6 +188,121 @@ import { Sheet } from '@dynatrace/strato-components/overlays';
 The `onDismiss` prop allows you to define a custom dismiss functionality. That
 is triggered when closing the sheet with escape.
 
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Checkbox } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Sheet } from '@dynatrace/strato-components/overlays';
+import { Text } from '@dynatrace/strato-components/typography';
+
+const CustomDismiss = () => {
+  const [state, setState] = useState(false);
+  const [info, setInfo] = useState('');
+  const [accepted, setAccepted] = useState(false);
+
+  return (
+    <>
+      <Flex alignItems="center">
+        <Button onClick={() => setState(true)} variant="emphasized">
+          Open Sheet
+        </Button>
+        {info && <Text>Closed by '{info}'</Text>}
+      </Flex>
+      <Sheet
+        title="Some sheet title"
+        show={state}
+        onDismiss={() => {
+          if (accepted) {
+            setState(false);
+            setInfo('Dismiss (escape key)');
+          }
+        }}
+        actions={
+          <Button
+            variant="emphasized"
+            disabled={!accepted}
+            onClick={() => {
+              setInfo('button click');
+              setState(false);
+            }}
+          >
+            Close
+          </Button>
+        }
+      >
+        <Text as="p">
+          This sheet can only be closed (via button or escape) after accepting
+          the terms and conditions.
+        </Text>
+        <Checkbox name="terms" value={accepted} onChange={setAccepted}>
+          Accepting the terms and conditions
+        </Checkbox>
+      </Sheet>
+    </>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Checkbox } from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Sheet } from '@dynatrace/strato-components/overlays';
+import { Text } from '@dynatrace/strato-components/typography';
+
+const CustomDismiss = () => {
+  const [state, setState] = useState(false);
+  const [info, setInfo] = useState('');
+  const [accepted, setAccepted] = useState(false);
+
+  return (
+    <>
+      <Flex alignItems="center">
+        <Button onClick={() => setState(true)} variant="emphasized">
+          Open Sheet
+        </Button>
+        {info && <Text>Closed by '{info}'</Text>}
+      </Flex>
+      <Sheet
+        title="Some sheet title"
+        show={state}
+        onDismiss={() => {
+          if (accepted) {
+            setState(false);
+            setInfo('Dismiss (escape key)');
+          }
+        }}
+        actions={
+          <Button
+            variant="emphasized"
+            disabled={!accepted}
+            onClick={() => {
+              setInfo('button click');
+              setState(false);
+            }}
+          >
+            Close
+          </Button>
+        }
+      >
+        <Text as="p">
+          This sheet can only be closed (via button or escape) after accepting
+          the terms and conditions.
+        </Text>
+        <Checkbox name="terms" value={accepted} onChange={setAccepted}>
+          Accepting the terms and conditions
+        </Checkbox>
+      </Sheet>
+    </>
+  );
+};
+```
+
+
 #### Accessibility
 
 If there is no title prop, you need to add either an `aria-label` or
@@ -198,6 +313,55 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Custom dismiss functionality
 - Accessibility
+
+```tsx
+<>
+  <Button onClick={() => setState(true)} variant="emphasized">
+    Open Sheet
+  </Button>
+
+  <Sheet
+    aria-label="Some sheet title"
+    show={state}
+    onDismiss={() => setState(false)}
+    actions={
+      <Button variant="emphasized" onClick={() => setState(false)}>
+        Close
+      </Button>
+    }
+  >
+    <Paragraph>
+      A minimal example with just a header. The Sheet can be closed again by
+      dismissing it via the Escape key.
+    </Paragraph>
+  </Sheet>
+</>
+```
+
+```tsx
+<>
+  <Button onClick={() => setState(true)} variant="emphasized">
+    Open Sheet
+  </Button>
+
+  <Sheet
+    aria-label="Some sheet title"
+    show={state}
+    onDismiss={() => setState(false)}
+    actions={
+      <Button variant="emphasized" onClick={() => setState(false)}>
+        Close
+      </Button>
+    }
+  >
+    <Paragraph>
+      A minimal example with just a header. The Sheet can be closed again by
+      dismissing it via the Escape key.
+    </Paragraph>
+  </Sheet>
+</>
+```
+
 
 ### Props
 
@@ -243,10 +407,70 @@ The `Tooltip` component shows brief, helpful information when users hover on a
 trigger. The trigger element must be interactive. See Usage for
 best practices.
 
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Tooltip } from '@dynatrace/strato-components/overlays';
+import { CopyIcon } from '@dynatrace/strato-icons';
+
+const Basic = () => {
+  return (
+    <Tooltip text="Copy to Clipboard">
+      <Button aria-label="Copy to Clipboard" variant="emphasized">
+        <CopyIcon />
+      </Button>
+    </Tooltip>
+  );
+};
+```
+
+
 ### Placement
 
 Use the `placement` prop to set the position of the tooltip relative to the
 trigger element. The default placement is at the top.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Tooltip } from '@dynatrace/strato-components/overlays';
+import {
+  ArrowDownIcon,
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ArrowUpIcon,
+} from '@dynatrace/strato-icons';
+
+const Placement = () => {
+  return (
+    <Flex gap={8} height={150} alignItems="center" justifyContent="center">
+      <Tooltip placement="left" text="Go left">
+        <Button aria-label="Arrow left icon" variant="emphasized">
+          <ArrowLeftIcon />
+        </Button>
+      </Tooltip>
+
+      <Tooltip placement="top" text="Go up">
+        <Button aria-label="Arrow up icon" variant="emphasized">
+          <ArrowUpIcon />
+        </Button>
+      </Tooltip>
+
+      <Tooltip placement="bottom" text="Go down">
+        <Button aria-label="Arrow down icon" variant="emphasized">
+          <ArrowDownIcon />
+        </Button>
+      </Tooltip>
+
+      <Tooltip placement="right" text="Go right">
+        <Button aria-label="Arrow right icon" variant="emphasized">
+          <ArrowRightIcon />
+        </Button>
+      </Tooltip>
+    </Flex>
+  );
+};
+```
+
 
 ### Accessibility
 
@@ -266,6 +490,42 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Demo
 - Placement
 - Accessibility
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import {
+  FormField,
+  Label,
+  TextInput,
+} from '@dynatrace/strato-components/forms';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Tooltip } from '@dynatrace/strato-components/overlays';
+import { CopyIcon } from '@dynatrace/strato-icons';
+
+const A11y = () => {
+  return (
+    <Flex gap={24}>
+      <Tooltip id="copy" text="Copy to Clipboard">
+        <Button aria-labelledby="copy" variant="emphasized">
+          <Button.Prefix>
+            <CopyIcon />
+          </Button.Prefix>
+        </Button>
+      </Tooltip>
+      <Tooltip
+        text="Usernames must be at least 5 characters long and contain at least one number"
+        id="tooltip-username"
+      >
+        <FormField>
+          <Label>Username</Label>
+          <TextInput aria-describedby="tooltip-username" />
+        </FormField>
+      </Tooltip>
+    </Flex>
+  );
+};
+```
+
 
 ### Props
 

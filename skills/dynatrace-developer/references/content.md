@@ -30,6 +30,53 @@ You can add a section to the `Accordion` component by using the
 components. When adding a section a unique identifier has to be set using the
 `id` prop. This allows to correctly expand and collapse the according sections.
 
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const MultipleSections = () => {
+  return (
+    <Accordion>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const MultipleSections = () => {
+  return (
+    <Accordion>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+
 #### Interactive header
 
 By default the whole header is interactive and can open and close the
@@ -38,6 +85,53 @@ By default the whole header is interactive and can open and close the
 NoteKeep into consideration that, you shouldn't add interactive content to the
 `Accordion.SectionLabel` when the entire header is interactive to avoid nesting
 interactive elements.
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Interactive = () => (
+  <Flex flexDirection="column">
+    <Accordion>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Interactive Label</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+    <Accordion interactive={false}>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Interactive Button</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  </Flex>
+);
+//#endregion
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Interactive = () => (
+  <Flex flexDirection="column">
+    <Accordion>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Interactive Label</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+    <Accordion interactive={false}>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Interactive Button</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  </Flex>
+);
+//#endregion
+```
+
 
 #### Polymorph the Accordion.Section component
 
@@ -67,6 +161,41 @@ section. If no `color` is specified, the color of the `Accordion` is used.
 You can use the `showDividers` prop to show or hide dividers. If no
 `showDividers` If no `showDividers` is specified, it's set to `true`.
 
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const ShowDividers = () => (
+  <Accordion showDividers={false}>
+    <Accordion.Section id="section1">
+      <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+      <Accordion.SectionContent>Some content</Accordion.SectionContent>
+    </Accordion.Section>
+    <Accordion.Section id="section2">
+      <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+      <Accordion.SectionContent>Some content</Accordion.SectionContent>
+    </Accordion.Section>
+  </Accordion>
+);
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const ShowDividers = () => (
+  <Accordion showDividers={false}>
+    <Accordion.Section id="section1">
+      <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+      <Accordion.SectionContent>Some content</Accordion.SectionContent>
+    </Accordion.Section>
+    <Accordion.Section id="section2">
+      <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+      <Accordion.SectionContent>Some content</Accordion.SectionContent>
+    </Accordion.Section>
+  </Accordion>
+);
+```
+
+
 #### Change the size
 
 You can use the `size` prop to set a smaller or bigger `Accordion` size. If no
@@ -80,9 +209,87 @@ disabled, the `defaultExpanded` prop, which is optionally set on the `Accordion`
 component, determines whether it is initially expanded or collapsed. The user
 can no longer change the expanded state of the section.
 
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const DisabledSection = () => {
+  return (
+    <Accordion>
+      <Accordion.Section id="section1" disabled>
+        <Accordion.SectionLabel>Label</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const DisabledSection = () => {
+  return (
+    <Accordion>
+      <Accordion.Section id="section1" disabled>
+        <Accordion.SectionLabel>Label</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+
 #### Expand multiple sections
 
 Use the `multiple` prop to enable expanding multiple sections at the same time.
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const MultipleExpanded = () => {
+  return (
+    <Accordion multiple>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const MultipleExpanded = () => {
+  return (
+    <Accordion multiple>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
 
 #### Expand a single section by default
 
@@ -90,11 +297,105 @@ Use the `defaultExpanded` to specify the section that should be initially
 expanded. The passed value should be a string or a number depending on the
 specified section id.
 
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const DefaultSingleExpanded = () => {
+  return (
+    <Accordion defaultExpanded="section3">
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const DefaultSingleExpanded = () => {
+  return (
+    <Accordion defaultExpanded="section3">
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+
 #### Expand multiple sections by default
 
 Use the `defaultExpanded` to specify the sections that should be initially
 expanded. The passed value should be an array of strings or numbers depending on
 the specified section ids.
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const DefaultMultipleExpanded = () => {
+  return (
+    <Accordion defaultExpanded={['section1', 'section2']} multiple>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
+```tsx
+import { Accordion } from '@dynatrace/strato-components/content';
+
+const DefaultMultipleExpanded = () => {
+  return (
+    <Accordion defaultExpanded={['section1', 'section2']} multiple>
+      <Accordion.Section id="section1">
+        <Accordion.SectionLabel>Label 1</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section2">
+        <Accordion.SectionLabel>Label 2</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+      <Accordion.Section id="section3">
+        <Accordion.SectionLabel>Label 3</Accordion.SectionLabel>
+        <Accordion.SectionContent>Some content</Accordion.SectionContent>
+      </Accordion.Section>
+    </Accordion>
+  );
+};
+```
+
 
 #### Control the state
 
@@ -195,9 +496,35 @@ default icon, which helps users identify AI-generated content.
 By providing a custom icon in the `AiLoadingIndicator.Icon` slot, you can
 override the default icon.
 
+```tsx
+import { AiLoadingIndicator } from '@dynatrace/strato-components/content';
+import { EducationIcon } from '@dynatrace/strato-icons';
+
+const CustomIcon = () => {
+  return (
+    <AiLoadingIndicator>
+      <AiLoadingIndicator.Icon>
+        <EducationIcon />
+      </AiLoadingIndicator.Icon>
+      Checking sources…
+    </AiLoadingIndicator>
+  );
+};
+```
+
+
 #### Hide icon
 
 You can hide the icon by not including the `AiLoadingIndicator.Icon` slot.
+
+```tsx
+import { AiLoadingIndicator } from '@dynatrace/strato-components/content';
+
+const HiddenIcon = () => {
+  return <AiLoadingIndicator>Verifying DQL…</AiLoadingIndicator>;
+};
+```
+
 
 ### Accessibility
 
@@ -218,6 +545,13 @@ Still have questions?Find answers in the Dynatrace Community
 - Customize icon
 - Hide icon
 - Accessibility
+
+```tsx
+<div role="status" aria-live="polite">
+  {isLoading && <AiLoadingIndicator>Thinking…</AiLoadingIndicator>}
+</div>
+```
+
 
 ### Props
 
@@ -433,10 +767,204 @@ The `AvatarGroup` can display a maximum of 5 `AvatarItem`s. If it contains more
 than that, the remaining items are collapsed into a menu. The trigger icon shows
 the number of menu items.
 
+```tsx
+import { AvatarGroup } from '@dynatrace/strato-components/content';
+
+const MultipleItems = () => {
+  const USERS = [
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+  ];
+
+  return (
+    <AvatarGroup>
+      {USERS.map((user, key) => (
+        <AvatarGroup.Item
+          abbreviation={user.abbreviation}
+          tooltipText="Firstname Lastname"
+          key={key}
+        />
+      ))}
+    </AvatarGroup>
+  );
+};
+```
+
+```tsx
+import { AvatarGroup } from '@dynatrace/strato-components/content';
+
+const MultipleItems = () => {
+  const USERS = [
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+    {
+      abbreviation: 'FL',
+      label: 'Firstname Lastname',
+      subtitle: 'firstname.lastname@dynatrace.com',
+    },
+  ];
+
+  return (
+    <AvatarGroup>
+      {USERS.map((user, key) => (
+        <AvatarGroup.Item
+          abbreviation={user.abbreviation}
+          tooltipText="Firstname Lastname"
+          key={key}
+        />
+      ))}
+    </AvatarGroup>
+  );
+};
+```
+
+
 #### Polymorph items into links
 
 The `AvatarGroup.Item` is polymorphic, so you can, for example, polymorph it to
 an anchor.
+
+```tsx
+import { type MouseEvent as ReactMouseEvent } from 'react';
+
+import { AvatarGroup } from '@dynatrace/strato-components/content';
+
+const Polymorph = () => {
+  return (
+    <AvatarGroup>
+      <AvatarGroup.Item
+        abbreviation="AE"
+        tooltipText="Albert Einstein"
+        href="#"
+        as="a"
+        onClick={(event: ReactMouseEvent) => {
+          event.preventDefault();
+        }}
+      />
+      <AvatarGroup.Item
+        abbreviation="JK"
+        tooltipText="Johannes Kepler"
+        href="#"
+        as="a"
+        onClick={(event: ReactMouseEvent) => {
+          event.preventDefault();
+        }}
+      />
+      <AvatarGroup.Item
+        abbreviation="FN"
+        tooltipText="Friedrich Nietzsche"
+        href="#"
+        as="a"
+        onClick={(event: ReactMouseEvent) => {
+          event.preventDefault();
+        }}
+      />
+    </AvatarGroup>
+  );
+};
+```
+
+```tsx
+import { type MouseEvent as ReactMouseEvent } from 'react';
+
+import { AvatarGroup } from '@dynatrace/strato-components/content';
+
+const Polymorph = () => {
+  return (
+    <AvatarGroup>
+      <AvatarGroup.Item
+        abbreviation="AE"
+        tooltipText="Albert Einstein"
+        href="#"
+        as="a"
+        onClick={(event: ReactMouseEvent) => {
+          event.preventDefault();
+        }}
+      />
+      <AvatarGroup.Item
+        abbreviation="JK"
+        tooltipText="Johannes Kepler"
+        href="#"
+        as="a"
+        onClick={(event: ReactMouseEvent) => {
+          event.preventDefault();
+        }}
+      />
+      <AvatarGroup.Item
+        abbreviation="FN"
+        tooltipText="Friedrich Nietzsche"
+        href="#"
+        as="a"
+        onClick={(event: ReactMouseEvent) => {
+          event.preventDefault();
+        }}
+      />
+    </AvatarGroup>
+  );
+};
+```
+
 
 #### Accessibility
 
@@ -499,6 +1027,33 @@ can also override it with a different translation by setting the `aria-label`.
 
 The `Chip` can also display key-value pairs. The key is shown before the value
 and separated with a `:`.
+
+```tsx
+import { Chip } from '@dynatrace/strato-components/content';
+
+const WithKey = () => {
+  return (
+    <Chip>
+      <Chip.Key>App</Chip.Key>
+      Product Analytics
+    </Chip>
+  );
+};
+```
+
+```tsx
+import { Chip } from '@dynatrace/strato-components/content';
+
+const WithKey = () => {
+  return (
+    <Chip>
+      <Chip.Key>App</Chip.Key>
+      Product Analytics
+    </Chip>
+  );
+};
+```
+
 
 #### Add a prefix or suffix slot
 
@@ -628,6 +1183,75 @@ used to expand or collapse the group as needed. To achieve this, add a
 label displays the number of hidden chips. Note that the control label is shown
 only when the available chips do not fit on one line.
 
+```tsx
+import { Chip, ChipGroup } from '@dynatrace/strato-components/content';
+
+const names = [
+  'Patty O’Furniture',
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+  'Sheila Blige',
+  'Tom A. Toe',
+  'Sno White',
+  'Wanna Hickey',
+  'Willie Waite',
+  'Stan Still',
+];
+
+const HiddenCounter = () => {
+  return (
+    <ChipGroup>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <ChipGroup.Control count />
+    </ChipGroup>
+  );
+};
+```
+
+```tsx
+import { Chip, ChipGroup } from '@dynatrace/strato-components/content';
+
+const names = [
+  'Patty O’Furniture',
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+  'Sheila Blige',
+  'Tom A. Toe',
+  'Sno White',
+  'Wanna Hickey',
+  'Willie Waite',
+  'Stan Still',
+];
+
+const HiddenCounter = () => {
+  return (
+    <ChipGroup>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <ChipGroup.Control count />
+    </ChipGroup>
+  );
+};
+```
+
+
 #### Show custom Chip counter
 
 You can customize the counter within the control label by passing a number to
@@ -636,11 +1260,191 @@ chips are loaded asynchronously and the total number of chips is already known.
 For more advanced use-cases, the `useChipGroupContext` hook provides you with
 the amount of `Chip`s currently displayed or hidden.
 
+```tsx
+import {
+  Chip,
+  ChipGroup,
+  useChipGroupContext,
+} from '@dynatrace/strato-components/content';
+
+const names = [
+  'Patty O’Furniture',
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+  'Sheila Blige',
+  'Tom A. Toe',
+  'Sno White',
+  'Wanna Hickey',
+  'Willie Waite',
+  'Stan Still',
+];
+const NR_OF_CHIPS_IN_DB = 42;
+const CustomControl = () => {
+  const { visibleKeys } = useChipGroupContext();
+  return <ChipGroup.Control count={NR_OF_CHIPS_IN_DB - visibleKeys.length} />;
+};
+
+const CustomCounter = () => {
+  return (
+    <ChipGroup>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <CustomControl />
+    </ChipGroup>
+  );
+};
+```
+
+```tsx
+import {
+  Chip,
+  ChipGroup,
+  useChipGroupContext,
+} from '@dynatrace/strato-components/content';
+
+const names = [
+  'Patty O’Furniture',
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+  'Sheila Blige',
+  'Tom A. Toe',
+  'Sno White',
+  'Wanna Hickey',
+  'Willie Waite',
+  'Stan Still',
+];
+const NR_OF_CHIPS_IN_DB = 42;
+const CustomControl = () => {
+  const { visibleKeys } = useChipGroupContext();
+  return <ChipGroup.Control count={NR_OF_CHIPS_IN_DB - visibleKeys.length} />;
+};
+
+const CustomCounter = () => {
+  return (
+    <ChipGroup>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <CustomControl />
+    </ChipGroup>
+  );
+};
+```
+
+
 #### Custom control label
 
 Configure the content of the control label by passing a child component to the
 `ChipGroup.Control`. Additionally, `ChipGroup.HiddenCount` provides the number
 of `Chip`s not currently visible.
+
+```tsx
+import { useState } from 'react';
+
+import { Chip, ChipGroup } from '@dynatrace/strato-components/content';
+
+const names = [
+  'Patty O’Furniture',
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+  'Sheila Blige',
+  'Tom A. Toe',
+  'Sno White',
+  'Wanna Hickey',
+  'Willie Waite',
+  'Stan Still',
+];
+
+const CustomMoreLabel = () => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <ChipGroup expanded={expanded} onExpandedChange={setExpanded}>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <ChipGroup.Control>
+        {expanded ? (
+          <>Give me less</>
+        ) : (
+          <>
+            Give me <ChipGroup.HiddenCount /> more
+          </>
+        )}
+      </ChipGroup.Control>
+    </ChipGroup>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Chip, ChipGroup } from '@dynatrace/strato-components/content';
+
+const names = [
+  'Patty O’Furniture',
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+  'Sheila Blige',
+  'Tom A. Toe',
+  'Sno White',
+  'Wanna Hickey',
+  'Willie Waite',
+  'Stan Still',
+];
+
+const CustomMoreLabel = () => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <ChipGroup expanded={expanded} onExpandedChange={setExpanded}>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <ChipGroup.Control>
+        {expanded ? (
+          <>Give me less</>
+        ) : (
+          <>
+            Give me <ChipGroup.HiddenCount /> more
+          </>
+        )}
+      </ChipGroup.Control>
+    </ChipGroup>
+  );
+};
+```
+
 
 #### Limit visible Chips when collapsed
 
@@ -648,6 +1452,63 @@ Set the `maxVisibleChips` property to limit the number of visible chips when the
 `ChipGroup` is collapsed, regardless of available space. This is useful when you
 want to maintain a consistent initial view with a specific number of chips, even
 if more would fit in the container.
+
+```tsx
+import { Chip, ChipGroup } from '@dynatrace/strato-components/content';
+
+const names = [
+  "Patty O'Furniture",
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+];
+
+const MaxVisibleChips = () => {
+  return (
+    <ChipGroup maxVisibleChips={3}>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <ChipGroup.Control />
+    </ChipGroup>
+  );
+};
+```
+
+```tsx
+import { Chip, ChipGroup } from '@dynatrace/strato-components/content';
+
+const names = [
+  "Patty O'Furniture",
+  'Chris Cross',
+  'Allie Gater',
+  'Paige Turner',
+  'Ferris Wheeler',
+  'Al Dente',
+  'Sonny Day',
+  'Sarah Bellum',
+  'Rocky Rhoades',
+  'Sal A. Mander',
+];
+
+const MaxVisibleChips = () => {
+  return (
+    <ChipGroup maxVisibleChips={3}>
+      {names.map((name, index) => (
+        <Chip key={`key${index}`}>{name}</Chip>
+      ))}
+      <ChipGroup.Control />
+    </ChipGroup>
+  );
+};
+```
+
 
 #### Remove Chips in ChipGroup
 
@@ -765,6 +1626,35 @@ To change the language, set the `language` property.
 
 To disable the line numbers, you can use the boolean prop `showLineNumbers`.
 
+```tsx
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+
+const LineNumbers = () => {
+  return (
+    <CodeSnippet language="typescript" showLineNumbers={false}>
+      {`const example = function(name: string) {
+  console.log("Hello " + name);
+}`}
+    </CodeSnippet>
+  );
+};
+```
+
+```tsx
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+
+const LineNumbers = () => {
+  return (
+    <CodeSnippet language="typescript" showLineNumbers={false}>
+      {`const example = function(name: string) {
+  console.log("Hello " + name);
+}`}
+    </CodeSnippet>
+  );
+};
+```
+
+
 #### Limit the snippet height
 
 Use the prop `maxHeight` to enable scrolling for long code blocks. The maximum
@@ -775,11 +1665,91 @@ height is given in pixels.
 The `onCopy` callback allows you to react to the user copying the code snippet
 using the copy button.
 
+```tsx
+import { useState } from 'react';
+
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const OnCopy = () => {
+  const [copyCounter, setCopyCounter] = useState(0);
+
+  return (
+    <Flex flexDirection="column" gap={12}>
+      <CodeSnippet
+        language="typescript"
+        onCopy={() => setCopyCounter(copyCounter + 1)}
+      >
+        {`const example = function(name: string) {
+  console.log("Hello " + name);
+}`}
+      </CodeSnippet>
+      Copied {copyCounter} times.
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const OnCopy = () => {
+  const [copyCounter, setCopyCounter] = useState(0);
+
+  return (
+    <Flex flexDirection="column" gap={12}>
+      <CodeSnippet
+        language="typescript"
+        onCopy={() => setCopyCounter(copyCounter + 1)}
+      >
+        {`const example = function(name: string) {
+  console.log("Hello " + name);
+}`}
+      </CodeSnippet>
+      Copied {copyCounter} times.
+    </Flex>
+  );
+};
+```
+
+
 #### Wrap long lines
 
 Set the `lineBreaks` prop to automatically wrap lines that exceed the available
 width. This is especially useful for log output or other content with long
 lines.
+
+```tsx
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+
+const LineWrap = () => {
+  return (
+    <CodeSnippet language="log" lineBreaks>
+      {`2025-03-19T12:00:00.000Z - INFO  - Application started successfully on port 8080 with configuration: {"database":"postgres://localhost:5432/mydb","cache":"redis://localhost:6379","logLevel":"info","maxConnections":100}
+2025-03-19T12:00:01.000Z - WARN  - High memory usage detected: 85% of available memory is in use. Consider increasing the memory limit or optimizing the application to reduce memory consumption.
+2025-03-19T12:00:02.000Z - ERROR - Failed to connect to external service at https://api.example.com/v2/data?query=select+*+from+logs+where+timestamp+>+now()-1h&format=json — retrying in 5 seconds (attempt 3 of 10)`}
+    </CodeSnippet>
+  );
+};
+```
+
+```tsx
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+
+const LineWrap = () => {
+  return (
+    <CodeSnippet language="log" lineBreaks>
+      {`2025-03-19T12:00:00.000Z - INFO  - Application started successfully on port 8080 with configuration: {"database":"postgres://localhost:5432/mydb","cache":"redis://localhost:6379","logLevel":"info","maxConnections":100}
+2025-03-19T12:00:01.000Z - WARN  - High memory usage detected: 85% of available memory is in use. Consider increasing the memory limit or optimizing the application to reduce memory consumption.
+2025-03-19T12:00:02.000Z - ERROR - Failed to connect to external service at https://api.example.com/v2/data?query=select+*+from+logs+where+timestamp+>+now()-1h&format=json — retrying in 5 seconds (attempt 3 of 10)`}
+    </CodeSnippet>
+  );
+};
+```
+
 
 #### Add new lines
 
@@ -792,6 +1762,61 @@ You can add new lines in the following ways:
 - Template strings: Preserves any whitespace
 
 - JSX expression: One of the expressions can be `'\n'`
+
+```tsx
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const LineBreak = () => {
+  return (
+    <Flex flexDirection="column" gap={12}>
+      <CodeSnippet language="json">
+        {`function exampleTemplate(name: string) {
+  console.log("Hello " + name);
+}`}
+        {'\n\n'}
+        {
+          'function exampleString(name: string) {\n  console.log("Hello " + name);\n}'
+        }
+        {'\n\n'}
+        {[
+          'function exampleStringConcat(name: string) {',
+          '  console.log("Hello " + name);',
+          '}',
+        ].join('\n')}
+      </CodeSnippet>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { CodeSnippet } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const LineBreak = () => {
+  return (
+    <Flex flexDirection="column" gap={12}>
+      <CodeSnippet language="json">
+        {`function exampleTemplate(name: string) {
+  console.log("Hello " + name);
+}`}
+        {'\n\n'}
+        {
+          'function exampleString(name: string) {\n  console.log("Hello " + name);\n}'
+        }
+        {'\n\n'}
+        {[
+          'function exampleStringConcat(name: string) {',
+          '  console.log("Hello " + name);',
+          '}',
+        ].join('\n')}
+      </CodeSnippet>
+    </Flex>
+  );
+};
+```
+
 
 #### Change the size
 
@@ -855,6 +1880,59 @@ Use the `VisualPreset` slot within the `Visual` slot in order to use predefined
 illustrations. Different combinations are possible based on the `context` and
 `type` props.
 
+```tsx
+<EmptyState size="large">
+  <EmptyState.Visual>
+    <EmptyState.VisualPreset context="query" type="create-new" />
+  </EmptyState.Visual>
+  <EmptyState.Title>You have no dashboards</EmptyState.Title>
+  <EmptyState.Details>
+    Create a new dashboard or import an existing one from a JSON file.
+  </EmptyState.Details>
+  <EmptyState.Actions>
+    <Button color="primary" variant="accent">
+      New dashboard
+    </Button>
+    <Button color="neutral" variant="default">
+      Import dashboard
+    </Button>
+  </EmptyState.Actions>
+  <EmptyState.Footer>
+    Alternatively, you can have a look at your{' '}
+    <ExternalLink href="https://www.dynatrace.com">
+      shared dashboards
+    </ExternalLink>
+  </EmptyState.Footer>
+</EmptyState>
+```
+
+```tsx
+<EmptyState size="large">
+  <EmptyState.Visual>
+    <EmptyState.VisualPreset context="query" type="create-new" />
+  </EmptyState.Visual>
+  <EmptyState.Title>You have no dashboards</EmptyState.Title>
+  <EmptyState.Details>
+    Create a new dashboard or import an existing one from a JSON file.
+  </EmptyState.Details>
+  <EmptyState.Actions>
+    <Button color="primary" variant="accent">
+      New dashboard
+    </Button>
+    <Button color="neutral" variant="default">
+      Import dashboard
+    </Button>
+  </EmptyState.Actions>
+  <EmptyState.Footer>
+    Alternatively, you can have a look at your{' '}
+    <ExternalLink href="https://www.dynatrace.com">
+      shared dashboards
+    </ExternalLink>
+  </EmptyState.Footer>
+</EmptyState>
+```
+
+
 #### Size
 
 Use the optional `size` prop, which has a default value, to provide a suitable
@@ -863,7 +1941,113 @@ responsive based on the width of its parent container.
 
 #### Small
 
+```tsx
+<EmptyState size="small">
+  <EmptyState.Visual>
+    <EmptyState.VisualPreset context="query" type="create-new" />
+  </EmptyState.Visual>
+  <EmptyState.Title>You have no dashboards</EmptyState.Title>
+  <EmptyState.Details>
+    Create a new dashboard or import an existing one from a JSON file.
+  </EmptyState.Details>
+  <EmptyState.Actions>
+    <Button color="primary" variant="accent">
+      New dashboard
+    </Button>
+    <Button color="neutral" variant="default">
+      Import dashboard
+    </Button>
+  </EmptyState.Actions>
+  <EmptyState.Footer>
+    Alternatively, you can have a look at your{' '}
+    <ExternalLink href="https://www.dynatrace.com">
+      shared dashboards
+    </ExternalLink>
+  </EmptyState.Footer>
+</EmptyState>
+```
+
+```tsx
+<EmptyState size="small">
+  <EmptyState.Visual>
+    <EmptyState.VisualPreset context="query" type="create-new" />
+  </EmptyState.Visual>
+  <EmptyState.Title>You have no dashboards</EmptyState.Title>
+  <EmptyState.Details>
+    Create a new dashboard or import an existing one from a JSON file.
+  </EmptyState.Details>
+  <EmptyState.Actions>
+    <Button color="primary" variant="accent">
+      New dashboard
+    </Button>
+    <Button color="neutral" variant="default">
+      Import dashboard
+    </Button>
+  </EmptyState.Actions>
+  <EmptyState.Footer>
+    Alternatively, you can have a look at your{' '}
+    <ExternalLink href="https://www.dynatrace.com">
+      shared dashboards
+    </ExternalLink>
+  </EmptyState.Footer>
+</EmptyState>
+```
+
+
 #### Default
+
+```tsx
+<EmptyState>
+  <EmptyState.Visual>
+    <EmptyState.VisualPreset context="generic" type="something-wrong" />
+  </EmptyState.Visual>
+  <EmptyState.Title>You have no dashboards</EmptyState.Title>
+  <EmptyState.Details>
+    Create a new dashboard or import an existing one from a JSON file.
+  </EmptyState.Details>
+  <EmptyState.Actions>
+    <Button color="primary" variant="accent">
+      New dashboard
+    </Button>
+    <Button color="neutral" variant="default">
+      Import dashboard
+    </Button>
+  </EmptyState.Actions>
+  <EmptyState.Footer>
+    Alternatively, you can have a look at your{' '}
+    <ExternalLink href="https://www.dynatrace.com">
+      shared dashboards
+    </ExternalLink>
+  </EmptyState.Footer>
+</EmptyState>
+```
+
+```tsx
+<EmptyState>
+  <EmptyState.Visual>
+    <EmptyState.VisualPreset context="generic" type="something-wrong" />
+  </EmptyState.Visual>
+  <EmptyState.Title>You have no dashboards</EmptyState.Title>
+  <EmptyState.Details>
+    Create a new dashboard or import an existing one from a JSON file.
+  </EmptyState.Details>
+  <EmptyState.Actions>
+    <Button color="primary" variant="accent">
+      New dashboard
+    </Button>
+    <Button color="neutral" variant="default">
+      Import dashboard
+    </Button>
+  </EmptyState.Actions>
+  <EmptyState.Footer>
+    Alternatively, you can have a look at your{' '}
+    <ExternalLink href="https://www.dynatrace.com">
+      shared dashboards
+    </ExternalLink>
+  </EmptyState.Footer>
+</EmptyState>
+```
+
 
 #### Large
 
@@ -918,6 +2102,45 @@ import { ExpandableText } from '@dynatrace/strato-components/content';
 #### Expand text by default
 
 Use the `defaultExpanded` prop to initially expand the text.
+
+```tsx
+import { ExpandableText } from '@dynatrace/strato-components/content';
+import { Paragraph } from '@dynatrace/strato-components/typography';
+
+const DefaultExpanded = () => {
+  return (
+    <Paragraph>
+      Dynatrace OneAgent automatically monitors all process groups detected in
+      your environment.
+      <ExpandableText defaultExpanded>
+        A single OneAgent per host is required to collect all relevant
+        monitoring data — even if your hosts are deployed within Docker
+        containers, microservices architectures, or cloud-based infrastructure.
+      </ExpandableText>
+    </Paragraph>
+  );
+};
+```
+
+```tsx
+import { ExpandableText } from '@dynatrace/strato-components/content';
+import { Paragraph } from '@dynatrace/strato-components/typography';
+
+const DefaultExpanded = () => {
+  return (
+    <Paragraph>
+      Dynatrace OneAgent automatically monitors all process groups detected in
+      your environment.
+      <ExpandableText defaultExpanded>
+        A single OneAgent per host is required to collect all relevant
+        monitoring data — even if your hosts are deployed within Docker
+        containers, microservices architectures, or cloud-based infrastructure.
+      </ExpandableText>
+    </Paragraph>
+  );
+};
+```
+
 
 #### Customize the Button
 
@@ -990,16 +2213,319 @@ Use the `Visual` slot to add an image or a video. The recommended asset size is
 400 x 250px (8:5 aspect ratio). If the provided visual has a different aspect
 ratio, it is scaled proportionally to fit the container.
 
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FeatureHighlight } from '@dynatrace/strato-components/content';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+const Visual = () => {
+  const [open, setOpen] = useState(true);
+  const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Button
+        variant="emphasized"
+        onClick={() => setOpen(!open)}
+        ref={setButtonRef}
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        See Options
+      </Button>
+
+      <FeatureHighlight
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor={buttonRef}
+      >
+        <FeatureHighlight.Title>
+          Complex data can be visualized in different ways.
+        </FeatureHighlight.Title>
+        <FeatureHighlight.Visual>
+          <img
+            src="https://dt-cdn.net/images/notebooks-visualizations-600-102690101f.webp"
+            alt="Notebooks visualization options"
+          />
+        </FeatureHighlight.Visual>
+      </FeatureHighlight>
+    </>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FeatureHighlight } from '@dynatrace/strato-components/content';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+const Visual = () => {
+  const [open, setOpen] = useState(true);
+  const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Button
+        variant="emphasized"
+        onClick={() => setOpen(!open)}
+        ref={setButtonRef}
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        See Options
+      </Button>
+
+      <FeatureHighlight
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor={buttonRef}
+      >
+        <FeatureHighlight.Title>
+          Complex data can be visualized in different ways.
+        </FeatureHighlight.Title>
+        <FeatureHighlight.Visual>
+          <img
+            src="https://dt-cdn.net/images/notebooks-visualizations-600-102690101f.webp"
+            alt="Notebooks visualization options"
+          />
+        </FeatureHighlight.Visual>
+      </FeatureHighlight>
+    </>
+  );
+};
+```
+
+
 #### Add content
 
 The `Content` slot can be used to provide detailed information, for example text
 or a link to an external source. If the `FeatureHighlight` exceeds the screen
 height, the content becomes scrollable.
 
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FeatureHighlight } from '@dynatrace/strato-components/content';
+import { Paragraph } from '@dynatrace/strato-components/typography';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+const Content = () => {
+  const [open, setOpen] = useState(true);
+  const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Button
+        variant="emphasized"
+        onClick={() => setOpen(!open)}
+        ref={setButtonRef}
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        See Options
+      </Button>
+
+      <FeatureHighlight
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor={buttonRef}
+      >
+        <FeatureHighlight.Title>
+          Complex data can be visualized in different ways.
+        </FeatureHighlight.Title>
+        <FeatureHighlight.Content>
+          <Paragraph>
+            The resulting data can be visualized in different way. When you're
+            working with complex data, you'll find it useful to see a record
+            list, at other times, a chart or graph may be more effective.
+          </Paragraph>
+        </FeatureHighlight.Content>
+      </FeatureHighlight>
+    </>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FeatureHighlight } from '@dynatrace/strato-components/content';
+import { Paragraph } from '@dynatrace/strato-components/typography';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+const Content = () => {
+  const [open, setOpen] = useState(true);
+  const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Button
+        variant="emphasized"
+        onClick={() => setOpen(!open)}
+        ref={setButtonRef}
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        See Options
+      </Button>
+
+      <FeatureHighlight
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor={buttonRef}
+      >
+        <FeatureHighlight.Title>
+          Complex data can be visualized in different ways.
+        </FeatureHighlight.Title>
+        <FeatureHighlight.Content>
+          <Paragraph>
+            The resulting data can be visualized in different way. When you're
+            working with complex data, you'll find it useful to see a record
+            list, at other times, a chart or graph may be more effective.
+          </Paragraph>
+        </FeatureHighlight.Content>
+      </FeatureHighlight>
+    </>
+  );
+};
+```
+
+
 #### Add actions
 
 The `Actions` slot should be used to add, for example, links to further
 information or buttons to perform additonal operations.
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FeatureHighlight } from '@dynatrace/strato-components/content';
+import {
+  ExternalLink,
+  Paragraph,
+} from '@dynatrace/strato-components/typography';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+const Actions = () => {
+  const [open, setOpen] = useState(true);
+  const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Button
+        variant="emphasized"
+        onClick={() => setOpen(!open)}
+        ref={setButtonRef}
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        See Options
+      </Button>
+
+      <FeatureHighlight
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor={buttonRef}
+      >
+        <FeatureHighlight.Title>
+          Complex data can be visualized in different ways.
+        </FeatureHighlight.Title>
+        <FeatureHighlight.Visual>
+          <img
+            src="https://dt-cdn.net/images/notebooks-visualizations-600-102690101f.webp"
+            alt="Notebooks visualization options"
+          />
+        </FeatureHighlight.Visual>
+        <FeatureHighlight.Content>
+          <Paragraph>
+            The resulting data can be visualized in different way. When you're
+            working with complex data, you'll find it useful to see a record
+            list, at other times, a chart or graph may be more effective.
+          </Paragraph>
+        </FeatureHighlight.Content>
+        <FeatureHighlight.Actions>
+          <ExternalLink href="https://www.dynatrace.com/support/help/observe-and-explore/edit-visualizations">
+            Read more
+          </ExternalLink>
+        </FeatureHighlight.Actions>
+      </FeatureHighlight>
+    </>
+  );
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { Button } from '@dynatrace/strato-components/buttons';
+import { FeatureHighlight } from '@dynatrace/strato-components/content';
+import {
+  ExternalLink,
+  Paragraph,
+} from '@dynatrace/strato-components/typography';
+import { OptionsIcon } from '@dynatrace/strato-icons';
+
+const Actions = () => {
+  const [open, setOpen] = useState(true);
+  const [buttonRef, setButtonRef] = useState<HTMLButtonElement | null>(null);
+
+  return (
+    <>
+      <Button
+        variant="emphasized"
+        onClick={() => setOpen(!open)}
+        ref={setButtonRef}
+      >
+        <Button.Prefix>
+          <OptionsIcon />
+        </Button.Prefix>
+        See Options
+      </Button>
+
+      <FeatureHighlight
+        open={open}
+        onClose={() => setOpen(false)}
+        anchor={buttonRef}
+      >
+        <FeatureHighlight.Title>
+          Complex data can be visualized in different ways.
+        </FeatureHighlight.Title>
+        <FeatureHighlight.Visual>
+          <img
+            src="https://dt-cdn.net/images/notebooks-visualizations-600-102690101f.webp"
+            alt="Notebooks visualization options"
+          />
+        </FeatureHighlight.Visual>
+        <FeatureHighlight.Content>
+          <Paragraph>
+            The resulting data can be visualized in different way. When you're
+            working with complex data, you'll find it useful to see a record
+            list, at other times, a chart or graph may be more effective.
+          </Paragraph>
+        </FeatureHighlight.Content>
+        <FeatureHighlight.Actions>
+          <ExternalLink href="https://www.dynatrace.com/support/help/observe-and-explore/edit-visualizations">
+            Read more
+          </ExternalLink>
+        </FeatureHighlight.Actions>
+      </FeatureHighlight>
+    </>
+  );
+};
+```
+
 
 #### Change the placement
 
@@ -1116,6 +2642,109 @@ automatically uses the on accent text color of the color defined on the
 Use the `HealthIndicator.Visual` component to customize the visual
 representation of the indicator.
 
+```tsx
+import { HealthIndicator } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Text } from '@dynatrace/strato-components/typography';
+import { ApplicationSecuritySignetIcon } from '@dynatrace/strato-icons';
+
+const CustomShape = (
+  <svg
+    focusable="false"
+    role="img"
+    aria-hidden="true"
+    fill="currentColor"
+    width="12"
+    height="12"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 12 12"
+  >
+    <path d="M5.6107 11C5.55998 10.9999 5.50965 10.9907 5.46198 10.9727C5.37001 10.9377 5.292 10.8717 5.24045 10.7851C5.1889 10.6986 5.16679 10.5966 5.17765 10.4955L5.51447 7.27274H2.93808C2.85861 7.27287 2.78062 7.2505 2.71246 7.20803C2.64431 7.16556 2.58858 7.1046 2.55126 7.0317C2.51393 6.9588 2.49642 6.87671 2.50061 6.79425C2.50479 6.71179 2.53052 6.63207 2.57502 6.56366L6.02624 1.20004C6.08083 1.11611 6.16083 1.05352 6.25355 1.02223C6.34627 0.990937 6.44639 0.992727 6.53802 1.02732C6.62611 1.0613 6.70133 1.12385 6.75253 1.20572C6.80374 1.28759 6.82822 1.38441 6.82234 1.48186L6.48553 4.7273H9.06192C9.14139 4.72718 9.21938 4.74955 9.28754 4.79202C9.35569 4.83448 9.41142 4.89544 9.44874 4.96834C9.48607 5.04124 9.50358 5.12333 9.49939 5.20579C9.49521 5.28826 9.46948 5.36797 9.42498 5.43639L5.97375 10.8C5.93363 10.8617 5.87954 10.9122 5.81623 10.9471C5.75293 10.9819 5.68235 11.0001 5.6107 11Z" />
+  </svg>
+);
+
+const CustomVisual = () => {
+  return (
+    <>
+      <Flex gap={8} alignItems="center">
+        <Flex alignSelf="flex-start">
+          <HealthIndicator status="ideal" visual="icon">
+            <HealthIndicator.Visual>
+              <ApplicationSecuritySignetIcon />
+            </HealthIndicator.Visual>
+          </HealthIndicator>
+        </Flex>
+        <Text>
+          HealthIndicator custom visual representation as icon with a width and
+          height of 20px. The gap between the icon and the text is 8px.
+        </Text>
+      </Flex>
+      <Flex gap={4} alignItems="center">
+        <HealthIndicator status="critical" visual="shape">
+          <HealthIndicator.Visual>{CustomShape}</HealthIndicator.Visual>
+        </HealthIndicator>
+        <Text>
+          HealthIndicator custom visual representation as shape with a width and
+          height of 12px. The gap between the shape and the text is 4px.
+        </Text>
+      </Flex>
+    </>
+  );
+};
+```
+
+```tsx
+import { HealthIndicator } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import { Text } from '@dynatrace/strato-components/typography';
+import { ApplicationSecuritySignetIcon } from '@dynatrace/strato-icons';
+
+const CustomShape = (
+  <svg
+    focusable="false"
+    role="img"
+    aria-hidden="true"
+    fill="currentColor"
+    width="12"
+    height="12"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 12 12"
+  >
+    <path d="M5.6107 11C5.55998 10.9999 5.50965 10.9907 5.46198 10.9727C5.37001 10.9377 5.292 10.8717 5.24045 10.7851C5.1889 10.6986 5.16679 10.5966 5.17765 10.4955L5.51447 7.27274H2.93808C2.85861 7.27287 2.78062 7.2505 2.71246 7.20803C2.64431 7.16556 2.58858 7.1046 2.55126 7.0317C2.51393 6.9588 2.49642 6.87671 2.50061 6.79425C2.50479 6.71179 2.53052 6.63207 2.57502 6.56366L6.02624 1.20004C6.08083 1.11611 6.16083 1.05352 6.25355 1.02223C6.34627 0.990937 6.44639 0.992727 6.53802 1.02732C6.62611 1.0613 6.70133 1.12385 6.75253 1.20572C6.80374 1.28759 6.82822 1.38441 6.82234 1.48186L6.48553 4.7273H9.06192C9.14139 4.72718 9.21938 4.74955 9.28754 4.79202C9.35569 4.83448 9.41142 4.89544 9.44874 4.96834C9.48607 5.04124 9.50358 5.12333 9.49939 5.20579C9.49521 5.28826 9.46948 5.36797 9.42498 5.43639L5.97375 10.8C5.93363 10.8617 5.87954 10.9122 5.81623 10.9471C5.75293 10.9819 5.68235 11.0001 5.6107 11Z" />
+  </svg>
+);
+
+const CustomVisual = () => {
+  return (
+    <>
+      <Flex gap={8} alignItems="center">
+        <Flex alignSelf="flex-start">
+          <HealthIndicator status="ideal" visual="icon">
+            <HealthIndicator.Visual>
+              <ApplicationSecuritySignetIcon />
+            </HealthIndicator.Visual>
+          </HealthIndicator>
+        </Flex>
+        <Text>
+          HealthIndicator custom visual representation as icon with a width and
+          height of 20px. The gap between the icon and the text is 8px.
+        </Text>
+      </Flex>
+      <Flex gap={4} alignItems="center">
+        <HealthIndicator status="critical" visual="shape">
+          <HealthIndicator.Visual>{CustomShape}</HealthIndicator.Visual>
+        </HealthIndicator>
+        <Text>
+          HealthIndicator custom visual representation as shape with a width and
+          height of 12px. The gap between the shape and the text is 4px.
+        </Text>
+      </Flex>
+    </>
+  );
+};
+```
+
+
 #### Label
 
 The `HealthIndicator.Label` component allows you to render custom labels using
@@ -1125,6 +2754,101 @@ Note: Be careful when using a different line height than the base line height.
 If you use `Heading` or `Text` with a small `textStyle`, ensure you place the
 `HealthIndicator` inside the `Heading` or `Text` to maintain proper line
 height alignment.
+
+```tsx
+import { HealthIndicator } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  Emphasis,
+  Heading,
+  Link,
+  Strong,
+  Text,
+} from '@dynatrace/strato-components/typography';
+
+const Label = () => {
+  return (
+    <Flex flexDirection="column">
+      {/*String*/}
+      <HealthIndicator>
+        <HealthIndicator.Label>String label</HealthIndicator.Label>
+      </HealthIndicator>
+      {/*Mixed with strong and emphasis*/}
+      <HealthIndicator>
+        <HealthIndicator.Label>
+          <Strong>Strong</Strong> or <Emphasis>emphasized</Emphasis> label
+        </HealthIndicator.Label>
+      </HealthIndicator>
+      {/*Link*/}
+      <HealthIndicator>
+        <HealthIndicator.Label>
+          <Link href="#">Link</Link>
+        </HealthIndicator.Label>
+      </HealthIndicator>
+      {/*Heading*/}
+      <Heading>
+        <HealthIndicator>
+          <HealthIndicator.Label>Headline</HealthIndicator.Label>
+        </HealthIndicator>
+      </Heading>
+      {/*Small Text*/}
+      <Text textStyle="small">
+        <HealthIndicator status="neutral" visual="icon">
+          <HealthIndicator.Label>Small text</HealthIndicator.Label>
+        </HealthIndicator>
+      </Text>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { HealthIndicator } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+import {
+  Emphasis,
+  Heading,
+  Link,
+  Strong,
+  Text,
+} from '@dynatrace/strato-components/typography';
+
+const Label = () => {
+  return (
+    <Flex flexDirection="column">
+      {/*String*/}
+      <HealthIndicator>
+        <HealthIndicator.Label>String label</HealthIndicator.Label>
+      </HealthIndicator>
+      {/*Mixed with strong and emphasis*/}
+      <HealthIndicator>
+        <HealthIndicator.Label>
+          <Strong>Strong</Strong> or <Emphasis>emphasized</Emphasis> label
+        </HealthIndicator.Label>
+      </HealthIndicator>
+      {/*Link*/}
+      <HealthIndicator>
+        <HealthIndicator.Label>
+          <Link href="#">Link</Link>
+        </HealthIndicator.Label>
+      </HealthIndicator>
+      {/*Heading*/}
+      <Heading>
+        <HealthIndicator>
+          <HealthIndicator.Label>Headline</HealthIndicator.Label>
+        </HealthIndicator>
+      </Heading>
+      {/*Small Text*/}
+      <Text textStyle="small">
+        <HealthIndicator status="neutral" visual="icon">
+          <HealthIndicator.Label>Small text</HealthIndicator.Label>
+        </HealthIndicator>
+      </Text>
+    </Flex>
+  );
+};
+```
+
 
 #### Usage of aria props
 
@@ -1137,6 +2861,45 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Custom visual representation
 - Label
 - Usage of aria props
+
+```tsx
+import { HealthIndicator } from '@dynatrace/strato-components/content';
+import { ApplicationSecuritySignetIcon } from '@dynatrace/strato-icons';
+
+const UsageAria = () => {
+  return (
+    <HealthIndicator
+      status="ideal"
+      visual="icon"
+      aria-label="Application Security health indicator"
+    >
+      <HealthIndicator.Visual>
+        <ApplicationSecuritySignetIcon />
+      </HealthIndicator.Visual>
+    </HealthIndicator>
+  );
+};
+```
+
+```tsx
+import { HealthIndicator } from '@dynatrace/strato-components/content';
+import { ApplicationSecuritySignetIcon } from '@dynatrace/strato-icons';
+
+const UsageAria = () => {
+  return (
+    <HealthIndicator
+      status="ideal"
+      visual="icon"
+      aria-label="Application Security health indicator"
+    >
+      <HealthIndicator.Visual>
+        <ApplicationSecuritySignetIcon />
+      </HealthIndicator.Visual>
+    </HealthIndicator>
+  );
+};
+```
+
 
 ### Props
 
@@ -1191,20 +2954,232 @@ Provide context, guidance, feedback, and other helpful information with the
 `InformationOverlay` component. See Usage for best practices,
 including content guidelines.
 
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const Basic = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger />
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const Basic = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger />
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+
 ### Add trigger text
 
 Apart from using the default trigger with only an icon, it's possible to specify
 additional text for the trigger.
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const TriggerText = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger>
+        Dynatrace Platform
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const TriggerText = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger>
+        Dynatrace Platform
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
 
 ### Change trigger icon
 
 Use the `InformationOverlay.Trigger` slot to customize the icon for the trigger.
 Wrap the desired icon inside the `InformationOverlay.Icon` slot component.
 
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+import { ClockIcon } from '@dynatrace/strato-icons';
+
+const TriggerIcon = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger>
+        <InformationOverlay.Icon>
+          <ClockIcon />
+        </InformationOverlay.Icon>
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+import { ClockIcon } from '@dynatrace/strato-icons';
+
+const TriggerIcon = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger>
+        <InformationOverlay.Icon>
+          <ClockIcon />
+        </InformationOverlay.Icon>
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+
 ### Change color
 
 Use the `color` prop to set the color according to the type of information.
 Changing the color also affects the displayed icon.
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex flexDirection="column" alignItems="flex-start">
+      <InformationOverlay color="neutral">
+        <InformationOverlay.Trigger>Neutral</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          Dynatrace is a software-intelligence monitoring platform that
+          simplifies enterprise cloud complexity and accelerates digital
+          transformation.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="primary">
+        <InformationOverlay.Trigger>Primary</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          Dynatrace delivers simplified, automated infrastructure monitoring
+          that provides broad visibility across your hosts, VMs, containers,
+          network, events, and logs.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="success">
+        <InformationOverlay.Trigger>Success</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          The 1.255 GA release contains 13 resolved issues (including 1
+          vulnerability resolution).
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="warning">
+        <InformationOverlay.Trigger>Warning</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          All your Dynatrace monitoring data will be deleted 60 days following
+          the expiration of your license.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="critical">
+        <InformationOverlay.Trigger>Critical</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          Unauthorized. The token authentication has failed. Check to see if
+          your token has the required scopes.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex flexDirection="column" alignItems="flex-start">
+      <InformationOverlay color="neutral">
+        <InformationOverlay.Trigger>Neutral</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          Dynatrace is a software-intelligence monitoring platform that
+          simplifies enterprise cloud complexity and accelerates digital
+          transformation.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="primary">
+        <InformationOverlay.Trigger>Primary</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          Dynatrace delivers simplified, automated infrastructure monitoring
+          that provides broad visibility across your hosts, VMs, containers,
+          network, events, and logs.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="success">
+        <InformationOverlay.Trigger>Success</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          The 1.255 GA release contains 13 resolved issues (including 1
+          vulnerability resolution).
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="warning">
+        <InformationOverlay.Trigger>Warning</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          All your Dynatrace monitoring data will be deleted 60 days following
+          the expiration of your license.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+      <InformationOverlay color="critical">
+        <InformationOverlay.Trigger>Critical</InformationOverlay.Trigger>
+        <InformationOverlay.Content>
+          Unauthorized. The token authentication has failed. Check to see if
+          your token has the required scopes.
+        </InformationOverlay.Content>
+      </InformationOverlay>
+    </Flex>
+  );
+};
+```
+
 
 ### Change overlay placement
 
@@ -1212,9 +3187,83 @@ Use the `placement` prop to set the preferred position for the overlay if there
 is enough space. If the preferred position is not possible, the overlay will be
 positioned according to the available space.
 
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const Placement = () => {
+  return (
+    <InformationOverlay placement="right">
+      <InformationOverlay.Trigger>
+        Dynatrace Platform
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const Placement = () => {
+  return (
+    <InformationOverlay placement="right">
+      <InformationOverlay.Trigger>
+        Dynatrace Platform
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+
 ### Open overlay by default
 
 Use the `defaultOpen` prop to set the overlay to open in uncontrolled scenarios.
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const DefaultOpen = () => {
+  return (
+    <InformationOverlay defaultOpen>
+      <InformationOverlay.Trigger>
+        Dynatrace Platform
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const DefaultOpen = () => {
+  return (
+    <InformationOverlay defaultOpen>
+      <InformationOverlay.Trigger>
+        Dynatrace Platform
+      </InformationOverlay.Trigger>
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
 
 ### Add aria-label
 
@@ -1231,6 +3280,39 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Change overlay placement
 - Open overlay by default
 - Add aria-label
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const AriaLabel = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger aria-label="Open additional information" />
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
+```tsx
+import { InformationOverlay } from '@dynatrace/strato-components/content';
+
+const AriaLabel = () => {
+  return (
+    <InformationOverlay>
+      <InformationOverlay.Trigger aria-label="Open additional information" />
+      <InformationOverlay.Content>
+        Dynatrace is a software-intelligence monitoring platform that simplifies
+        enterprise cloud complexity and accelerates digital transformation.
+      </InformationOverlay.Content>
+    </InformationOverlay>
+  );
+};
+```
+
 
 ### Props
 
@@ -1451,6 +3533,66 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Use cases
 - Customize markdown rendering
 
+```tsx
+import { type PropsWithChildren } from 'react';
+
+import { Markdown } from '@dynatrace/strato-components/content';
+import { Heading } from '@dynatrace/strato-components/typography';
+
+const markdownExample = `
+For example, we want to provide custom implementation for the \`##\` markdown tag (which is equivalent to \`h2\` HTML tag).
+
+```tsx
+import { type PropsWithChildren } from 'react';
+
+import { Markdown } from '@dynatrace/strato-components/content';
+import { Heading } from '@dynatrace/strato-components/typography';
+
+const markdownExample = `
+For example, we want to provide custom implementation for the \`##\` markdown tag (which is equivalent to \`h2\` HTML tag).
+
+## The custom H2 header (underlined)
+`;
+
+const CustomizedRendering = () => {
+  const customMapping = {
+    h2: ({ children }: PropsWithChildren) => (
+      <u>
+        <Heading level={2}>{children}</Heading>
+      </u>
+    ),
+  };
+
+  return (
+    <Markdown customComponentMappings={customMapping}>
+      {markdownExample}
+    </Markdown>
+  );
+};
+```
+
+
+## The custom H2 header (underlined)
+`;
+
+const CustomizedRendering = () => {
+  const customMapping = {
+    h2: ({ children }: PropsWithChildren) => (
+      <u>
+        <Heading level={2}>{children}</Heading>
+      </u>
+    ),
+  };
+
+  return (
+    <Markdown customComponentMappings={customMapping}>
+      {markdownExample}
+    </Markdown>
+  );
+};
+```
+
+
 ### Props
 
 The `Markdown` component is a read-only way to display content formatted in
@@ -1493,6 +3635,91 @@ Use the `variant` prop to change the color theme of the `MessageContainer`. Each
 `status and health` design concept, so changing
 the `variant` also changes the provided default prefix icon.
 
+```tsx
+import { MessageContainer } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex flexDirection="column">
+      <MessageContainer>
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a neutral message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="primary">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a primary message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="success">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a success message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="warning">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a warning message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="critical">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a critical message
+        </MessageContainer.Description>
+      </MessageContainer>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { MessageContainer } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Variants = () => {
+  return (
+    <Flex flexDirection="column">
+      <MessageContainer>
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a neutral message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="primary">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a primary message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="success">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a success message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="warning">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a warning message
+        </MessageContainer.Description>
+      </MessageContainer>
+      <MessageContainer variant="critical">
+        <MessageContainer.Prefix />
+        <MessageContainer.Description>
+          This is a critical message
+        </MessageContainer.Description>
+      </MessageContainer>
+    </Flex>
+  );
+};
+```
+
+
 #### Show a prefix icon
 
 Use to render an icon. You can supply the icon as
@@ -1503,6 +3730,81 @@ child to render a custom prefix icon.
 Certain info messages might prompt your user to perform an action or navigate to
 a different location. You can pass `Button`s, `Link`s, or other content as
 children to `MessageContainer.Actions`.
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { MessageContainer } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Actions = () => {
+  return (
+    <Flex flexDirection="column">
+      <MessageContainer variant="primary">
+        <MessageContainer.Description>
+          This is a message
+        </MessageContainer.Description>
+        <MessageContainer.Actions>
+          <Button variant="emphasized" color="primary">
+            Action 1
+          </Button>
+        </MessageContainer.Actions>
+      </MessageContainer>
+
+      <MessageContainer variant="primary">
+        <MessageContainer.Prefix />
+        <MessageContainer.Title>This is a title</MessageContainer.Title>
+        <MessageContainer.Description>
+          This is a message providing information to the user with actionable
+          insights.
+        </MessageContainer.Description>
+        <MessageContainer.Actions>
+          <Button variant="emphasized" color="critical">
+            Action 1
+          </Button>
+        </MessageContainer.Actions>
+      </MessageContainer>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { Button } from '@dynatrace/strato-components/buttons';
+import { MessageContainer } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Actions = () => {
+  return (
+    <Flex flexDirection="column">
+      <MessageContainer variant="primary">
+        <MessageContainer.Description>
+          This is a message
+        </MessageContainer.Description>
+        <MessageContainer.Actions>
+          <Button variant="emphasized" color="primary">
+            Action 1
+          </Button>
+        </MessageContainer.Actions>
+      </MessageContainer>
+
+      <MessageContainer variant="primary">
+        <MessageContainer.Prefix />
+        <MessageContainer.Title>This is a title</MessageContainer.Title>
+        <MessageContainer.Description>
+          This is a message providing information to the user with actionable
+          insights.
+        </MessageContainer.Description>
+        <MessageContainer.Actions>
+          <Button variant="emphasized" color="critical">
+            Action 1
+          </Button>
+        </MessageContainer.Actions>
+      </MessageContainer>
+    </Flex>
+  );
+};
+```
+
 
 #### Make `MessageContainer` dismissible
 
@@ -1714,6 +4016,23 @@ import { ProgressBar } from '@dynatrace/strato-components/content';
 If you don't provide numeric values for the `ProgressBar`, it will be
 indeterminate and the progress animation will loop continuously.
 
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const Basic = () => {
+  return <ProgressBar />;
+};
+```
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const Basic = () => {
+  return <ProgressBar />;
+};
+```
+
+
 #### Determinate ProgressBar
 
 Assign numeric values to show stages of progression. By default, the numeric
@@ -1722,10 +4041,92 @@ a proper `aria-valuetext` following A11y guidance. The value
 is clamped by the `min` and `max` values. These are 0 to 100 by default, as in
 this example.
 
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const Determinate = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressBar value={value} />;
+};
+```
+
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const Determinate = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressBar value={value} />;
+};
+```
+
+
 #### Set min and max values
 
 You can adjust the progress animation by setting a `min` value, a `max` value,
 or both. This example uses 20 as the `min` value and 150 as the `max` value.
+
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const MinMax = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressBar value={value} min={20} max={150} />;
+};
+```
+
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const MinMax = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressBar value={value} min={20} max={150} />;
+};
+```
+
 
 #### Add more information
 
@@ -1734,16 +4135,129 @@ To display more information about the progress, use `ProgressBar` compounds.
 Uploading, Processing). `ProgressBar.Icon` allows you to add visual icons.
 `ProgressBar.Value` displays the progress in numerical values.
 
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+import { DownloadIcon } from '@dynatrace/strato-icons';
+
+const Compounds = () => {
+  return (
+    <ProgressBar value={75}>
+      <ProgressBar.Label>Downloading</ProgressBar.Label>
+      <ProgressBar.Icon>
+        <DownloadIcon />
+      </ProgressBar.Icon>
+      <ProgressBar.Value>75 / 100 MB</ProgressBar.Value>
+    </ProgressBar>
+  );
+};
+```
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+import { DownloadIcon } from '@dynatrace/strato-icons';
+
+const Compounds = () => {
+  return (
+    <ProgressBar value={75}>
+      <ProgressBar.Label>Downloading</ProgressBar.Label>
+      <ProgressBar.Icon>
+        <DownloadIcon />
+      </ProgressBar.Icon>
+      <ProgressBar.Value>75 / 100 MB</ProgressBar.Value>
+    </ProgressBar>
+  );
+};
+```
+
+
 #### Change density
 
 The `ProgressBar` can also be condensed. To enhance the layout, any additional
 information can be shown above the `ProgressBar`. If there's insufficient space
 to display the entire label or value text, it will be truncated automatically.
 
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+import { DownloadIcon } from '@dynatrace/strato-icons';
+
+const Density = () => {
+  return (
+    <div style={{ maxWidth: '300px' }}>
+      <ProgressBar value={75} density="condensed">
+        <ProgressBar.Label>
+          Very long label that will be truncated in a condensed ProgressBar
+        </ProgressBar.Label>
+        <ProgressBar.Icon>
+          <DownloadIcon />
+        </ProgressBar.Icon>
+        <ProgressBar.Value>75 / 100 MB</ProgressBar.Value>
+      </ProgressBar>
+    </div>
+  );
+};
+```
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+import { DownloadIcon } from '@dynatrace/strato-icons';
+
+const Density = () => {
+  return (
+    <div style={{ maxWidth: '300px' }}>
+      <ProgressBar value={75} density="condensed">
+        <ProgressBar.Label>
+          Very long label that will be truncated in a condensed ProgressBar
+        </ProgressBar.Label>
+        <ProgressBar.Icon>
+          <DownloadIcon />
+        </ProgressBar.Icon>
+        <ProgressBar.Value>75 / 100 MB</ProgressBar.Value>
+      </ProgressBar>
+    </div>
+  );
+};
+```
+
+
 #### Change color scheme
 
 The `ProgressBar` can be rendered in different colors using the `color` prop.
 Color schemes: `neutral`, `primary`, `success`, `warning`, `critical`.
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Color = () => {
+  return (
+    <Flex flexDirection="column">
+      <ProgressBar value={75} color="neutral" />
+      <ProgressBar value={75} color="primary" />
+      <ProgressBar value={75} color="success" />
+      <ProgressBar value={75} color="warning" />
+      <ProgressBar value={75} color="critical" />
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const Color = () => {
+  return (
+    <Flex flexDirection="column">
+      <ProgressBar value={75} color="neutral" />
+      <ProgressBar value={75} color="primary" />
+      <ProgressBar value={75} color="success" />
+      <ProgressBar value={75} color="warning" />
+      <ProgressBar value={75} color="critical" />
+    </Flex>
+  );
+};
+```
+
 
 ### Accessibility
 
@@ -1773,6 +4287,45 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Accessibility
 - aria-label
 - aria-valuetext
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const A11y = () => {
+  return (
+    <ProgressBar
+      value={4}
+      min={1}
+      max={5}
+      aria-valuetext="Critical Error: 4 out of 5 tasks failed."
+      color="critical"
+    >
+      <ProgressBar.Label>Critical Error</ProgressBar.Label>
+      <ProgressBar.Value>4 / 5 tasks failed</ProgressBar.Value>
+    </ProgressBar>
+  );
+};
+```
+
+```tsx
+import { ProgressBar } from '@dynatrace/strato-components/content';
+
+const A11y = () => {
+  return (
+    <ProgressBar
+      value={4}
+      min={1}
+      max={5}
+      aria-valuetext="Critical Error: 4 out of 5 tasks failed."
+      color="critical"
+    >
+      <ProgressBar.Label>Critical Error</ProgressBar.Label>
+      <ProgressBar.Value>4 / 5 tasks failed</ProgressBar.Value>
+    </ProgressBar>
+  );
+};
+```
+
 
 ### Props
 
@@ -1842,6 +4395,23 @@ import { ProgressCircle } from '@dynatrace/strato-components/content';
 If you don't provide a value to the `ProgressCircle`, it is indeterminate and
 keeps looping the progress animation.
 
+```tsx
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const Basic = () => {
+  return <ProgressCircle />;
+};
+```
+
+```tsx
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const Basic = () => {
+  return <ProgressCircle />;
+};
+```
+
+
 #### Determinate ProgressCircle
 
 You can provide a value to animate the progress bar to a given position. By
@@ -1850,16 +4420,115 @@ does not reflect a percentage value, a proper `aria-valuetext` needs to be set
 see A11y. The value is clamped using the `min` and `max`
 value. These are by default `0` to `100`.
 
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const Determinate = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressCircle value={value} />;
+};
+```
+
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const Determinate = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressCircle value={value} />;
+};
+```
+
+
 #### Set min and max value
 
 You can adjust the progress animation by setting a min value, max value, or
 both. This example uses the same value as in the above example, except that the
 min and max value are set differently.
 
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const MinMax = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressCircle value={value} min={20} max={150} />;
+};
+```
+
+```tsx
+import { useEffect, useState } from 'react';
+
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const MinMax = () => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((prev) => (prev + 5) % 101);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return <ProgressCircle value={value} min={20} max={150} />;
+};
+```
+
+
 #### Add more information
 
 To display more information about the progress, you can render any JSX inside
 the `ProgressCircle`.
+
+```tsx
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const Compounds = () => {
+  return <ProgressCircle value={75}>Downloading</ProgressCircle>;
+};
+```
+
+```tsx
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const Compounds = () => {
+  return <ProgressCircle value={75}>Downloading</ProgressCircle>;
+};
+```
+
 
 #### Change the size
 
@@ -1898,6 +4567,43 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Accessibility
 - aria-label
 - aria-valuetext
+
+```tsx
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const A11y = () => {
+  return (
+    <ProgressCircle
+      value={4}
+      min={1}
+      max={5}
+      aria-valuetext="Critical Error: 4 out of 5 tasks failed"
+      color="critical"
+    >
+      Critical Error
+    </ProgressCircle>
+  );
+};
+```
+
+```tsx
+import { ProgressCircle } from '@dynatrace/strato-components/content';
+
+const A11y = () => {
+  return (
+    <ProgressCircle
+      value={4}
+      min={1}
+      max={5}
+      aria-valuetext="Critical Error: 4 out of 5 tasks failed"
+      color="critical"
+    >
+      Critical Error
+    </ProgressCircle>
+  );
+};
+```
+
 
 ### Props
 

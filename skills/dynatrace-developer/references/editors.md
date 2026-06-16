@@ -26,19 +26,161 @@ import { CodeEditor } from '@dynatrace/strato-components/editors';
 
 ### Demo
 
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Basic = () => {
+  return <CodeEditor value="const text = 'hello world!'" />;
+};
+```
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Basic = () => {
+  return <CodeEditor value="const text = 'hello world!'" />;
+};
+```
+
+
 ### Set language
 
 To enable syntax highlighting, specify the desired language with the `language`
 property.
 
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Language = () => {
+  return <CodeEditor language="ts" value="const text = 'hello world!'" />;
+};
+```
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Language = () => {
+  return <CodeEditor language="ts" value="const text = 'hello world!'" />;
+};
+```
+
+
 ### Disable editing
 
 To disable editing of the content, use the `readOnly` property.
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const ReadOnly = () => {
+  return (
+    <CodeEditor language="ts" value="const text = 'hello world!'" readOnly />
+  );
+};
+```
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const ReadOnly = () => {
+  return (
+    <CodeEditor language="ts" value="const text = 'hello world!'" readOnly />
+  );
+};
+```
+
 
 ### Enable line wrap
 
 To enable line wrap as soon as the content overflows, use the `lineWrap`
 property.
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const LineWrap = () => {
+  return (
+    <Flex flexDirection="row">
+      <Flex maxWidth="50%" flexItem>
+        <CodeEditor
+          language="json"
+          value='{
+  "alert_settings": [
+    {
+      "alert_id": "custom_connections_alert",
+      "event_type": "AVAILABILITY_EVENT",
+      "event_name": "No connections!",
+      "description": "The {metricname} of {severity} is {alert_condition} the threshold of {threshold}"
+    }
+  ]
+}'
+          lineWrap
+        />
+      </Flex>
+      <Flex maxWidth="50%" flexItem>
+        <CodeEditor
+          language="json"
+          value='{
+  "alert_settings": [
+    {
+      "alert_id": "custom_connections_alert",
+      "event_type": "AVAILABILITY_EVENT",
+      "event_name": "No connections!",
+      "description": "The {metricname} of {severity} is {alert_condition} the threshold of {threshold}"
+    }
+  ]
+}'
+        />
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const LineWrap = () => {
+  return (
+    <Flex flexDirection="row">
+      <Flex maxWidth="50%" flexItem>
+        <CodeEditor
+          language="json"
+          value='{
+  "alert_settings": [
+    {
+      "alert_id": "custom_connections_alert",
+      "event_type": "AVAILABILITY_EVENT",
+      "event_name": "No connections!",
+      "description": "The {metricname} of {severity} is {alert_condition} the threshold of {threshold}"
+    }
+  ]
+}'
+          lineWrap
+        />
+      </Flex>
+      <Flex maxWidth="50%" flexItem>
+        <CodeEditor
+          language="json"
+          value='{
+  "alert_settings": [
+    {
+      "alert_id": "custom_connections_alert",
+      "event_type": "AVAILABILITY_EVENT",
+      "event_name": "No connections!",
+      "description": "The {metricname} of {severity} is {alert_condition} the threshold of {threshold}"
+    }
+  ]
+}'
+        />
+      </Flex>
+    </Flex>
+  );
+};
+```
+
 
 ### Expand to full height
 
@@ -46,10 +188,74 @@ To expand the `CodeEditor` to the full available height of its parent, use the
 `fullHeight` property. If you want the `CodeEditor` to respect the min-height
 and max-height of the parent, use a flex container.
 
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const FullHeight = () => {
+  return (
+    <Flex height={100}>
+      <CodeEditor
+        language="ts"
+        value="const text = 'hello world!'"
+        fullHeight
+      />
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const FullHeight = () => {
+  return (
+    <Flex height={100}>
+      <CodeEditor
+        language="ts"
+        value="const text = 'hello world!'"
+        fullHeight
+      />
+    </Flex>
+  );
+};
+```
+
+
 ### Add default folding
 
 To provide default folding at specific character positions in the `CodeEditor`,
 use the `defaultFolding` property that accepts an array of positions.
+
+```tsx
+import { useState } from 'react';
+
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Folding = () => {
+  const [value] = useState(
+    "/**\n * Example\n */\nfunction helloWorld() {\n  const message = 'hello world';\n  return message + '!';\n}\n\nconst hello = helloWorld();\nconsole.log(hello);"
+  );
+
+  return <CodeEditor language="js" value={value} defaultFolding={[22]} />;
+};
+```
+
+```tsx
+import { useState } from 'react';
+
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Folding = () => {
+  const [value] = useState(
+    "/**\n * Example\n */\nfunction helloWorld() {\n  const message = 'hello world';\n  return message + '!';\n}\n\nconst hello = helloWorld();\nconsole.log(hello);"
+  );
+
+  return <CodeEditor language="js" value={value} defaultFolding={[22]} />;
+};
+```
+
 
 ### Change size
 
@@ -66,6 +272,49 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Expand to full height
 - Add default folding
 - Change size
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Size = () => {
+  const content = `
+    /**
+     * Example
+     */
+    function helloWorld() {
+      const message = 'hello world';
+      return message + '!';
+    }
+
+    const hello = helloWorld();
+    console.log(hello);
+    `;
+
+  return <CodeEditor language="js" value={content} size="condensed" />;
+};
+```
+
+```tsx
+import { CodeEditor } from '@dynatrace/strato-components/editors';
+
+const Size = () => {
+  const content = `
+    /**
+     * Example
+     */
+    function helloWorld() {
+      const message = 'hello world';
+      return message + '!';
+    }
+
+    const hello = helloWorld();
+    console.log(hello);
+    `;
+
+  return <CodeEditor language="js" value={content} size="condensed" />;
+};
+```
+
 
 ### Props
 
@@ -116,20 +365,132 @@ import { DQLEditor } from '@dynatrace/strato-components/editors';
 
 ### Demo
 
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+
+const Basic = () => {
+  return <DQLEditor value="fetch metrics | limit 100" />;
+};
+```
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+
+const Basic = () => {
+  return <DQLEditor value="fetch metrics | limit 100" />;
+};
+```
+
+
 ### Disable editing
 
 To disable editing of the content, use the `readOnly` property.
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+
+const ReadOnly = () => {
+  return <DQLEditor value="fetch metrics | limit 100" readOnly />;
+};
+```
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+
+const ReadOnly = () => {
+  return <DQLEditor value="fetch metrics | limit 100" readOnly />;
+};
+```
+
 
 ### Enable linewrap
 
 To enable linewrap as soon as the content overflows, use the `linewrap`
 property.
 
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const LineWrap = () => {
+  return (
+    <Flex flexDirection="row">
+      <Flex maxWidth="50%" flexItem>
+        <DQLEditor
+          value="fetch logs
+    | summarize count(), alias:`Total number of logs`, by:{bin(timestamp, 1m)}"
+          lineWrap
+        />
+      </Flex>
+      <Flex maxWidth="50%" flexItem>
+        <DQLEditor
+          value="fetch logs
+    | summarize count(), alias:`Total number of logs`, by:{bin(timestamp, 1m)}"
+        />
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const LineWrap = () => {
+  return (
+    <Flex flexDirection="row">
+      <Flex maxWidth="50%" flexItem>
+        <DQLEditor
+          value="fetch logs
+    | summarize count(), alias:`Total number of logs`, by:{bin(timestamp, 1m)}"
+          lineWrap
+        />
+      </Flex>
+      <Flex maxWidth="50%" flexItem>
+        <DQLEditor
+          value="fetch logs
+    | summarize count(), alias:`Total number of logs`, by:{bin(timestamp, 1m)}"
+        />
+      </Flex>
+    </Flex>
+  );
+};
+```
+
+
 ### Expand to full height
 
 To expand the `DQLEditor` to the full available height of its parent, use the
 `fullHeight` property. If you want the `DQLEditor` to respect the min-height and
 max-height of the parent, use a flex container.
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const FullHeight = () => {
+  return (
+    <Flex height={100}>
+      <DQLEditor value="fetch metrics | limit 100" fullHeight />
+    </Flex>
+  );
+};
+```
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+import { Flex } from '@dynatrace/strato-components/layouts';
+
+const FullHeight = () => {
+  return (
+    <Flex height={100}>
+      <DQLEditor value="fetch metrics | limit 100" fullHeight />
+    </Flex>
+  );
+};
+```
+
 
 ### Query autocomplete
 
@@ -147,6 +508,23 @@ CodeSandbox Still have questions?Find answers in the Dynatrace Community
 - Enable linewrap
 - Expand to full height
 - Query autocomplete
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+
+const Autocomplete = () => {
+  return <DQLEditor />;
+};
+```
+
+```tsx
+import { DQLEditor } from '@dynatrace/strato-components/editors';
+
+const Autocomplete = () => {
+  return <DQLEditor />;
+};
+```
+
 
 ### Props
 
