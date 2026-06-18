@@ -13,6 +13,8 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`automatedlab`](skills/automatedlab/) | Build & manage Hyper-V/Azure VM labs with the AutomatedLab PowerShell framework |
 | [`dynatrace-developer`](skills/dynatrace-developer/) | Build Dynatrace apps with the Strato design system — components, design tokens, charts, and patterns |
 | [`dt-async`](skills/dt-async/) | Call the Dynatrace REST API asynchronously in Python with the `dt-async` client (`import dynatrace`) — auth, services, pagination, DQL/Grail, integration |
+| [`dynatrace-dql`](skills/dynatrace-dql/) | Write and optimize Dynatrace Query Language (DQL) queries against Grail — commands, functions, operators, best practices, domain examples |
+| [`dynatrace-dpl`](skills/dynatrace-dpl/) | Write Dynatrace Pattern Language (DPL) patterns for parsing logs and Grail data — matchers, modifiers, grouping, DPL Architect |
 
 ## Install
 

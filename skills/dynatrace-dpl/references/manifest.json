@@ -1,0 +1,128 @@
+[
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/overview.md",
+    "title": "Dynatrace Pattern Language",
+    "chars": 9584
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/dpl-architect",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/dpl-architect.md",
+    "title": "DPL Architect",
+    "chars": 8333
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-grammar",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-grammar.md",
+    "title": "DPL Grammar",
+    "chars": 8590
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-structure",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-structure.md",
+    "title": "DPL Structure",
+    "chars": 677
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-literal-expression",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-literal-expression.md",
+    "title": "DPL Literal Expressions",
+    "chars": 795
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-lines-strings",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-lines-strings.md",
+    "title": "DPL Lines and Strings",
+    "chars": 9982
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-numeric",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-numeric.md",
+    "title": "DPL Numeric Data",
+    "chars": 2807
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-time-date",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-time-date.md",
+    "title": "DPL Time and Date",
+    "chars": 10453
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-network",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-network.md",
+    "title": "DPL Network Data",
+    "chars": 1271
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-credit-card",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-credit-card.md",
+    "title": "DPL Credit Card Data",
+    "chars": 672
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-key-value-pairs",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-key-value-pairs.md",
+    "title": "DPL Key-Value Pairs",
+    "chars": 1889
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-json-object",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-json-object.md",
+    "title": "DPL JSON Objects",
+    "chars": 7224
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-json-array",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-json-array.md",
+    "title": "DPL JSON Arrays",
+    "chars": 4788
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-json-value",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-json-value.md",
+    "title": "DPL JSON Values",
+    "chars": 775
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-array",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-array.md",
+    "title": "DPL Array",
+    "chars": 1812
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-enum",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-enum.md",
+    "title": "DPL Enum",
+    "chars": 915
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-sequence-group",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-sequence-group.md",
+    "title": "DPL Sequence Group",
+    "chars": 3336
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-alternatives-group",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-alternatives-group.md",
+    "title": "DPL Alternatives Group",
+    "chars": 1326
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-modifiers",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-modifiers.md",
+    "title": "DPL Modifiers",
+    "chars": 7887
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-macros",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-macros.md",
+    "title": "DPL Pattern Expression Macros",
+    "chars": 1404
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-pattern-language/log-processing-smartscape",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dpl/references/log-processing-smartscape.md",
+    "title": "DPL Smartscape ID",
+    "chars": 704
+  }
+]

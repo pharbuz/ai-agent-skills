@@ -1,0 +1,230 @@
+[
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/overview.md",
+    "title": "Dynatrace Query Language",
+    "chars": 1362
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/dql-guide",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/dql-guide.md",
+    "title": "Use DQL queries",
+    "chars": 5593
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/dql-reference",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/dql-reference.md",
+    "title": "DQL language reference",
+    "chars": 7210
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/dql-best-practices",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/dql-best-practices.md",
+    "title": "DQL best practices",
+    "chars": 5345
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/dql-comparison",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/dql-comparison.md",
+    "title": "DQL compared to SQL and more",
+    "chars": 5839
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/data-types",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/data-types.md",
+    "title": "DQL data types",
+    "chars": 7084
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/operators",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/operators.md",
+    "title": "DQL operators",
+    "chars": 33026
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands.md",
+    "title": "DQL commands",
+    "chars": 7620
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/data-source-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/data-source-commands.md",
+    "title": "DQL data source commands",
+    "chars": 12106
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/filtering-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/filtering-commands.md",
+    "title": "DQL filter and search commands",
+    "chars": 18910
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/selection-and-modification-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/selection-and-modification-commands.md",
+    "title": "DQL selection and modification commands",
+    "chars": 10958
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/ordering-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/ordering-commands.md",
+    "title": "DQL ordering commands",
+    "chars": 4158
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/aggregation-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/aggregation-commands.md",
+    "title": "DQL aggregation commands",
+    "chars": 17381
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/correlation-and-join-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/correlation-and-join-commands.md",
+    "title": "DQL correlation and join commands",
+    "chars": 14722
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/extraction-and-parsing-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/extraction-and-parsing-commands.md",
+    "title": "DQL extraction and parsing commands",
+    "chars": 4101
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/structuring-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/structuring-commands.md",
+    "title": "DQL structuring commands",
+    "chars": 5441
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/metric-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/metric-commands.md",
+    "title": "DQL metric commands",
+    "chars": 19382
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/commands/smartscape-commands",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/commands/smartscape-commands.md",
+    "title": "DQL Smartscape commands",
+    "chars": 7852
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions.md",
+    "title": "DQL functions",
+    "chars": 44693
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/aggregation-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/aggregation-functions.md",
+    "title": "Aggregation functions",
+    "chars": 26333
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/array-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/array-functions.md",
+    "title": "Array functions",
+    "chars": 25026
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/bitwise-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/bitwise-functions.md",
+    "title": "Bitwise functions",
+    "chars": 8939
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/boolean-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/boolean-functions.md",
+    "title": "Boolean functions",
+    "chars": 3700
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/conditional-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/conditional-functions.md",
+    "title": "Conditional functions",
+    "chars": 2689
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/conversion-and-casting-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/conversion-and-casting-functions.md",
+    "title": "Conversion and casting functions",
+    "chars": 48970
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/general-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/general-functions.md",
+    "title": "General functions",
+    "chars": 7425
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/hash-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/hash-functions.md",
+    "title": "Hash functions",
+    "chars": 4327
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/join-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/join-functions.md",
+    "title": "Join functions",
+    "chars": 4072
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/mathematical-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/mathematical-functions.md",
+    "title": "Mathematical functions",
+    "chars": 27263
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/network-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/network-functions.md",
+    "title": "Network functions",
+    "chars": 12231
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/string-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/string-functions.md",
+    "title": "String functions",
+    "chars": 49140
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/time-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/time-functions.md",
+    "title": "Time functions",
+    "chars": 21785
+  },
+  {
+    "path": "/docs/platform/grail/dynatrace-query-language/functions/vector-distance-functions",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/functions/vector-distance-functions.md",
+    "title": "Vector distance functions",
+    "chars": 6698
+  },
+  {
+    "path": "/docs/analyze-explore-automate/logs/logs-on-grail-examples",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/examples/analyze-explore-automate-logs-logs-on-grail-examples.md",
+    "title": "Log on Grail examples",
+    "chars": 18606
+  },
+  {
+    "path": "/docs/analyze-explore-automate/metrics/dql-examples",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/examples/analyze-explore-automate-metrics-dql-examples.md",
+    "title": "DQL timeseries examples",
+    "chars": 14035
+  },
+  {
+    "path": "/docs/dynatrace-intelligence/use-cases/dynatrace-intelligence-dql-examples",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/examples/dynatrace-intelligence-use-cases-dynatrace-intelligence-dql-examples.md",
+    "title": "Dynatrace Intelligence DQL examples",
+    "chars": 8604
+  },
+  {
+    "path": "/docs/secure/threat-observability/dql-examples",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/examples/secure-threat-observability-dql-examples.md",
+    "title": "DQL examples for security data",
+    "chars": 19162
+  },
+  {
+    "path": "/docs/observe/business-observability/bo-analysis",
+    "file": "/Users/pawelharbuz/VS_Code/ai-agent-skills/skills/dynatrace-dql/references/examples/observe-business-observability-bo-analysis.md",
+    "title": "Business event analysis and examples",
+    "chars": 12574
+  }
+]
