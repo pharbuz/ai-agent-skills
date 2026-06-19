@@ -15,6 +15,7 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`dt-async`](skills/dt-async/) | Call the Dynatrace REST API asynchronously in Python with the `dt-async` client (`import dynatrace`) — auth, services, pagination, DQL/Grail, integration |
 | [`dynatrace-dql`](skills/dynatrace-dql/) | Write and optimize Dynatrace Query Language (DQL) queries against Grail — commands, functions, operators, best practices, domain examples |
 | [`dynatrace-dpl`](skills/dynatrace-dpl/) | Write Dynatrace Pattern Language (DPL) patterns for parsing logs and Grail data — matchers, modifiers, grouping, DPL Architect |
+| [`dtrum`](skills/dtrum/) | Manually instrument Dynatrace RUM in the browser with the `dtrum` JavaScript API — custom actions, XHR/SPA tracking, user tagging, error reporting, consent & session replay |
 
 ## Install
 
