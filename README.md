@@ -17,6 +17,7 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`dynatrace-dpl`](skills/dynatrace-dpl/) | Write Dynatrace Pattern Language (DPL) patterns for parsing logs and Grail data — matchers, modifiers, grouping, DPL Architect |
 | [`dtrum`](skills/dtrum/) | Manually instrument Dynatrace RUM in the browser with the `dtrum` JavaScript API — custom actions, XHR/SPA tracking, user tagging, error reporting, consent & session replay |
 | [`hvac`](skills/hvac/) | Talk to HashiCorp Vault from Python with the `hvac` client (`import hvac`) — client setup, auth methods (AppRole, Kubernetes, JWT/OIDC…), secrets engines (KV v2, Transit, Database, PKI), the system backend, and error handling |
+| [`fastapi-pagination`](skills/fastapi-pagination/) | Add pagination to FastAPI with `fastapi-pagination` — `Page`/`LimitOffsetPage`/`CursorPage`, `paginate`/`add_pagination`, ext integrations (SQLAlchemy, SQLModel, Tortoise, Beanie, Motor…), item transformers, and `CustomizedPage` customization |
 
 ## Install
 
