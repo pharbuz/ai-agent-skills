@@ -19,6 +19,7 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`hvac`](skills/hvac/) | Talk to HashiCorp Vault from Python with the `hvac` client (`import hvac`) — client setup, auth methods (AppRole, Kubernetes, JWT/OIDC…), secrets engines (KV v2, Transit, Database, PKI), the system backend, and error handling |
 | [`fastapi-pagination`](skills/fastapi-pagination/) | Add pagination to FastAPI with `fastapi-pagination` — `Page`/`LimitOffsetPage`/`CursorPage`, `paginate`/`add_pagination`, ext integrations (SQLAlchemy, SQLModel, Tortoise, Beanie, Motor…), item transformers, and `CustomizedPage` customization |
 | [`fastapi-filters`](skills/fastapi-filters/) | Add filtering & sorting to FastAPI with `fastapi-filters` — `FilterSet`/`FilterField[T]`, type-driven operators (`?age[gt]=30`), `create_sorting`, and `ext` integrations (SQLAlchemy, Tortoise, Beanie) via `apply_filters_and_sorting` |
+| [`fastapi-keycloak`](skills/fastapi-keycloak/) | Integrate Keycloak OIDC with FastAPI via `fastapi-keycloak` — `FastAPIKeycloak`, `get_current_user` / role guards, password & authorization_code flows, token refresh, and Admin API for users/roles/groups |
 
 ## Install
 
