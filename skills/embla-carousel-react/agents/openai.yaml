@@ -1,0 +1,4 @@
+interface:
+  display_name: "embla-carousel-react"
+  short_description: "React carousel patterns with Embla"
+  default_prompt: "Use $embla-carousel-react to build a responsive React carousel with controls and dots."
