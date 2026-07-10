@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scapy"
+  short_description: "Packet crafting and sniffing with Scapy"
+  default_prompt: "Use $scapy to build or debug a Scapy packet-crafting workflow."
