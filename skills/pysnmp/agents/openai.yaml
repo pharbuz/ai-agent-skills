@@ -1,0 +1,4 @@
+interface:
+  display_name: "PySNMP"
+  short_description: "SNMP manager and agent code with PySNMP"
+  default_prompt: "Use $pysnmp to build an asyncio SNMP manager operation with PySNMP v7.1."
