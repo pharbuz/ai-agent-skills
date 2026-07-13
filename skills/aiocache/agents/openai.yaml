@@ -1,0 +1,4 @@
+interface:
+  display_name: "aiocache"
+  short_description: "Async Python caching with aiocache"
+  default_prompt: "Use $aiocache to add Redis-backed async caching with TTLs and tests."
