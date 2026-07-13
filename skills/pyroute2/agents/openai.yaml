@@ -1,0 +1,4 @@
+interface:
+  display_name: "pyroute2"
+  short_description: "Linux netlink networking with pyroute2"
+  default_prompt: "Use $pyroute2 to manage Linux links, addresses, routes, and namespaces safely."
