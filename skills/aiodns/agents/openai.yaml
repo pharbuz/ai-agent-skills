@@ -1,0 +1,4 @@
+interface:
+  display_name: "aiodns"
+  short_description: "Async DNS resolution with aiodns and pycares"
+  default_prompt: "Use $aiodns to add asyncio DNS resolution with query_dns and robust cleanup."
