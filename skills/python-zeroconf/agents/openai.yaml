@@ -1,0 +1,4 @@
+interface:
+  display_name: "python-zeroconf"
+  short_description: "mDNS/DNS-SD service discovery with zeroconf"
+  default_prompt: "Use $python-zeroconf to register and browse mDNS services safely."
