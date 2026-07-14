@@ -1,0 +1,4 @@
+interface:
+  display_name: "async-upnp-client"
+  short_description: "Async UPnP, SSDP, DLNA, and IGD client patterns"
+  default_prompt: "Use $async-upnp-client to discover UPnP devices and call actions safely."
