@@ -1,0 +1,9 @@
+name: react-sigma
+description: Build, configure, debug, or refactor React Sigma graph visualizations with @react-sigma packages.
+version: 1.0.0
+inputs:
+  - React and TypeScript source files using @react-sigma/*, sigma, or graphology.
+  - Package manifests and build configuration when install or version issues are involved.
+outputs:
+  - Working React Sigma code using the appropriate package imports, graphology graph model, layouts, controls, and cleanup.
+  - Focused troubleshooting guidance for rendering, events, layout workers, search, minimap, and package peer dependencies.
