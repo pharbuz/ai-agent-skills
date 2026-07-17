@@ -1,0 +1,7 @@
+name: python-stubs
+description: Write, review, generate, validate, and package Python .pyi type stubs.
+version: 1.0.0
+inputs:
+  - Python source, generated .pyi files, package metadata, docs, runtime examples, and type checker errors.
+outputs:
+  - Accurate .pyi stubs, stub package layout guidance, validation commands, and review findings for static/runtime mismatches.
