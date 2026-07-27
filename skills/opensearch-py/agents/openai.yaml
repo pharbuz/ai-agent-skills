@@ -1,0 +1,4 @@
+interface:
+  display_name: "OpenSearch Py"
+  short_description: "Build Python OpenSearch clients"
+  default_prompt: "Use $opensearch-py to build or debug Python code with opensearch-py."
