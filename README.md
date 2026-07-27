@@ -10,17 +10,31 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 
 | Skill | What it does |
 |-------|--------------|
+| [`aiocache`](skills/aiocache/) | Build, configure, debug, test, or migrate async Python caching with `aiocache` — backends, serializers, decorators, locks, plugins, testing, and migration |
+| [`aiodns`](skills/aiodns/) | Build, debug, migrate, or test asynchronous DNS resolution with `aiodns` — resolvers, query APIs, timeouts, nameservers, records, and pycares integration |
+| [`async-upnp-client`](skills/async-upnp-client/) | Build, debug, or refactor asyncio UPnP, SSDP, DLNA, IGD, printer, and eventing code with `async_upnp_client` |
 | [`automatedlab`](skills/automatedlab/) | Build & manage Hyper-V/Azure VM labs with the AutomatedLab PowerShell framework |
-| [`dynatrace-developer`](skills/dynatrace-developer/) | Build Dynatrace apps with the Strato design system — components, design tokens, charts, and patterns |
 | [`dt-async`](skills/dt-async/) | Call the Dynatrace REST API asynchronously in Python with the `dt-async` client (`import dynatrace`) — auth, services, pagination, DQL/Grail, integration |
+| [`dt-extensions`](skills/dt-extensions/) | Build, test, package, and ship Dynatrace Extensions 2.0 with `dt-extensions-sdk` and the `dt-sdk` CLI |
 | [`dynatrace-dql`](skills/dynatrace-dql/) | Write and optimize Dynatrace Query Language (DQL) queries against Grail — commands, functions, operators, best practices, domain examples |
 | [`dynatrace-dpl`](skills/dynatrace-dpl/) | Write Dynatrace Pattern Language (DPL) patterns for parsing logs and Grail data — matchers, modifiers, grouping, DPL Architect |
+| [`dynatrace-developer`](skills/dynatrace-developer/) | Build Dynatrace apps with the Strato design system — components, design tokens, charts, and patterns |
 | [`dtrum`](skills/dtrum/) | Manually instrument Dynatrace RUM in the browser with the `dtrum` JavaScript API — custom actions, XHR/SPA tracking, user tagging, error reporting, consent & session replay |
-| [`hvac`](skills/hvac/) | Talk to HashiCorp Vault from Python with the `hvac` client (`import hvac`) — client setup, auth methods (AppRole, Kubernetes, JWT/OIDC…), secrets engines (KV v2, Transit, Database, PKI), the system backend, and error handling |
-| [`fastapi-pagination`](skills/fastapi-pagination/) | Add pagination to FastAPI with `fastapi-pagination` — `Page`/`LimitOffsetPage`/`CursorPage`, `paginate`/`add_pagination`, ext integrations (SQLAlchemy, SQLModel, Tortoise, Beanie, Motor…), item transformers, and `CustomizedPage` customization |
+| [`embla-carousel-react`](skills/embla-carousel-react/) | Build, configure, debug, or refactor React carousels with `embla-carousel-react` — hooks, options, plugins, events, and controls |
 | [`fastapi-filters`](skills/fastapi-filters/) | Add filtering & sorting to FastAPI with `fastapi-filters` — `FilterSet`/`FilterField[T]`, type-driven operators (`?age[gt]=30`), `create_sorting`, and `ext` integrations (SQLAlchemy, Tortoise, Beanie) via `apply_filters_and_sorting` |
 | [`fastapi-keycloak`](skills/fastapi-keycloak/) | Integrate Keycloak OIDC with FastAPI via `fastapi-keycloak` — `FastAPIKeycloak`, `get_current_user` / role guards, password & authorization_code flows, token refresh, and Admin API for users/roles/groups |
+| [`fastapi-pagination`](skills/fastapi-pagination/) | Add pagination to FastAPI with `fastapi-pagination` — `Page`/`LimitOffsetPage`/`CursorPage`, `paginate`/`add_pagination`, ext integrations (SQLAlchemy, SQLModel, Tortoise, Beanie, Motor…), item transformers, and `CustomizedPage` customization |
+| [`hvac`](skills/hvac/) | Talk to HashiCorp Vault from Python with the `hvac` client (`import hvac`) — client setup, auth methods, secrets engines, system backend, and error handling |
+| [`keycloak-themes`](skills/keycloak-themes/) | Create, customize, and deploy Keycloak themes for login, account, admin, email, and welcome pages |
+| [`next-themes`](skills/next-themes/) | Add, configure, debug, or refactor theme switching with `next-themes` in React and Next.js apps |
+| [`opensearch-py`](skills/opensearch-py/) | Build, debug, test, or migrate Python code using the official OpenSearch client package `opensearch-py` (`import opensearchpy`) |
+| [`pyroute2`](skills/pyroute2/) | Build, debug, or refactor Python Linux networking code with `pyroute2` — netlink, routes, links, namespaces, NDB, IPRoute, and WireGuard |
+| [`pysnmp`](skills/pysnmp/) | Build, configure, debug, or migrate Python SNMP code with PySNMP v7.1 — managers, agents, notifications, transports, MIBs, and async HLAPI |
+| [`python-stubs`](skills/python-stubs/) | Write, review, generate, test, or package Python type stubs (`.pyi`) — typeshed patterns, stubgen, stubtest, py.typed, overloads, and packaging |
+| [`python-zeroconf`](skills/python-zeroconf/) | Build, debug, or refactor Python multicast DNS / DNS-SD service discovery code with `zeroconf` |
 | [`react-datepicker`](skills/react-datepicker/) | Build date and time pickers with `react-datepicker` — controlled `<DatePicker />` usage, ranges, time selection, constraints, locales, `timeZone`, serialization pitfalls, and customization hooks like `renderCustomHeader` and `customInput` |
+| [`react-sigma`](skills/react-sigma/) | Build, configure, debug, or refactor React graph visualizations with `@react-sigma/*` — Sigma containers, events, search, minimap, and layouts |
+| [`scapy`](skills/scapy/) | Build, debug, or extend packet crafting, sniffing, routing, dissectors, and protocol tooling with Scapy |
 | [`xyflow-react`](skills/xyflow-react/) | Build node-based UIs with React Flow v12 (`@xyflow/react`) — full reactflow.dev API reference: `<ReactFlow />` props, built-in components, hooks, types (`Node`/`Edge`/`ReactFlowInstance`), path utils, plus custom node/edge examples |
 
 ## Install

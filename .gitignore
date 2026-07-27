@@ -2,7 +2,6 @@
 .DS_Store
 
 # Editors
-.vscode/
 .idea/
 *.swp
 
@@ -13,3 +12,5 @@ AutomatedLab-VMs/
 
 # Scraped documentation cache (can be regenerated)
 scraped/
+config.bat
+node_modules
