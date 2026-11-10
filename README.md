@@ -14,6 +14,7 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`aiodns`](skills/aiodns/) | Build, debug, migrate, or test asynchronous DNS resolution with `aiodns` — resolvers, query APIs, timeouts, nameservers, records, and pycares integration |
 | [`async-upnp-client`](skills/async-upnp-client/) | Build, debug, or refactor asyncio UPnP, SSDP, DLNA, IGD, printer, and eventing code with `async_upnp_client` |
 | [`automatedlab`](skills/automatedlab/) | Build & manage Hyper-V/Azure VM labs with the AutomatedLab PowerShell framework |
+| [`click`](skills/click/) | Build, test, document, package, and extend Python command-line interfaces with Click |
 | [`dt-async`](skills/dt-async/) | Call the Dynatrace REST API asynchronously in Python with the `dt-async` client (`import dynatrace`) — auth, services, pagination, DQL/Grail, integration |
 | [`dt-extensions`](skills/dt-extensions/) | Build, test, package, and ship Dynatrace Extensions 2.0 with `dt-extensions-sdk` and the `dt-sdk` CLI |
 | [`dynatrace-dql`](skills/dynatrace-dql/) | Write and optimize Dynatrace Query Language (DQL) queries against Grail — commands, functions, operators, best practices, domain examples |
