@@ -24,6 +24,7 @@ Legend: ✅ implemented · ⚠️ partial coverage.
 | Metrics | `dt.metrics` | ✅ |
 | Monitored entities | `dt.entities` | ✅ |
 | Monitored entities – custom tags | `dt.custom_tags` | ✅ |
+| Monitoring state | `dt.monitoring_state` | ✅ |
 | Network zones | `dt.network_zones` | ✅ |
 | OneAgents – remote configuration | `dt.oneagents_remote_configuration` | ✅ |
 | Problems | `dt.problems` | ✅ |
@@ -96,6 +97,9 @@ See [usage-patterns.md](usage-patterns.md#dql--grail).
 | Subscription management | `dt.account.sub_v2`, `dt.account.sub_v3` | ✅ |
 | Subscription – rate cards | `dt.account.sub_v1_rate_cards` | ✅ |
 | Subscription – cost allocation | `dt.account.sub_v1_cost_allocation` | ✅ |
+| Account limits | `dt.account.limits` | ✅ |
+| Account settings | `dt.account.settings` | ✅ |
+| Reference data | `dt.account.reference_data` | ✅ |
 | Account audits | `dt.account.audits` | ✅ |
 | Account notifications | `dt.account.notifications` | ✅ |
 

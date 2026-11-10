@@ -64,7 +64,7 @@ plus all Environment V2 services.
 `activegates`, `activegates_autoupdate_configuration`,
 `activegates_autoupdate_jobs`, `activegates_remote_configuration`, `audit_logs`,
 `custom_tags`, `entities`, `events_v2`, `extensions_v2`, `logs`, `metrics`,
-`management_zones_v2`, `network_zones`, `oneagents_remote_configuration`,
+`management_zones_v2`, `monitoring_state`, `network_zones`, `oneagents_remote_configuration`,
 `problems`, `security_problems`, `settings`, `slos`, `synthetic_monitors_v2`,
 `tenant_tokens`, `tokens`, `credentials`.
 
@@ -80,6 +80,8 @@ plus all Environment V2 services.
 
 **OAuth only** — these raise `AttributeError` under an API token:
 `platform` (and everything under it), `account` (and everything under it).
+The account namespace includes IAM, environment management, subscriptions,
+limits, settings, reference data, audits, and notifications.
 
 > If you need both Config-V1 *and* Platform APIs in one workflow, create **two
 > clients** — one per credential type — rather than trying to share one.

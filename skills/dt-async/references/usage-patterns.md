@@ -123,6 +123,19 @@ await dt.settings.create_object(validate_only=False, body=obj)
 # Tip: pass validate_only=True first to dry-run the payload against the schema.
 ```
 
+## Account Management
+
+Account Management services require OAuth credentials and are grouped under
+`dt.account`. For example, account limits and account settings use the account
+UUID in the request:
+
+```python
+limits_page = await dt.account.limits.list(account_uuid)
+limits = limits_page.results
+costcenters_page = await dt.account.settings.list_costcenters(account_uuid)
+costcenters = costcenters_page.values
+```
+
 ## Tokens & credential vault
 
 ```python
