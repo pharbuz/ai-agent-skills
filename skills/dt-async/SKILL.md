@@ -8,7 +8,7 @@ description: >-
   that talks to a Dynatrace tenant — querying monitored entities, metrics,
   problems, logs, SLOs, settings 2.0, running DQL/Grail queries, managing
   tokens/ActiveGates, or Account/IAM and Platform APIs. Also trigger on async
-  pagination over `dt.<service>.list(...)`, OAuth vs API-token auth for
+  pagination over `dt.service.list(...)`, OAuth vs API-token auth for
   Dynatrace, choosing the tenant base URL (.apps/.live/api.dynatrace.com), or
   wiring a Dynatrace client into a FastAPI/Celery service. Covers client setup,
   auth, services, pagination, error handling, and integration patterns.
@@ -74,7 +74,7 @@ helpful `AttributeError` if you reach for one that your credentials don't allow)
 | Header | OAuth2 bearer (auto-refreshed) | `Authorization: Api-Token <token>` |
 | Fields | `client_id`, `client_secret`, `account_uuid`, `scope`, `sso_base_url` | `token` |
 | Unlocks | **Platform** (`dt.platform.*` — DQL/Grail, Davis, AppEngine) and **Account** (`dt.account.*` — IAM, subscriptions) | **Environment V1** + **Config V1** (`dt.dashboards`, `dt.plugins`, `dt.timeseries`, `dt.management_zones`, …) |
-| Both expose | Environment **V2**: `entities`, `metrics`, `problems`, `logs`, `settings`, `slos`, `security_problems`, `events_v2`, `tokens`, `credentials`, `activegates`, … | ← same |
+| Both expose | Environment **V2**: `entities`, `metrics`, `problems`, `logs`, `settings`, `slos`, `security_problems`, `events_v2`, `hub`, `tokens`, `credentials`, `activegates`, … | ← same |
 
 ```python
 # OAuth 2.0 (client credentials) — for Platform/Account/V2
@@ -116,6 +116,11 @@ async for descriptor in await dt.metrics.list("builtin:host.*"):
 # Problems / logs / SLOs follow the same shape
 async for problem in await dt.problems.list():
     print(problem)
+
+# Hub — categories, item details and Extensions 2.0 registration
+items = await dt.hub.list_items(item_type="EXTENSION2", installed=True)
+for item in items.items:
+    print(item.name, item.item_id)
 
 # DQL / Grail (OAuth only)
 resp = await dt.platform.grail_query_execution.execute(

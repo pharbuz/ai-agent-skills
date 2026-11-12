@@ -20,6 +20,7 @@ Legend: ✅ implemented · ⚠️ partial coverage.
 | Audit logs | `dt.audit_logs` | ✅ |
 | Events | `dt.events_v2` | ✅ |
 | Extensions 2.0 | `dt.extensions_v2` | ✅ |
+| Hub items, categories, and extension registration | `dt.hub` | ✅ |
 | Logs | `dt.logs` | ✅ |
 | Metrics | `dt.metrics` | ✅ |
 | Monitored entities | `dt.entities` | ✅ |
