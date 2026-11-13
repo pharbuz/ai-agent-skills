@@ -4,6 +4,8 @@ Pair with references/docker-compose.yaml and realm-export.json from upstream:
 https://github.com/fastapi-keycloak/fastapi-keycloak/tree/main/documentation/docs/examples/quickstart
 """
 
+import utils.transport
+import utils.session
 import uvicorn
 from fastapi import Depends, FastAPI
 from fastapi.responses import RedirectResponse
