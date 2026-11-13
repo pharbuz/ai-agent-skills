@@ -36,6 +36,7 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`react-datepicker`](skills/react-datepicker/) | Build date and time pickers with `react-datepicker` — controlled `<DatePicker />` usage, ranges, time selection, constraints, locales, `timeZone`, serialization pitfalls, and customization hooks like `renderCustomHeader` and `customInput` |
 | [`react-sigma`](skills/react-sigma/) | Build, configure, debug, or refactor React graph visualizations with `@react-sigma/*` — Sigma containers, events, search, minimap, and layouts |
 | [`scapy`](skills/scapy/) | Build, debug, or extend packet crafting, sniffing, routing, dissectors, and protocol tooling with Scapy |
+| [`tomlkit`](skills/tomlkit/) | Build, edit, validate, or migrate Python TOML handling with `tomlkit` while retaining comments, whitespace, formatting, and key order |
 | [`xyflow-react`](skills/xyflow-react/) | Build node-based UIs with React Flow v12 (`@xyflow/react`) — full reactflow.dev API reference: `<ReactFlow />` props, built-in components, hooks, types (`Node`/`Edge`/`ReactFlowInstance`), path utils, plus custom node/edge examples |
 
 ## Install
