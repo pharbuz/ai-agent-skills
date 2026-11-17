@@ -26,6 +26,7 @@ place via the [`skills`](https://github.com/vercel-labs/skills) CLI / skills.sh.
 | [`fastapi-keycloak`](skills/fastapi-keycloak/) | Integrate Keycloak OIDC with FastAPI via `fastapi-keycloak` — `FastAPIKeycloak`, `get_current_user` / role guards, password & authorization_code flows, token refresh, and Admin API for users/roles/groups |
 | [`fastapi-pagination`](skills/fastapi-pagination/) | Add pagination to FastAPI with `fastapi-pagination` — `Page`/`LimitOffsetPage`/`CursorPage`, `paginate`/`add_pagination`, ext integrations (SQLAlchemy, SQLModel, Tortoise, Beanie, Motor…), item transformers, and `CustomizedPage` customization |
 | [`hvac`](skills/hvac/) | Talk to HashiCorp Vault from Python with the `hvac` client (`import hvac`) — client setup, auth methods, secrets engines, system backend, and error handling |
+| [`jaeger-legacy`](skills/jaeger-legacy/) | Build, configure, instrument, test, and troubleshoot legacy Jaeger Java Client 0.32.x integrations using OpenTracing |
 | [`keycloak-themes`](skills/keycloak-themes/) | Create, customize, and deploy Keycloak themes for login, account, admin, email, and welcome pages |
 | [`next-themes`](skills/next-themes/) | Add, configure, debug, or refactor theme switching with `next-themes` in React and Next.js apps |
 | [`opensearch-py`](skills/opensearch-py/) | Build, debug, test, or migrate Python code using the official OpenSearch client package `opensearch-py` (`import opensearchpy`) |
